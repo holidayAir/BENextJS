@@ -61,11 +61,6 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_35A61778B99A46889DFFEC224C9AF62A }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_882B158BCF4F4D21A9A529D40085D57C }}
         
-      - name: 'Run npm install with --force'
-        run: |
-          cd ${{ env.DEPLOYMENT_TARGET }}
-          npm install --force
-          
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -73,4 +68,10 @@ jobs:
           app-name: 'skysun'
           slot-name: 'Production'
           package: .
+          
+      - name: 'Run npm install with --force'
+        run: |
+          cd ${{ env.DEPLOYMENT_TARGET }}
+          npm install --force
+          
           
