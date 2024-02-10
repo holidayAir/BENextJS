@@ -68,4 +68,9 @@ jobs:
           app-name: 'skysun'
           slot-name: 'Production'
           package: .
+        
+      - name: 'Run npm install with --force'
+        run: |
+          cd ${{ env.DEPLOYMENT_TARGET }}
+          npm install --force
           
