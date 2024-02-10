@@ -1,4 +1,3 @@
-import { it } from "@faker-js/faker";
 
 const ContactInfo = () => {
   const contactContent = [
