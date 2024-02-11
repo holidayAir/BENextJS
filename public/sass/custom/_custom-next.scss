@@ -119,7 +119,31 @@ iframe#gsi_264245_505717 {
         }
     }
 }
+.signinPopup__content {
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    // width: 1070px; 
+    max-width: 100%;
+    height: auto;
+    transform: translateX(-50%);
+}
 
+.modalFlex {
+    display: block;
+  }
+  .signinPopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1100;
+    width: 100%;
+    height: 100%;
+    padding-top: 60px;
+    pointer-events: auto;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
 // mega menu for lang and currency
 
 .modalGrid__item,
@@ -545,4 +569,7 @@ iframe#gsi_264245_505717 {
 }
 .select-float {
     padding-top: 27px !important;
+}
+.loginWithGoogle iframe {
+    display: inline-block !important;
 }

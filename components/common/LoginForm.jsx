@@ -16,7 +16,7 @@ const LoginForm = () => {
     username: true,
     password: true,
   });
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading, currentPath, error } = useSelector((state) => state.user);
   const { username, password } = loginRQ;
   const dispatch = useDispatch();
   const router = useRouter();
@@ -49,7 +49,7 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     if (validateInput()) {
       try {
-        await dispatch(userLogin({ loginRQ,toast,router }));
+        await dispatch(userLogin({ loginRQ,toast,router, currentPath }));
         
         } catch (error) {
           console.error('Login error:', error);

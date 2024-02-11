@@ -4,11 +4,11 @@ console.log("...",(process.env.NEXT_PUBLIC_AUTH_API_ENDPOINT))
 const API = createAPI((process.env.NEXT_PUBLIC_AUTH_API_ENDPOINT?? "https://argentinaauthapi.azurewebsites.net"));
 export const registerUser = createAsyncThunk(
   "auth/Register",
-  async ({ registerData, navigate, toast }, { rejectWithValue }) => {
+  async ({ registerData, router, toast }, { rejectWithValue }) => {
     try {
       const response = await API.post("api/Auth/register", registerData);
       toast.success("Added Successfully");
-      navigate("/dashboard");
+      router.push("/login");
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -103,12 +103,12 @@ export const deleteCoTraveller = createAsyncThunk(
 
 export const userLogin = createAsyncThunk(
   "auth/login",
-  async ({ loginRQ, toast, router }, { rejectWithValue }) => {
+  async ({ loginRQ, toast, router, currentPath }, { rejectWithValue }) => {
     try {
       
       const response = await API.post(`/api/auth/login`, loginRQ);
       toast.success("Module Updated Successfully");
-      router.push("/home_3");
+      currentPath ? router.push(currentPath) : router.push("/");
       return response;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -118,11 +118,11 @@ export const userLogin = createAsyncThunk(
 
 export const loginWithGoogle = createAsyncThunk(
   "auth/loginWithGoogle",
-  async ({ loginRQ, toast, router }, { rejectWithValue }) => {
+  async ({ loginRQ, toast, router, currentPath}, { rejectWithValue }) => {
     try {
       const response = await API.post(`/api/auth/loginWithGoogle`, loginRQ);
        toast.success("Module Updated Successfully");
-       router.push("/home_3");
+       currentPath ? router.push(currentPath) : router.push("/");
       return response;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -151,7 +151,7 @@ export const forgotPassword = createAsyncThunk(
     try {
       const response = await API.post(`/api/auth/forgotPassword`, loginRQ);
        toast.success("Module Updated Successfully");
-       router.push("/home_3");
+       router.push("/login");
       return response;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -165,7 +165,7 @@ export const resetPassword = createAsyncThunk(
     try {
       const response = await API.post(`/api/auth/resetPassword`, loginRQ);
        toast.success("Module Updated Successfully");
-       router.push("/home_3");
+       router.push("/login");
       return response;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -176,6 +176,7 @@ export const resetPassword = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
+    currentPath:"",
     user: {},
     coTravellers: [],
     isUserLoggedIn: null,
@@ -186,6 +187,9 @@ const userSlice = createSlice({
   reducers: {
     setUserData: (state, action) => {
       state.user = action.payload;
+    },
+    setCurrentPath: (state, action) => {
+      state.currentPath = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -413,6 +417,6 @@ state.user = action.payload.data.result.user;
   },
 });
 
-export const { setUserData } = userSlice.actions;
+export const { setUserData, setCurrentPath } = userSlice.actions;
 
 export default userSlice.reducer;

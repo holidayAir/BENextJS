@@ -3,14 +3,15 @@
 // import { GoogleLogin } from 'react-google-login';
 import { GoogleLogin, GoogleOAuthProvider  } from '@react-oauth/google';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userLogin, loginWithGoogle } from '../../features/hero/authSlice';
 
 import { insertProduct } from '../../features/hero/productSlice';
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-const LoginWithSocial = () => {
+const LoginWithSocial = () => {  
+  const { loading, currentPath, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
   
@@ -55,7 +56,7 @@ const LoginWithSocial = () => {
           loginRQ: {
             accessToken: credentialResponse.credential,
           },
-          toast, router
+          toast, router, currentPath
         })
       ); 
     } catch (error) {
@@ -72,7 +73,7 @@ const LoginWithSocial = () => {
         </button> */}
       </div>
 
-      <div className="col-md-12 col-12">
+      <div className="col-md-12 col-12 loginWithGoogle">
         {/* <button className="button col-12 -outline-red-1 text-red-1 py-15 rounded-8 "
         onClick={(e) => handleGoogleLoginSuccess1(e)}>
           <i className="icon-apple text-15 mr-10" />

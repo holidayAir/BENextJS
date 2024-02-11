@@ -10,8 +10,10 @@ import HotelTravellerInfo from "../HotelTravellerInfo";
 import { useRouter } from "next/navigation";
 import { FLIGHT_TAB_NAME, HOTEL_TAB_NAME } from "@/utils/constants";
 import { useSelector, useDispatch } from "react-redux";
+import ModalSigninSignup from "@/components/header/ModalSigninSignup";
 
 const Index = () => {
+  const { user, isUserLoggedIn } = useSelector((state) => state.user);
   const [currentStep, setCurrentStep] = useState(0);
   const { tabs, currentTab } = useSelector((state) => state.hero) || {};
   const router = useRouter();
@@ -70,6 +72,7 @@ const Index = () => {
 
   return (
     <>
+    {isUserLoggedIn !== true && <ModalSigninSignup currentPath="cart-page" />}
       <div className="row x-gap-40 y-gap-30 items-center">
         {steps.map((step, index) => (
           <React.Fragment key={index}>
