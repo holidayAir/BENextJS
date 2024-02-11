@@ -76,7 +76,7 @@ const index = ({params}) => {
     dispatch(hotelAvailResult({ hotelAvailRQ, router, undefined }));
   }, []);
   if(hotelList){
-    sessionStorage.setItem("HotelListRS",JSON.stringify(hotelList));
+    sessionStorage?.setItem("HotelListRS",JSON.stringify(hotelList));
   }
   return (
     <>

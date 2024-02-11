@@ -23,11 +23,7 @@ const AvailableRooms = ({ hotel }) => {
       searchParam: {
         startDate: new Date(decodeURIComponent(hotelCriteria.startDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
         endDate: new Date(decodeURIComponent(hotelCriteria.endDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
-        pax: [
-          { 
-            age: 25 
-          }
-        ]
+        pax: pax
       },
       selectedRoomTypeCode:ratePlanCode,
       HotelCode:hotel?.jpCode
