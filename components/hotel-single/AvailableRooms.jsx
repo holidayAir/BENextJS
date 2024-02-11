@@ -2,7 +2,7 @@ import Image from "next/image";
 import { hotelCheckavailBookingRules,hotelAvailResult, updateHotelAvailRQ ,updateSelectedHotel} from "@/features/hero/hotelSlice";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import InputRange from "react-input-range";
+// import InputRange from "react-input-range";
 import { useDispatch, useSelector } from "react-redux";
 
 const AvailableRooms = ({ hotel }) => {

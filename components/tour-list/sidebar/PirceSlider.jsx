@@ -1,8 +1,9 @@
 
 'use client'
 
+import Slider from "rc-slider";
 import { useState } from "react";
-import InputRange from "react-input-range";
+// import InputRange from "react-input-range";
 
 const PirceSlider = () => {
   const [price, setPrice] = useState({
@@ -25,12 +26,19 @@ const PirceSlider = () => {
       </div>
 
       <div className="px-5">
-        <InputRange
+        {/* <InputRange
           formatLabel={(value) => ``}
           minValue={0}
           maxValue={2000}
           value={price.value}
           onChange={(value) => handleOnChange(value)}
+        /> */}
+        <Slider
+          min={0}
+          max={2000}
+          range
+          value={price.value}
+          onChange={handleOnChange}
         />
       </div>
     </div>

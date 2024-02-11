@@ -4,8 +4,9 @@
 import { flightAvailResult } from "@/features/hero/flightSlice";
 import { updateFlightAvailRQ } from "@/features/hero/searchCriteriaSlice";
 import { useRouter } from "next/navigation";
+import Slider from "rc-slider";
 import { useState } from "react";
-import InputRange from "react-input-range";
+// import InputRange from "react-input-range";
 import { useDispatch, useSelector } from "react-redux";
 
 const PirceSlider = (props) => {
@@ -77,12 +78,19 @@ const PirceSlider = (props) => {
       </div>
 
       <div className="px-5">
-        <InputRange
+        {/* <InputRange
           formatLabel={(value) => ``}
           minValue={props.filterParam?.priceMinMax[0]}
           maxValue={props.filterParam?.priceMinMax[1]}
           value={price.value}
           onChange={(value) => handleOnChange(value)}
+        /> */}
+        <Slider 
+          min={0}
+          max={2000}
+          range
+          value={price.value}
+          onChange={handleOnChange}
         />
       </div>
     </div>
