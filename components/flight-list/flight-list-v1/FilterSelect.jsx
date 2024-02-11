@@ -43,24 +43,24 @@ const FilterSelect = () => {
       ],
       onChange: handlePageClick,
     },
-    {
-      title: "Business Class",
-      value: economyValue,
-      list: [{ label: "Economy" }, { label: "Business" }],
-      onChange: handleEconomyValueChange,
-    },
-    {
-      title: "Bags",
-      value: bagsValue,
-      list: [
-        { label: "0 Bags" },
-        { label: "1 Bag" },
-        { label: "2 Bags" },
-        { label: "3 Bags" },
-        { label: "4 Bags" },
-      ],
-      onChange: handleBagsValueChange,
-    },
+    // {
+    //   title: "Business Class",
+    //   value: economyValue,
+    //   list: [{ label: "Economy" }, { label: "Business" }],
+    //   onChange: handleEconomyValueChange,
+    // },
+    // {
+    //   title: "Bags",
+    //   value: bagsValue,
+    //   list: [
+    //     { label: "0 Bags" },
+    //     { label: "1 Bag" },
+    //     { label: "2 Bags" },
+    //     { label: "3 Bags" },
+    //     { label: "4 Bags" },
+    //   ],
+    //   onChange: handleBagsValueChange,
+    // },
   ];
 
   return (

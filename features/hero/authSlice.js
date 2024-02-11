@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import createAPI from "./api";
-console.log("...",process.env.NEXT_PUBLIC_AUTH_API_ENDPOINT)
-const API = createAPI(process.env.NEXT_PUBLIC_AUTH_API_ENDPOINT);
+console.log("...",(process.env.NEXT_PUBLIC_AUTH_API_ENDPOINT))
+const API = createAPI((process.env.NEXT_PUBLIC_AUTH_API_ENDPOINT?? "https://argentinaauthapi.azurewebsites.net"));
 export const registerUser = createAsyncThunk(
   "auth/Register",
   async ({ registerData, navigate, toast }, { rejectWithValue }) => {

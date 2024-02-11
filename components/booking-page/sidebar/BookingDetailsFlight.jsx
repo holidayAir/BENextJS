@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 
 const BookingDetailsFlight = () => {
   const { selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
-  console.log("selectedFlight :",JSON.stringify(selectedFlight))
-  console.log(selectedReturnFlight)
+  // console.log("selectedFlight :",JSON.stringify(selectedFlight))
+  // console.log(selectedReturnFlight)
   return selectedFlight ? (
     <>
     

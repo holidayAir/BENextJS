@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import createAPI from "./api";
 import { DateObject } from "react-multi-date-picker";
 
-const API = createAPI(process.env.NEXT_PUBLIC_FLIGHT_API_ENDPOINT);
+const API = createAPI((process.env.NEXT_PUBLIC_AUTH_API_ENDPOINT?? "https://argentinaflightapi.azurewebsites.net"));
 // Async Thunk for Fetching Hotel Location List
 export const fetchLocationList = createAsyncThunk(
   "flight/fetchLocationList",
@@ -215,7 +215,7 @@ const flightSlice = createSlice({
     });
     builder.addCase(flightAvailResult.fulfilled, (state, action) => {
       
-      state.loading = true;
+      state.loading = false;
       state.flightList = action.payload.result?.flightList;
       state.filterParam = action.payload.result?.filterCriteria;
       //state.flightAvailRQ.filterParam = action.payload.result?.filterCriteria; // Corrected assignment

@@ -28,14 +28,12 @@ const index = ({ params }) => {
   const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
   const { flightList, returnFlightList, filterParam, returnFilterParam,loading, totalFlights, totalReturnFlights, totalPages, totalRetutrnPages } = useSelector((state) => state.flight);
   const router = useRouter();
-  console.log(params);
   const { destinationLocationCode,
   destinationLocationName,
   originLocationCode,
   originLocationName } = flightAvailRQ.searchParam;
   //const hotel = hotelsData.find((item) => item.id == id) || hotelsData[0];
   useEffect(() => {
-    console.log(params);
     if(destinationLocationCode && destinationLocationName && originLocationCode && originLocationName){
     // Dispatch the action
     dispatch(flightAvailResult({ flightAvailRQ, router, undefined }));
@@ -76,7 +74,6 @@ const index = ({ params }) => {
   }, router, undefined }));
     }
   }, [dispatch]);
-  console.log(flightList);
   return (
     <>
       {/* End Page Title */}

@@ -9,26 +9,25 @@ import { DateObject } from "react-multi-date-picker";
 import BookingDetailsFlight from "./sidebar/BookingDetailsFlight";
 import { createCart } from "@/features/hero/flightSlice";
 const initialStatePassenger = {
-  passengerTypeCode:"",
-  gender : "",
-  givenName : "",
-  surname : "",
-  birthDate: "",
+  passengerTypeCode:"ADLT",
+  gender : "M",
+  givenName : "Praful",
+  surname : "Chauhan",
+  birthDate: "2020-02-09T14:03:18.654Z",
   hasStretcher: false,
-  nationality: "", // Added confirmPassword field
-  nationalIdNumber : "",
-  passportNumber:"",
-  passportExpiryDate:"",
+  nationality: "IND", // Added confirmPassword field
+  nationalIdNumber : "91",
+  passportNumber:"87946518",
   passportExpiryDate: "2026-02-09T14:03:18.654Z"
 };
 
 const intialStateContact = {  
-  givenName:"",
-  surname:"",
+  givenName:"Naitik",
+  surname:"Shah",
   phoneNumberAreaCode: "845",
-  phoneNumberCountryCode:"",
-  phoneNumberSubscriberNumber:"",
-  email:"",
+  phoneNumberCountryCode:"+91",
+  phoneNumberSubscriberNumber:"978418515",
+  email:"cprafulm@gmail.com",
   socialSecurityNumber: "895184515",
   phoneNumberMarkedForSendingRezInfo:true,
   emailMarkedForSendingRezInfo:true,
@@ -57,7 +56,7 @@ const intialStateContact = {
       phoneNumberSubscriberNumber: true,
       email: true,
     });
-    const [dates, setDates] = useState();//new DateObject());//      new DateObject());//.add((cutOfDays), "day"),
+    const [dates, setDates] = useState();//new DateObject("2026-02-09T14:03:18.654Z"));//      new DateObject());//.add((cutOfDays), "day"),
     const { loading, error } = useSelector((state) => state.user);
     const { givenName, surname, email, gender, birthDate, phonenumber, socialsecuritynumber } = adultData;
     const dispatch = useDispatch();
@@ -211,7 +210,7 @@ const intialStateContact = {
           </div>
         <div className={`col-2`}>
           <div className={`form-input h-full ${validationRules.gender && !validation[index].gender ? 'error' : ''}`}>            
-            <select className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 pt-25 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index)} >
+            <select value={passenger.gender} className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 pt-25 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index)} >
               <option >select</option>
               <option value="M">Male</option>
               <option value="F">Female</option>
@@ -224,7 +223,7 @@ const intialStateContact = {
   
         <div className={`col-5`}>
           <div className={`form-input ${validationRules.givenName && !validation[index].givenName ? 'error' : ''}`}>
-            <input type="text" required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" value={passenger.givenName} required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index)} />
             <label className="lh-1 text-14 text-light-1">First Name</label>
           </div>
         </div>
@@ -232,7 +231,7 @@ const intialStateContact = {
   
         <div className={`col-5`}>
           <div className={`form-input ${validationRules.surname && !validation[index].surname ? 'error' : ''}`}>
-            <input type="text" required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" value={passenger.surname} required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index)} />
             <label className="lh-1 text-14 text-light-1">Last Name</label>
           </div>
         </div>
@@ -244,7 +243,7 @@ const intialStateContact = {
             <DateSearch
         name={`birthDate`}
         placeholder={"Sdfsdfs "}
-        dates={dates}
+        dates={new DateObject("2026-02-09T14:03:18.654Z")}
         isSingle={true}
         onChange={(e) => onInputChange(e, index)}
         {...customDatePickerProps}
@@ -256,7 +255,7 @@ const intialStateContact = {
   
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.nationality && !validation[index].nationality ? 'error' : ''}`}>
-            <input type="email" required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index)} />
+            <input type="email" value={passenger.nationality} required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index)} />
             <label className="lh-1 text-14 text-light-1">Nationality</label>
           </div>
         </div>
@@ -264,7 +263,7 @@ const intialStateContact = {
   
         <div className={`col-4`}>
           <div className={`form-input ${validationRules.nationalIdNumber && !validation[index].nationalIdNumber ? 'error' : ''}`}>
-            <input type="text" required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" value={passenger.nationalIdNumber} required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index)} />
             <label className="lh-1 text-14 text-light-1">National Id Number</label>
           </div>
         </div>
@@ -272,7 +271,7 @@ const intialStateContact = {
   
         <div className={`col-4`}>
           <div className={`form-input ${validationRules.passportNumber && !validation[index].passportNumber ? 'error' : ''}`}>
-            <input type="text" required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" value={passenger.passportNumber} required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index)} />
             <label className="lh-1 text-14 text-light-1">Passport Number</label>
           </div>
         </div>
@@ -281,7 +280,7 @@ const intialStateContact = {
                 {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
                 <DateSearch
             name={`passportExpiryDate`}
-            dates={dates}
+            dates={new DateObject("2028-02-09T14:03:18.654Z")}
             isSingle={true}
             onChange={(e) => onInputChange(e, index)}
             {...customDatePickerProps}
