@@ -94,6 +94,19 @@ export const completeReservation = createAsyncThunk(
     }
   }
 );
+export const createCart = createAsyncThunk(
+  "hotel/createcart",
+  async ({ createCartRQ, router, toast }, { rejectWithValue }) => {
+    try {
+      const response = await API.post("api/hotel/createcart", createCartRQ);
+      //router.push('/payment-page')
+      router.push('/booking-confirm-page')
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 const hotelSlice = createSlice({
   name: "hotel",
@@ -146,6 +159,7 @@ const hotelSlice = createSlice({
     cart: [],
     reservationStatus: null,
     checkavailbookingrulesRS:null,
+    bookingRS:null,
     error: "",
     totalHotels:0,
     totalPages:0,
@@ -232,6 +246,20 @@ const hotelSlice = createSlice({
 
     builder.addCase(clearError, (state) => {
       state.error = "";
+    });
+    builder.addCase(createCart.pending, (state) => {
+      
+      state.loading = true;
+    });
+    builder.addCase(createCart.fulfilled, (state, action) => {
+      
+      state.loading = false;
+      state.bookingRS = action.payload.result
+    });
+    builder.addCase(createCart.rejected, (state, action) => {
+      
+      state.loading = false;
+      state.error = action.payload.message;
     });
   },
 });

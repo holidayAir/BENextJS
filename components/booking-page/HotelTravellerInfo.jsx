@@ -7,30 +7,37 @@ import BirthDate from "../common/BirthDate";
 import DateSearch from "../common/BirthDate";
 import { DateObject } from "react-multi-date-picker";
 import PricingSummary from "./sidebar/PricingSummary";
+import { createCart } from "@/features/hero/hotelSlice";
 
 const initialStatePassenger = {
-  passengerType:"",
-  gender : "",
-  firstname : "",
-  lastname : "",
-  birthdate: "",
-  nationality: "", // Added confirmPassword field
-  nationalIdNumber : "",
-  passportNumber:"",
+  passengerTypeCode:"ADLT",
+  gender : "M",
+  givenName : "Praful",
+  surname : "Chauhan",
+  birthDate: "2020-02-09T14:03:18.654Z",
+  hasStretcher: false,
+  nationality: "IND", // Added confirmPassword field
+  nationalIdNumber : "91",
+  passportNumber:"87946518",
+  passportExpiryDate: "2026-02-09T14:03:18.654Z"
 };
 
 const intialStateContact = {  
-  ContactFirstname:"",
-  ContactLastname:"",
-  ContactCountry:"",
-  ContactPhone:"",
-  ContactEmail:"",
-  isSendPhoneMsgPNR:false,
-  isSendEmailMsgPNR:false,
+  givenName:"Naitik",
+  surname:"Shah",
+  phoneNumberAreaCode: "845",
+  phoneNumberCountryCode:"+91",
+  phoneNumberSubscriberNumber:"978418515",
+  email:"cprafulm@gmail.com",
+  socialSecurityNumber: "895184515",
+  phoneNumberMarkedForSendingRezInfo:true,
+  emailMarkedForSendingRezInfo:true,
 }
   const HotelTravellerInfo = () => {
     const { hotelCriteria } = useSelector((state) => ({ ...state.searchCriteria }));
-    const { checkavailbookingrulesRS } = useSelector((state) => state.hotel);
+    const { selectedHotel,checkavailbookingrulesRS,selectedRoomTypeCode } = useSelector((state) => state.hotel);
+
+    
     const [passengerData, setPassengerData] = useState(Array(hotelCriteria?.room).fill(initialStatePassenger));
     const [contactData, setContactData] = useState(intialStateContact);
     const [validation, setValidation] = useState(Array(hotelCriteria?.room).fill({
@@ -49,8 +56,7 @@ const intialStateContact = {
       ContactPhone: true,
       ContactEmail: true,
     });
-    const [dates, setDates] = useState(      new DateObject(),//.add((cutOfDays), "day"),
-    );
+    const [dates, setDates] = useState();
     const { loading, error } = useSelector((state) => ({ ...state.auth }));
     const { firstname, lastname, email, gender, birthdate, phonenumber, socialsecuritynumber } = passengerData;
     const dispatch = useDispatch();
@@ -61,17 +67,16 @@ const intialStateContact = {
   
     const validationRules = {
       gender : true,
-      firstname : true,
-      lastname : true,
-      birthdate: true,
+      givenName : true,
+      surname : true,
+      birthDate: true,
       nationality: true, // Added confirmPassword field
       nationalIdNumber : true,
       passportNumber: true,
-      ContactFirstname: true,
-      ContactLastname: true,
-      ContactCountry: true,
-      ContactPhone: true,
-      ContactEmail: true,
+      passportExpiryDate:true,
+      phoneNumberCountryCode: true,
+      phoneNumberSubscriberNumber: true,
+      email: true,
     };
   
     const validateEmail = (email) => {
@@ -80,11 +85,11 @@ const intialStateContact = {
      };
     const validateContactInput = () => {
       const newValidation = {
-        ContactFirstname: !validationRules.ContactFirstname || !!contactData.ContactFirstname,
-        ContactLastname: !validationRules.ContactLastname || !!contactData.ContactLastname,
-        ContactEmail: !validationRules.ContactEmail || validateEmail(contactData.ContactEmail),
-        ContactPhone: !validationRules.ContactPhone || !!contactData.ContactPhone,
-        ContactCountry: !validationRules.ContactCountry || !!contactData.ContactCountry,
+        givenName: !validationRules.givenName || !!contactData.givenName,
+        surname: !validationRules.surname || !!contactData.surname,
+        email: !validationRules.email || validateEmail(contactData.email),
+        phoneNumberSubscriberNumber: !validationRules.phoneNumberSubscriberNumber || !!contactData.phoneNumberSubscriberNumber,
+        phoneNumberCountryCode: !validationRules.phoneNumberCountryCode || !!contactData.phoneNumberCountryCode,
       };
   
       setValidationContact(newValidation);
@@ -118,13 +123,28 @@ const intialStateContact = {
         Object.values(passengerValidation).every((isValid) => isValid)
       );
     };
-    
+    const pax = Array(hotelCriteria.room).fill().map(() => ({ age: 25 }));
     const handleSubmit = async (e) => {
       if (validateInput() && validateContactInput()) {
         try {
-          await Promise.all(passengerData.map((passenger) =>
-            dispatch(registerUser({ passengerData: passenger, router, toast })
-          )));
+          dispatch(createCart({ createCartRQ : {
+                      searchParam: {
+                        startDate: new Date(decodeURIComponent(hotelCriteria.startDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
+                        endDate: new Date(decodeURIComponent(hotelCriteria.endDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
+                        pax: pax
+                      },
+                      BookingCode:checkavailbookingrulesRS?.bookingCode,
+                      selectedRoomTypeCode:checkavailbookingrulesRS?.hotelOptions?.hotelOption[0]?.ratePlanCode,
+                      HotelCode:selectedHotel?.selectedHotel?.jpCode,
+                      PriceRangeMinimum:checkavailbookingrulesRS?.priceRangeMinimum,
+                      PriceRangeMaximum:checkavailbookingrulesRS?.priceRangeMaximum,
+                      Currency:checkavailbookingrulesRS?.priceRangeCurrency,
+                      HotelTravelerDtoList: [...passengerData],
+                      contactInformationDto: contactData
+                  }, router, undefined }));
+          // await Promise.all(passengerData.map((passenger) =>
+          //   dispatch(registerUser({ passengerData: passenger, router, toast })
+          // )));
         } catch (error) {
           console.error('Login error:', error);
         }
@@ -218,99 +238,113 @@ const intialStateContact = {
 
   {passengerData.map((passenger, index) => (
         <div key={index} className="row x-gap-20 y-gap-20">
-          {index !== 0 ? <hr /> : <></>}
-        {/* End .col */}
-  
-        <div className={`col-12`}>
-          <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05 border-bottom">
-            Passenger {`${index + 1}`}
-          </div>
+        {index !== 0 ? <hr className="mt-20 p-0" /> : <></>}
+      {/* End .col */}
+
+      <div className={`col-12`}>
+      <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05 border-bottom">
+          Passenger {`${index + 1}`}
         </div>
-        <div className={`col-2`}>
-          <div className={`form-input h-full ${validationRules.gender && !validation[index].gender ? 'error' : ''}`}>            
-            <select className="form-select rounded-4 border-light justify-between pt-3 text-16 fw-500 px-20 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index)} >
-              <option >select</option>
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-            </select>
-            {/* <input type="text" required/> */}
-            <label className="lh-1 text-14 text-light-1" style={{top:"15px"}}>Gender</label>
-          </div>
         </div>
-        {/* End .col */}
-  
-        <div className={`col-5`}>
-          <div className={`form-input ${validationRules.firstname && !validation[index].firstname ? 'error' : ''}`}>
-            <input type="text" required id={`firstname-${index}`} name={`firstname`} onChange={(e) => onInputChange(e, index)} />
-            <label className="lh-1 text-14 text-light-1">First Name</label>
-          </div>
+      <div className={`col-2`}>
+        <div className={`form-input h-full ${validationRules.gender && !validation[index].gender ? 'error' : ''}`}>            
+          <select value={passenger.gender} className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 pt-25 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index)} >
+            <option >select</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+          </select>
+          {/* <input type="text" required/> */}
+          <label className="lh-1 text-14 text-light-1 label-float">Gender</label>
         </div>
-        {/* End .col */}
-  
-        <div className={`col-5`}>
-          <div className={`form-input ${validationRules.lastname && !validation[index].lastname ? 'error' : ''}`}>
-            <input type="text" required id={`lastname-${index}`} name={`lastname`} onChange={(e) => onInputChange(e, index)} />
-            <label className="lh-1 text-14 text-light-1">Last Name</label>
-          </div>
+      </div>
+      {/* End .col */}
+
+      <div className={`col-5`}>
+        <div className={`form-input ${validationRules.givenName && !validation[index].givenName ? 'error' : ''}`}>
+          <input type="text" value={passenger.givenName} required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index)} />
+          <label className="lh-1 text-14 text-light-1">First Name</label>
         </div>
-        {/* End .col */}
-  
-        <div className={`col-6`}>
-          <div className={`form-input ${validationRules.birthdate && !validation[index].birthdate ? 'error' : ''}`}>
-            {/* <input type="text" required id="birthdate" name="birthdate" onChange={(e) => onInputChange(e, index)} /> */}
-            <DateSearch
-        name={`birthdate`}
-        dates={dates}
-        isSingle={true}
-        onChange={(e) => onInputChange(e, index)}
-        {...customDatePickerProps}
-      />
-            <label className="lh-1 text-14 text-light-1">Birthdate</label>
-          </div>
+      </div>
+      {/* End .col */}
+
+      <div className={`col-5`}>
+        <div className={`form-input ${validationRules.surname && !validation[index].surname ? 'error' : ''}`}>
+          <input type="text" value={passenger.surname} required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index)} />
+          <label className="lh-1 text-14 text-light-1">Last Name</label>
         </div>
-        {/* End .col */}
-  
-        <div className={`col-6`}>
-          <div className={`form-input ${validationRules.nationality && !validation[index].nationality ? 'error' : ''}`}>
-            <input type="email" required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index)} />
-            <label className="lh-1 text-14 text-light-1">Nationality</label>
-          </div>
+      </div>
+      {/* End .col */}
+
+      <div className={`col-6`}>
+        <div className={`form-input ${validationRules.birthDate && !validation[index].birthDate ? 'error' : ''}`}>
+          {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
+          <DateSearch
+      name={`birthDate`}
+      placeholder={"Sdfsdfs "}
+      dates={new DateObject("2026-02-09T14:03:18.654Z")}
+      isSingle={true}
+      onChange={(e) => onInputChange(e, index)}
+      {...customDatePickerProps}
+    />
+          <label className="lh-1 text-14 text-light-1 label-float">Birthdate</label>
         </div>
-        {/* End .col */}
-  
-        {/* <div className={`col-6`}>
-          <div className={`form-input ${validationRules.nationalIdNumber && !validation[index].nationalIdNumber ? 'error' : ''}`}>
-            <input type="text" required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index)} />
-            <label className="lh-1 text-14 text-light-1">National Id Number</label>
+      </div>
+      {/* End .col */}
+
+      <div className={`col-6`}>
+        <div className={`form-input ${validationRules.nationality && !validation[index].nationality ? 'error' : ''}`}>
+          <input type="email" value={passenger.nationality} required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index)} />
+          <label className="lh-1 text-14 text-light-1">Nationality</label>
+        </div>
+      </div>
+      {/* End .col */}
+
+      <div className={`col-4`}>
+        <div className={`form-input ${validationRules.nationalIdNumber && !validation[index].nationalIdNumber ? 'error' : ''}`}>
+          <input type="text" value={passenger.nationalIdNumber} required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index)} />
+          <label className="lh-1 text-14 text-light-1">National Id Number</label>
+        </div>
+      </div>
+      {/* End .col */}
+
+      <div className={`col-4`}>
+        <div className={`form-input ${validationRules.passportNumber && !validation[index].passportNumber ? 'error' : ''}`}>
+          <input type="text" value={passenger.passportNumber} required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index)} />
+          <label className="lh-1 text-14 text-light-1">Passport Number</label>
+        </div>
+      </div>
+          <div className={`col-4`}>
+            <div className={`form-input ${validationRules.passportExpiryDate && !validation[index].passportExpiryDate ? 'error' : ''}`}>
+              {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
+              <DateSearch
+          name={`passportExpiryDate`}
+          dates={new DateObject("2028-02-09T14:03:18.654Z")}
+          isSingle={true}
+          onChange={(e) => onInputChange(e, index)}
+          {...customDatePickerProps}
+        />
+              <label className="lh-1 text-14 text-light-1 label-float">Passport Expiry Date</label>
+            </div>
           </div>
-        </div> */}
-        {/* End .col */}
-  
-        {/* <div className={`col-6`}>
-          <div className={`form-input ${validationRules.passportNumber && !validation[index].passportNumber ? 'error' : ''}`}>
-            <input type="text" required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index)} />
-            <label className="lh-1 text-14 text-light-1">Passport Number</label>
-          </div>
-        </div> */}
-        {/* End .col */}
+      {/* End .col */}
 {/*   
-        <div className="col-6">
-          <div className="d-flex ">
-            <div className="form-checkbox mt-5">
-              <input type="checkbox" name="name" />
-              <div className="form-checkbox__mark">
-                <div className="form-checkbox__icon icon-check" />
-              </div>
-            </div>
-            <div className="text-15 lh-15 text-light-1 ml-10">
-              Email me exclusive Agoda promotions. I can opt out later as stated
-              in the Privacy Policy.
+      <div className="col-6">
+        <div className="d-flex ">
+          <div className="form-checkbox mt-5">
+            <input type="checkbox" name="name" />
+            <div className="form-checkbox__mark">
+              <div className="form-checkbox__icon icon-check" />
             </div>
           </div>
-        </div> */}
-        {/* End .col */} 
-        
-        </div>       
+          <div className="text-15 lh-15 text-light-1 ml-10">
+            Email me exclusive Agoda promotions. I can opt out later as stated
+            in the Privacy Policy.
+          </div>
+        </div>
+      </div> */}
+      {/* End .col */} 
+      
+      </div>       
       ))}
       
       <div className="row x-gap-20 y-gap-20 pt-20">
@@ -321,51 +355,41 @@ const intialStateContact = {
           </div>
           </div>
         <div className={`col-6`}>
-          <div className={`form-input ${validationRules.ContactFirstname && !validationContact.ContactFirstname ? 'error' : ''}`}>
-            <input type="text" required id={`ContactFirstname`} name={`ContactFirstname`} onChange={(e) => onContactInputChange(e)} />
+          <div className={`form-input ${validationRules.givenName && !validationContact.givenName ? 'error' : ''}`}>
+            <input type="text" required id={`givenName`} name={`givenName`} onChange={(e) => onContactInputChange(e)} />
             <label className="lh-1 text-14 text-light-1">First Name</label>
           </div>
         </div>
         {/* End .col */}
   
         <div className={`col-6`}>
-          <div className={`form-input ${validationRules.ContactLastname && !validationContact.ContactLastname ? 'error' : ''}`}>
-            <input type="text" required id={`ContactLastname`} name={`ContactLastname`} onChange={(e) => onContactInputChange(e)} />
+          <div className={`form-input ${validationRules.surname && !validationContact.surname ? 'error' : ''}`}>
+            <input type="text" required id={`surname`} name={`surname`} onChange={(e) => onContactInputChange(e)} />
             <label className="lh-1 text-14 text-light-1">Last Name</label>
           </div>
         </div>
         {/* End .col */}
   
         <div className={`col-6`}>
-          <div className={`form-input ${validationRules.ContactEmail && !validationContact.ContactEmail ? 'error' : ''}`}>
-            <input type="text" required id={`ContactEmail`} name={`ContactEmail`} onChange={(e) => onContactInputChange(e)} />
+          <div className={`form-input ${validationRules.email && !validationContact.email ? 'error' : ''}`}>
+            <input type="text" required id={`email`} name={`email`} onChange={(e) => onContactInputChange(e)} />
             <label className="lh-1 text-14 text-light-1">Email</label>
           </div>
         </div>
         {/* End .col */}
   
         <div className={`col-6`}>
-          <div className={`form-input ${validationRules.ContactPhone && !validationContact.ContactPhone ? 'error' : ''}`}>
-            <input type="text" required id="ContactPhone" name="ContactPhone" onChange={(e) => onContactInputChange(e)} />
+          <div className={`form-input ${validationRules.phoneNumberSubscriberNumber && !validationContact.phoneNumberSubscriberNumber ? 'error' : ''}`}>
+            <input type="text" required id="phoneNumberSubscriberNumber" name="phoneNumberSubscriberNumber" onChange={(e) => onContactInputChange(e)} />
             <label className="lh-1 text-14 text-light-1">Phone</label>
           </div>
         </div>
         {/* End .col */}
   
-        <div className={`col-6`}>
-          <div className={`form-input ${validationRules.ContactCountry && !validationContact.ContactCountry ? 'error' : ''}`}>
-            <input type="email" required id={`ContactCountry`} name={`ContactCountry`} onChange={(e) => onContactInputChange(e)} />
-            <label className="lh-1 text-14 text-light-1">Country</label>
-          </div>
-        </div>
-        {/* End .col */}
-        <div className="col-6"></div>
-        {/* End .col */}
-  
         <div className="col-6">
           <div className="d-flex ">
             <div className="form-checkbox mt-5">
-              <input type="checkbox" name={`isSendPhoneMsgPNR`} id={`isSendPhoneMsgPNR`} onChange={(e) => onContactInputChangege(e)} />
+              <input type="checkbox" name={`phoneNumberMarkedForSendingRezInfo`} id={`phoneNumberMarkedForSendingRezInfo`} onChange={(e) => onContactInputChangege(e)} />
               <div className="form-checkbox__mark">
                 <div className="form-checkbox__icon icon-check" />
               </div>
@@ -381,7 +405,7 @@ const intialStateContact = {
         <div className="col-6">
           <div className="d-flex ">
             <div className="form-checkbox mt-5">
-              <input type="checkbox" name={`isSendEmailMsgPNR`} id={`isSendEmailMsgPNR`} onChange={(e) => onContactInputChangege(e)} />
+              <input type="checkbox" name={`emailMarkedForSendingRezInfo`} id={`emailMarkedForSendingRezInfo`} onChange={(e) => onContactInputChangege(e)} />
               <div className="form-checkbox__mark">
                 <div className="form-checkbox__icon icon-check" />
               </div>
