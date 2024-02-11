@@ -8,6 +8,7 @@ import DateSearch from "../common/BirthDate";
 import { DateObject } from "react-multi-date-picker";
 import BookingDetailsFlight from "./sidebar/BookingDetailsFlight";
 import { createCart } from "@/features/hero/flightSlice";
+import { controllers } from "chart.js";
 const initialStatePassenger = {
   passengerTypeCode:"ADLT",
   gender : "M",
@@ -48,6 +49,7 @@ const intialStateContact = {
       nationality: true, // Added confirmPassword field
       nationalIdNumber : true,
       passportNumber: true, 
+      passportExpiryDate: true,
     }));
     const [validationContact, setValidationContact] = useState({
       givenName: true,
@@ -127,16 +129,28 @@ const intialStateContact = {
     };
     
     const handleSubmit = async (e) => {
+      debugger;
       if (validateInput() && validateContactInput()) {
         try {
+          if(selectedReturnFlight?.passengerFareInfoList){            
+          await Promise.all(adultData.map((passenger) =>            
+                dispatch(createCart({ createCartRQ : {
+                  requestXML: selectedFlight.passengerFareInfoList[0].rqCreateBooking,
+                  returnFlightRequestXML: selectedReturnFlight?.passengerFareInfoList[0]?.rqCreateBooking,
+                  airTravelerDtoList: [...adultData, ...childData, ...infantData],
+                  contactInformationDto: contactData
+              }, router, undefined }))
+            ));
+          }
+          else{
           await Promise.all(adultData.map((passenger) =>            
                             dispatch(createCart({ createCartRQ : {
-                              requestXML: selectedFlight,
-                              returnFlightRequestXML: selectedReturnFlight,
-                              airTravelerDtoList: [...adultData, ...childData, infantData],
+                              requestXML: selectedFlight.passengerFareInfoList[0].rqCreateBooking,
+                              airTravelerDtoList: [...adultData, ...childData, ...infantData],
                               contactInformationDto: contactData
                           }, router, undefined }))
                         ));
+          }
         } catch (error) {
           console.error('Login error:', error);
         }
@@ -502,7 +516,7 @@ const intialStateContact = {
           </div>
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.givenName && !validationContact.givenName ? 'error' : ''}`}>
-            <input type="text" required id={`givenName`} name={`givenName`} onChange={(e) => onContactInputChange(e)} />
+            <input type="text" required id={`givenName`} name={`givenName`} value={contactData.givenName} onChange={(e) => onContactInputChange(e)} />
             <label className="lh-1 text-14 text-light-1">First Name</label>
           </div>
         </div>
@@ -510,7 +524,7 @@ const intialStateContact = {
   
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.surname && !validationContact.surname ? 'error' : ''}`}>
-            <input type="text" required id={`surname`} name={`surname`} onChange={(e) => onContactInputChange(e)} />
+            <input type="text" required id={`surname`} name={`surname`} value={contactData.surname} onChange={(e) => onContactInputChange(e)} />
             <label className="lh-1 text-14 text-light-1">Last Name</label>
           </div>
         </div>
@@ -518,7 +532,7 @@ const intialStateContact = {
   
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.email && !validationContact.email ? 'error' : ''}`}>
-            <input type="text" required id={`email`} name={`email`} onChange={(e) => onContactInputChange(e)} />
+            <input type="text" required id={`email`} value={contactData.email} name={`email`} onChange={(e) => onContactInputChange(e)} />
             <label className="lh-1 text-14 text-light-1">Email</label>
           </div>
         </div>
@@ -526,7 +540,7 @@ const intialStateContact = {
   
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.phoneNumberSubscriberNumber && !validationContact.phoneNumberSubscriberNumber ? 'error' : ''}`}>
-            <input type="text" required id="phoneNumberSubscriberNumber" name="phoneNumberSubscriberNumber" onChange={(e) => onContactInputChange(e)} />
+            <input type="text" value={contactData.phoneNumberSubscriberNumber} required id="phoneNumberSubscriberNumber" name="phoneNumberSubscriberNumber" onChange={(e) => onContactInputChange(e)} />
             <label className="lh-1 text-14 text-light-1">Phone</label>
           </div>
         </div>
@@ -535,7 +549,7 @@ const intialStateContact = {
         <div className="col-6">
           <div className="d-flex ">
             <div className="form-checkbox mt-5">
-              <input type="checkbox" name={`phoneNumberMarkedForSendingRezInfo`} id={`phoneNumberMarkedForSendingRezInfo`} onChange={(e) => onContactInputChangege(e)} />
+              <input type="checkbox" checked={contactData.phoneNumberMarkedForSendingRezInfo} name={`phoneNumberMarkedForSendingRezInfo`} id={`phoneNumberMarkedForSendingRezInfo`} onChange={(e) => onContactInputChangege(e)} />
               <div className="form-checkbox__mark">
                 <div className="form-checkbox__icon icon-check" />
               </div>
@@ -551,7 +565,7 @@ const intialStateContact = {
         <div className="col-6">
           <div className="d-flex ">
             <div className="form-checkbox mt-5">
-              <input type="checkbox" name={`emailMarkedForSendingRezInfo`} id={`emailMarkedForSendingRezInfo`} onChange={(e) => onContactInputChangege(e)} />
+              <input type="checkbox" name={`emailMarkedForSendingRezInfo`} checked={contactData.emailMarkedForSendingRezInfo} id={`emailMarkedForSendingRezInfo`} onChange={(e) => onContactInputChangege(e)} />
               <div className="form-checkbox__mark">
                 <div className="form-checkbox__icon icon-check" />
               </div>
