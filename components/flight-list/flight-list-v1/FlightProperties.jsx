@@ -4,16 +4,21 @@ import Skeleton from "@/components/common/skeletons/Skeleton";
 // import { useRouter } from "next/router";
 import { flightExtraCharges, updateFlightCart, updateSelectedFlight } from "@/features/hero/flightSlice";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const FlightProperties = () => {
+  const [fareItemindex, setFareItemindex] = useState();
+  const [flightItemIndex, setFlightItemIndex] = useState();
   const dispatch = useDispatch();
   const router = useRouter();
   
   const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
   const { flightList,filterParam,loading } = useSelector((state) => state.flight);
-  // {loading ? <Skeleton /> : ""}
+  // 
   console.log(JSON.stringify(flightList));
   const updateCart = (rqCreateBooking, fareItemindex, index)=>{
+    setFlightItemIndex(index)
+    setFareItemindex(fareItemindex);
 
 //# Select the single flight object
 const selectedFlight = flightList[index];
@@ -34,7 +39,8 @@ dispatch(updateSelectedFlight(modifiedFlight));
   }
   return (
     <>
-      {flightList?.map((item,index) => (
+    {loading ? <Skeleton /> : (
+      flightList?.map((item,index) => (
         <div className="js-accordion" key={item.flightSegmentID}>
           <div className="py-30 px-30 bg-white rounded-4 base-tr mt-30">
             <div className="row y-gap-30 justify-between items-center">
@@ -331,7 +337,7 @@ dispatch(updateSelectedFlight(modifiedFlight));
           </div>
           {/* End bg-white */}
         </div>
-      ))}
+      )))}
     </>
   );
 };

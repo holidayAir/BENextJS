@@ -76,7 +76,7 @@ tripType } = flightAvailRQ.searchParam;
             </div>
             {/* End .col */}
           </div>
-          <div className="button-grid-flex items-center">
+          <div className="button-grid d-flex md:d-block sm:d-block items-center">
             <LocationSearch locationCode={destinationLocationCode} locationName={destinationLocationName} />
             {/* <LocationSearch locationCode={locationCode} locationName={locationName} /> */}
             {/* End Location */}

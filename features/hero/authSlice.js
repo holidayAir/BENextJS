@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import createAPI from "./api";
-console.log("...",process.env.NODE_ENV)
+console.log("...",process.env.NEXT_PUBLIC_AUTH_API_ENDPOINT)
 const API = createAPI(process.env.NEXT_PUBLIC_AUTH_API_ENDPOINT);
 export const registerUser = createAsyncThunk(
   "auth/Register",

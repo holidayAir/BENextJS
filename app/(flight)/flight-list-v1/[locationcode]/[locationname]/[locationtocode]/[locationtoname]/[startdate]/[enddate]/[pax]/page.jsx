@@ -209,7 +209,7 @@ const index = ({ params }) => {
               </div>
 
                 <div className="row">
-                  <FlightReturnProperties returnFlightList={returnFlightList} />
+                  <FlightReturnProperties loading={loading} returnFlightList={returnFlightList} />
                 </div>
                 {/* End .row */}
                 {totalRetutrnPages > 1 && <Pagination totalPages={totalRetutrnPages} filterParam={flightAvailRQ.filterParam} />}

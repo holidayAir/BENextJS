@@ -26,7 +26,7 @@ const MainFilterSearchBox = () => {
   const Router = useRouter()
   const handleSearch = () => {
     debugger;
-     Router.push(`/flight-list-v1/${destinationLocationCode}/${destinationLocationName}/${originLocationCode}/${originLocationName}/${startDate}/${endDate}/${adult}/${child}/${infant}`)
+     Router.push(`/flight-list-v1/${destinationLocationCode}/${destinationLocationName}/${originLocationCode}/${originLocationName}/${startDate}/${endDate}/${adult}-${child}-${infant}`)
   }
   return (
     <>

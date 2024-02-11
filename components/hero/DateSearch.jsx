@@ -87,7 +87,7 @@ var range = range;
         range= {flightAvailRQ.searchParam.tripType !== "ONE_WAY"}
         single= {flightAvailRQ.searchParam.tripType === "ONE_WAY"}
         rangeHover= {flightAvailRQ.searchParam.tripType !== "ONE_WAY"}
-        format="MMMM DD"
+        format="MMM DD"
       />
     </div>
   );

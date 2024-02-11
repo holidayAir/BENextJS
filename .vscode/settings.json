@@ -4,5 +4,6 @@
         ".vscode{,/**}"
     ],
     "appService.defaultWebAppToDeploy": "/subscriptions/67162694-760b-4735-951a-2e807dafffac/resourceGroups/Argentina/providers/Microsoft.Web/sites/reactargentina",
-    "appService.deploySubpath": ".next"
+    "appService.deploySubpath": ".next",
+    "azureAutomation.directory.basePath": "c:\\Users\\ADMIN"
 }

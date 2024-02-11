@@ -6,7 +6,7 @@ const FlightReturnProperties = (props) => {
   // {loading ? <Skeleton /> : ""}
   return (
     <>
-    {props.returnFlightList?.map((item,index) => (
+    {props.loading ? <Skeleton /> : ( props.returnFlightList?.map((item,index) => (
       <div className="js-accordion" key={`${item.flightSegmentID}${index}`}>
         <div className="py-30 px-30 bg-white rounded-4 base-tr mt-30">
           <div className="row y-gap-30 justify-between items-center">
@@ -284,7 +284,7 @@ day: 'numeric'
         </div>
         {/* End bg-white */}
       </div>
-    ))}
+    )))}
     </>
   );
 };

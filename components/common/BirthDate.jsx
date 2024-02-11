@@ -16,7 +16,6 @@ const DateSearch = ({name, dates, isSingle=false ,onChange, rest}) => {
     locale: "en",
     mapDays: null,
     onChange: (newDates) => {
-      
       const fakeEvent = { target: { name: name, value: newDates.length > 1 ? newDates[0]:newDates } };
       onChange(fakeEvent);
     },
@@ -31,12 +30,12 @@ const DateSearch = ({name, dates, isSingle=false ,onChange, rest}) => {
     name: name,
     id: name,
     title: name,
-    placeholder: name,
+    placeholder: "Select Date",
     scrollSensitive: true,
     calendarPosition: "auto",
     editable: true,
-    minDate:new DateObject(),
-    maxDate:new DateObject().add(6, "month"),
+    minDate:(name === "passportExpiryDatenew" ? new DateObject().add(6, "month"):new DateObject()),
+    maxDate:(name === "passportExpiryDatenew" ? new DateObject().add(12, "month"):new DateObject()),
     numberOfMonths:1,
     offsetY:10,
   };

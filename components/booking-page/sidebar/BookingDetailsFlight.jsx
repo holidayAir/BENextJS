@@ -5,7 +5,7 @@ const BookingDetailsFlight = () => {
   const { selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
   console.log("selectedFlight :",JSON.stringify(selectedFlight))
   console.log(selectedReturnFlight)
-  return (
+  return selectedFlight ? (
     <>
     
     <div className="" id={`div${selectedFlight?.flightSegmentID}`}  key={`${selectedFlight?.flightSegmentID}`}>
@@ -14,11 +14,11 @@ const BookingDetailsFlight = () => {
                   <div className="row justify-between items-center">
                     <div className="col-auto">
                       <div className="fw-500 text-dark-1">
-                        Depart • {new Intl.DateTimeFormat('en-US', {
+                        Depart • {selectedFlight?.departureDateTimeUTC ? new Intl.DateTimeFormat('en-US', {
   weekday: 'short',
   month: 'short',
   day: 'numeric'
-}).format(new Date(selectedFlight?.departureDateTimeUTC))}
+}).format(new Date(selectedFlight?.departureDateTimeUTC)):""}
                       </div>
                     </div>
                     <div className="col-auto">
@@ -26,7 +26,7 @@ const BookingDetailsFlight = () => {
                     </div>
                   </div>
                 </div>
-                {selectedFlight?.passengerFareInfoList.map((fareItem, fareItemindex)=>(
+                {selectedFlight?.passengerFareInfoList?.map((fareItem, fareItemindex)=>(
                 <div className="py-30 px-30 border-top-light">
                   <div className="row y-gap-10 justify-between">
                   <div class="row x-gap-20 items-end"><div class="col-auto"><div class="lh-15 fw-500">{new Date(selectedFlight?.departureDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div><div class="text-15 lh-15 text-light-1">{`${selectedFlight?.departureAirport.locationCode}`}</div></div><div class="col text-center">                          <div className="text-14 text-light-1">{selectedFlight?.journeyDuration}</div><div class="flightLine"><div></div><div></div></div><div class="text-15 lh-15 text-light-1 mt-10">Nonstop</div></div><div class="col-auto"><div class="lh-15 fw-500">{new Date(selectedFlight?.arrivalDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div><div class="text-15 lh-15 text-light-1">{`${selectedFlight?.arrivalAirport.locationCode}`}</div></div></div>
@@ -128,7 +128,7 @@ const BookingDetailsFlight = () => {
             </div>
     </>
     // End px-30
-  );
+  ):(<></>);
 };
 
 export default BookingDetailsFlight;
