@@ -39,7 +39,7 @@ dispatch(updateSelectedFlight(modifiedFlight));
   }
   return (
     <>
-    {loading ? <Skeleton /> : (
+    {loading ? <Skeleton /> :  (flightList.length > 0 ? (
       flightList?.map((item,index) => (
         <div className="js-accordion" key={item.flightSegmentID}>
           <div className="py-30 px-30 bg-white rounded-4 base-tr mt-30">
@@ -337,7 +337,10 @@ dispatch(updateSelectedFlight(modifiedFlight));
           </div>
           {/* End bg-white */}
         </div>
-      )))}
+      ))): <><div className="js-accordion">
+      <div className="py-30 px-30 bg-white rounded-4 base-tr mt-30">
+        <div className="row y-gap-30 justify-between items-center">
+          <div className="col text-center">No Departure Flight Found</div></div></div></div></>)}
     </>
   );
 };

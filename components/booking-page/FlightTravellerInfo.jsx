@@ -59,7 +59,7 @@ const intialStateContact = {
       email: true,
     });
     const [dates, setDates] = useState();//new DateObject("2026-02-09T14:03:18.654Z"));//      new DateObject());//.add((cutOfDays), "day"),
-    const { loading, error } = useSelector((state) => state.user);
+    const { loading, error,isUserLoggedIn } = useSelector((state) => state.user);
     const { givenName, surname, email, gender, birthDate, phonenumber, socialsecuritynumber } = adultData;
     const dispatch = useDispatch();
     const router = useRouter();
@@ -197,7 +197,7 @@ const intialStateContact = {
     return (
       <>
       
-      <div className="col-xl-12 col-lg-12 mt-30">
+      {!isUserLoggedIn ?? <div className="col-xl-12 col-lg-12 mt-30">
       <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05">
             Sign in to book with your saved details or{" "}
             <Link href="/signup" className="text-blue-1 fw-500">
@@ -205,7 +205,7 @@ const intialStateContact = {
             </Link>{" "}
             to manage your bookings on the go!
           </div>
-          </div>
+          </div>}
         <div className="col-xl-8 col-lg-8 mt-30">
           {/* End register notify */}
 {/*   
