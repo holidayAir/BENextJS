@@ -175,7 +175,7 @@ const LocationSearch = ({ locationCodea, locationNamea }) => {
       
       {currentTab === FLIGHT_TAB_NAME ? (
         <><div className="searchMenu-loc locationto px-30 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
-          <button class="location-switch border button -blue-1 bg-white size-30 rounded-full shadow-2" onClick={()=>handleSwapLocation()}><i class="icon-up-down text-12 rotate90d"></i></button>
+          <button className="location-switch border button -blue-1 bg-white size-30 rounded-full shadow-2" onClick={()=>handleSwapLocation()}><i className="icon-up-down text-12 rotate90d"></i></button>
       
         <div
           data-bs-toggle="dropdown"

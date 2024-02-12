@@ -3,6 +3,7 @@
 
 import Slider from "rc-slider";
 import { useState } from "react";
+import 'rc-slider/assets/index.css';
 // import InputRange from "react-input-range";
 
 const PirceSlider = () => {

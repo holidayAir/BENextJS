@@ -4,10 +4,11 @@
 import { flightAvailResult } from "@/features/hero/flightSlice";
 import { updateFlightAvailRQ } from "@/features/hero/searchCriteriaSlice";
 import { useRouter } from "next/navigation";
-import Slider from "rc-slider";
+import Slider, { Range } from 'rc-slider';
 import { useState } from "react";
 // import InputRange from "react-input-range";
 import { useDispatch, useSelector } from "react-redux";
+import 'rc-slider/assets/index.css';
 
 const PirceSlider = (props) => {
   const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
@@ -19,7 +20,9 @@ const PirceSlider = (props) => {
   const router = useRouter();
 
   const handleOnChange = (value) => {
-    setPrice({ value });
+    debugger;
+    setPrice({ 
+      value: { min: value[0], max: value[1] },});
     if(props.type === "return")
     {
       dispatch(
@@ -27,7 +30,7 @@ const PirceSlider = (props) => {
             ...flightAvailRQ,
             filterParam: {
               ...flightAvailRQ.filterParam,
-              returnPriceMinMax: [value.min, value.max],
+              returnPriceMinMax: [value[0], value[1]],
               returnPageNumber: 0,
             },
         })
@@ -37,7 +40,7 @@ const PirceSlider = (props) => {
         ...flightAvailRQ,
         filterParam: {
           ...flightAvailRQ.filterParam,
-          returnPriceMinMax: [value.min, value.max],
+          returnPriceMinMax: [value[0], value[1]],
           returnPageNumber: 0,
         },
     }, router, undefined }));
@@ -49,7 +52,7 @@ const PirceSlider = (props) => {
               ...flightAvailRQ,
               filterParam: {
                 ...flightAvailRQ.filterParam,
-                priceMinMax: [value.min, value.max],
+                priceMinMax: [value[0], value[1]],
                 pageNumber: 0,
               },
           })
@@ -59,7 +62,7 @@ const PirceSlider = (props) => {
           ...flightAvailRQ,
           filterParam: {
             ...flightAvailRQ.filterParam,
-            priceMinMax: [value.min, value.max],
+            priceMinMax: [value[0], value[1]],
             pageNumber: 0,
           },
       }, router, undefined }));
@@ -86,11 +89,20 @@ const PirceSlider = (props) => {
           onChange={(value) => handleOnChange(value)}
         /> */}
         <Slider 
-          min={0}
-          max={2000}
+          min={props.filterParam?.priceMinMax[0]}
+          max={props.filterParam?.priceMinMax[1]}  defaultValue={[price.value.min, price.value.max]}
+          allowCross={false}
           range
-          value={price.value}
-          onChange={handleOnChange}
+          onAfterChange={handleOnChange}
+        trackStyle={{ backgroundColor: 'blue', height: 10 }}
+        railStyle={{ height: 10 }}
+        handleStyle={{
+          borderColor: 'blue',
+          height: 20,
+          width: 20,
+          marginTop: -5,
+          backgroundColor: 'white',
+        }}
         />
       </div>
     </div>

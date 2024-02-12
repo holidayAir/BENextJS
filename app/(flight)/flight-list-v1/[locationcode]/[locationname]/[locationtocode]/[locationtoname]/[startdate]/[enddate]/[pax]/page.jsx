@@ -97,7 +97,7 @@ const index = ({ params }) => {
             <div className="col-xl-3">
               <aside className="sidebar py-20 px-20 xl:d-none bg-white">
                 <div className="row y-gap-40">
-                  <Sidebar />
+                  <Sidebar type="outbound" filterParam={filterParam}  />
                 </div>
               </aside>
               {/* End sidebar for desktop */}
@@ -122,7 +122,7 @@ const index = ({ params }) => {
 
                 <div className="offcanvas-body">
                   <aside className="sidebar y-gap-40  xl:d-block">
-                    <Sidebar />
+                    <Sidebar type="outbound" filterParam={filterParam}  />
                   </aside>
                 </div>
                 {/* End offcanvas body */}

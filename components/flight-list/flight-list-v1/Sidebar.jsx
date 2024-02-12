@@ -8,7 +8,7 @@ import Cabin from "../sidebar/Cabin";
 import SkeletonFilter from "@/components/common/skeletons/Skeleton";
 import { useSelector } from "react-redux";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const { flightList,filterParam,loading } = useSelector((state) => state.flight);
   return (
     <>
@@ -35,45 +35,42 @@ const Sidebar = () => {
         <h5 className="text-18 fw-500 mb-10">Price</h5>
         <div className="row x-gap-10 y-gap-30">
           <div className="col-12">
-            <PirceSlider />
+            <PirceSlider type={props.type} filterParam={props.filterParam} />
           </div>
         </div>
       </div>
       {/* End Nightly priceslider */}
-
+{/* 
       <div className="sidebar__item">
         <h5 className="text-18 fw-500 mb-10">Airlines</h5>
         <div className="sidebar-checkbox">
           <Airlines />
         </div>
-      </div>
+      </div> */}
       {/* End style filter */}
 
-      <div className="sidebar__item">
+      {/* <div className="sidebar__item">
         <h5 className="text-18 fw-500 mb-10">Alliance</h5>
         <div className="sidebar-checkbox">
           <Alliance />
         </div>
-        {/* End Sidebar-checkbox */}
-      </div>
+      </div> */}
       {/* End CruiseStyle filter */}
 
-      <div className="sidebar__item">
+      {/* <div className="sidebar__item">
         <h5 className="text-18 fw-500 mb-10">Departing from</h5>
         <div className="sidebar-checkbox">
           <DepartingFrom />
         </div>
-        {/* End Sidebar-checkbox */}
-      </div>
+      </div> */}
       {/* End Port filter */}
 
-      <div className="sidebar__item">
+      {/* <div className="sidebar__item">
         <h5 className="text-18 fw-500 mb-10">Arriving at</h5>
         <div className="sidebar-checkbox">
           <ArrivingAt />
         </div>
-        {/* End Sidebar-checkbox */}
-      </div>
+      </div> */}
       {/* End Port filter */}
       </>:<SkeletonFilter /> }
     </>

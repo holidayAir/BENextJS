@@ -27,7 +27,7 @@ const initialState = {
       adult: 1,
       child: 0,
       infant: 0,
-      tripType: "ROUND_TRIP"//"ONE_WAY"
+      tripType: "ONE_WAY"//"ROUND_TRIP"//"ONE_WAY"
     },
     isApplySearchParam: true,
     filterParam: {

@@ -7,6 +7,7 @@ import Slider from "rc-slider";
 import { useState } from "react";
 // import InputRange from "react-input-range";
 import { useDispatch, useSelector } from "react-redux";
+import 'rc-slider/assets/index.css';
 
 const PirceSlider = () => {
   const { hotelList,hotelAvailRQ, filterParam,loading } = useSelector((state) => state.hotel);
