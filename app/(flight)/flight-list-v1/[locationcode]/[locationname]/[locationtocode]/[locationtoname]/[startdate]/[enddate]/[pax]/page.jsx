@@ -417,12 +417,12 @@ const index = ({ params }) => {
             </div>
             
             <div className="col-12">
-            <Link
+            {(selectedFlight.flightSegmentID && selectedReturnFlight.flightSegmentID)?<Link
                     href="/cart-page"
                     className="button -outline-blue-1 px-30 h-50 text-blue-1"
                   >
                     Continue <div className="icon-arrow-top-right ml-15" />
-                  </Link></div>
+                  </Link>:<></>}</div>
               </div> : <></>}
             </div>
           </div>

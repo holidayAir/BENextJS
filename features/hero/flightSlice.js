@@ -43,12 +43,15 @@ export const flightAvailResult = createAsyncThunk(
 
 export const flightExtraCharges = createAsyncThunk(
   "flight/flightExtraCharges",
-  async ({ flightExtraChargesRQ, router, toast }, { rejectWithValue }) => {
+  async ({ flightExtraChargesRQ, router, toast, tripType }, { rejectWithValue }) => {
     try {
       console.log(JSON.stringify(flightExtraChargesRQ));
       const response = await API.post(`api/flight/GetAirExtraCharges`,  flightExtraChargesRQ );
       //navigate("/booking-page");
-      // router.push('/cart-page')
+      debugger;
+if(tripType==="ONE_WAY"){
+      router.push('/cart-page')
+}
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -234,7 +237,7 @@ const flightSlice = createSlice({
     
     builder.addCase(flightExtraCharges.pending, (state) => {
       
-      state.loading = true;
+      state.loading = false;
     });
     builder.addCase(flightExtraCharges.fulfilled, (state, action) => {
       

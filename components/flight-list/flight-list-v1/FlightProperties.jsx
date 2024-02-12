@@ -17,6 +17,7 @@ const FlightProperties = () => {
   // 
   console.log(JSON.stringify(flightList));
   const updateCart = (rqCreateBooking, fareItemindex, index)=>{
+    debugger;
     setFlightItemIndex(index)
     setFareItemindex(fareItemindex);
 
@@ -31,11 +32,11 @@ const modifiedFlight = {
 };
 
 dispatch(updateSelectedFlight(modifiedFlight));
-    
+    debugger;
     dispatch(flightExtraCharges({ flightExtraChargesRQ : {
       requestXML: rqCreateBooking,
       tripType: "ONE_WAY",
-  }, router, undefined }));
+  }, router, undefined, tripType:flightAvailRQ.searchParam.tripType }));
   }
   return (
     <>
@@ -229,6 +230,7 @@ dispatch(updateSelectedFlight(modifiedFlight));
                       </div>
                       <button
                         className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
+                        onClick={()=> updateCart(fareItem.rqCreateBooking, fareItemindex, index)}
                       >
                         {fareItem.pricingInfo.totalFare.currencyCode + " " + fareItem.pricingInfo.totalFare.amount} <div className="icon-arrow-top-right ml-15" />
                       </button>
