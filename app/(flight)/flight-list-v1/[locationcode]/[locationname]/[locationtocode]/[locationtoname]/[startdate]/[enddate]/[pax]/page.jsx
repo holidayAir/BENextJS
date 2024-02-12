@@ -16,6 +16,7 @@ import FlightReturnProperties from "@/components/flight-list/flight-list-v1/Flig
 import { DateObject } from "react-multi-date-picker";
 import DropdownFlightFilters from "@/components/hotel-list/common/DropdownFlightFilters";
 import { updateFlightAvailRQ } from "@/features/hero/searchCriteriaSlice";
+import Link from "next/link";
 
 // export const metadata = {
 //   title: "Flight List v1 || BE - Argentina - Travel & Tour React NextJS Template",
@@ -26,7 +27,7 @@ const index = ({ params }) => {
   
   const dispatch = useDispatch();
   const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
-  const { flightList, returnFlightList, filterParam, returnFilterParam,loading, totalFlights, totalReturnFlights, totalPages, totalRetutrnPages } = useSelector((state) => state.flight);
+  const { flightList, returnFlightList, filterParam, returnFilterParam,loading, totalFlights, totalReturnFlights, totalPages, totalRetutrnPages,selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
   const router = useRouter();
   const { destinationLocationCode,
   destinationLocationName,
@@ -211,6 +212,218 @@ const index = ({ params }) => {
                 {/* End .row */}
                 {totalRetutrnPages > 1 && <Pagination totalPages={totalRetutrnPages} filterParam={flightAvailRQ.filterParam} />}
               </div>
+              {(selectedFlight.flightSegmentID || selectedReturnFlight.flightSegmentID) ? <div className="row  bg-white">
+                <div className="col-6">
+    {selectedFlight.flightSegmentID  ? <>
+        <div className="js-accordion" key={selectedFlight.flightSegmentID}>
+          <div className="py-30 px-30 bg-white rounded-4 base-tr mt-30">
+            <div className="row y-gap-30 justify-between items-center">
+              <div className="col">
+                <div className="row y-gap-10 items-center">
+                  <div className="col-sm-auto">
+                    <img
+                      className="size-40"
+                      src="/img/flights/HolidayAir.svg"
+                      alt="image"
+                    />
+                  </div>
+                  <div className="col">
+                    <div className="row x-gap-20 items-end">
+                      <div className="col-auto">
+                        <div className="lh-15 fw-500">{new Date(selectedFlight.departureDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                        <div className="text-15 lh-15 text-light-1">{selectedFlight.departureAirport.locationCode}</div>
+                      </div>
+                      <div className="col text-center">
+{flightAvailRQ.searchParam.tripType !== "ONE_WAY" ? (
+                      <div className="text-15 lh-15 text-light-1 mb-10">
+                        {selectedFlight.journeyDuration}
+                      </div>):(<></>)}
+                        <div className="flightLine">
+                          <div />
+                          <div />
+                        </div>
+                        <div className="text-15 lh-15 text-light-1 mt-10">
+                          {`${selectedFlight.stopQuantity === "0" ? "Nonstop" : selectedFlight.stopQuantity + " Stops"} `}
+                        </div>
+                      </div>
+                      <div className="col-auto">
+                        <div className="lh-15 fw-500">{new Date(selectedFlight.arrivalDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                        <div className="text-15 lh-15 text-light-1">{selectedFlight.arrivalAirport.locationCode}</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+{flightAvailRQ.searchParam.tripType === "ONE_WAY" ? (<div className="col-md-auto">
+                    <div className="text-15 text-light-1 px-20 md:px-0">
+                      {selectedFlight.journeyDuration}
+                    </div>
+                  </div>):(<></>)}
+                </div>
+                <div className="row y-gap-10 items-center pt-30" style={{display:"none"}}>
+                  <div className="col-sm-auto">
+                    <img
+                      className="size-40"
+                      src="/img/flightIcons/2.png"
+                      alt="image"
+                    />
+                  </div>
+                  <div className="col">
+                    <div className="row x-gap-20 items-end">
+                      <div className="col-auto">
+                        <div className="lh-15 fw-500">14:00</div>
+                        <div className="text-15 lh-15 text-light-1">SAW</div>
+                      </div>
+                      <div className="col text-center">
+                        <div className="flightLine">
+                          <div />
+                          <div />
+                        </div>
+                        <div className="text-15 lh-15 text-light-1 mt-10">
+                          Nonstop
+                        </div>
+                      </div>
+                      <div className="col-auto">
+                        <div className="lh-15 fw-500">22:00</div>
+                        <div className="text-15 lh-15 text-light-1">STN</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-auto">
+                    <div className="text-15 text-light-1 px-20 md:px-0">
+                      4h 05m
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* End .col */}
+
+              <div className="col-md-auto">
+                <div className="d-flex items-center h-full">
+                  <div className="pl-30 border-left-light h-full md:d-none" />
+                  <div>
+                    <div className="text-right md:text-left mb-10">
+                      <div className="text-18 lh-16 fw-500">{`${selectedFlight.passengerFareInfoList[0].pricingInfo.totalFare.currencyCode + " " + selectedFlight.passengerFareInfoList[0].pricingInfo.totalFare.amount}`}</div>
+                      <div className="text-15 lh-16 text-light-1">{`${selectedFlight.passengerFareInfoList.length} deals`}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* End  .col-md-auto */}
+            </div>
+            </div>
+            </div>
+            </> : <></>}
+            </div>
+            <div className="col-6">
+            {selectedReturnFlight.flightSegmentID  ? <>
+        <div className="js-accordion" key={selectedReturnFlight.flightSegmentID}>
+          <div className="py-30 px-30 bg-white rounded-4 base-tr mt-30">
+            <div className="row y-gap-30 justify-between items-center">
+              <div className="col">
+                <div className="row y-gap-10 items-center">
+                  <div className="col-sm-auto">
+                    <img
+                      className="size-40"
+                      src="/img/flights/HolidayAir.svg"
+                      alt="image"
+                    />
+                  </div>
+                  <div className="col">
+                    <div className="row x-gap-20 items-end">
+                      <div className="col-auto">
+                        <div className="lh-15 fw-500">{new Date(selectedReturnFlight.departureDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                        <div className="text-15 lh-15 text-light-1">{selectedReturnFlight.departureAirport.locationCode}</div>
+                      </div>
+                      <div className="col text-center">
+{flightAvailRQ.searchParam.tripType !== "ONE_WAY" ? (
+                      <div className="text-15 lh-15 text-light-1 mb-10">
+                        {selectedReturnFlight.journeyDuration}
+                      </div>):(<></>)}
+                        <div className="flightLine">
+                          <div />
+                          <div />
+                        </div>
+                        <div className="text-15 lh-15 text-light-1 mt-10">
+                          {`${selectedReturnFlight.stopQuantity === "0" ? "Nonstop" : selectedReturnFlight.stopQuantity + " Stops"} `}
+                        </div>
+                      </div>
+                      <div className="col-auto">
+                        <div className="lh-15 fw-500">{new Date(selectedReturnFlight.arrivalDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                        <div className="text-15 lh-15 text-light-1">{selectedReturnFlight.arrivalAirport.locationCode}</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+{flightAvailRQ.searchParam.tripType === "ONE_WAY" ? (<div className="col-md-auto">
+                    <div className="text-15 text-light-1 px-20 md:px-0">
+                      {selectedReturnFlight.journeyDuration}
+                    </div>
+                  </div>):(<></>)}
+                </div>
+                <div className="row y-gap-10 items-center pt-30" style={{display:"none"}}>
+                  <div className="col-sm-auto">
+                    <img
+                      className="size-40"
+                      src="/img/flightIcons/2.png"
+                      alt="image"
+                    />
+                  </div>
+                  <div className="col">
+                    <div className="row x-gap-20 items-end">
+                      <div className="col-auto">
+                        <div className="lh-15 fw-500">14:00</div>
+                        <div className="text-15 lh-15 text-light-1">SAW</div>
+                      </div>
+                      <div className="col text-center">
+                        <div className="flightLine">
+                          <div />
+                          <div />
+                        </div>
+                        <div className="text-15 lh-15 text-light-1 mt-10">
+                          Nonstop
+                        </div>
+                      </div>
+                      <div className="col-auto">
+                        <div className="lh-15 fw-500">22:00</div>
+                        <div className="text-15 lh-15 text-light-1">STN</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-auto">
+                    <div className="text-15 text-light-1 px-20 md:px-0">
+                      4h 05m
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* End .col */}
+
+              <div className="col-md-auto">
+                <div className="d-flex items-center h-full">
+                  <div className="pl-30 border-left-light h-full md:d-none" />
+                  <div>
+                    <div className="text-right md:text-left mb-10">
+                      <div className="text-18 lh-16 fw-500">{`${selectedReturnFlight.passengerFareInfoList[0].pricingInfo.totalFare.currencyCode + " " + selectedReturnFlight.passengerFareInfoList[0].pricingInfo.totalFare.amount}`}</div>
+                      <div className="text-15 lh-16 text-light-1">{`${selectedReturnFlight.passengerFareInfoList.length} deals`}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* End  .col-md-auto */}
+            </div>
+            </div>
+            </div>
+            </> : <></>}
+            </div>
+            
+            <div className="col-12">
+            <Link
+                    href="/cart-page"
+                    className="button -outline-blue-1 px-30 h-50 text-blue-1"
+                  >
+                    Continue <div className="icon-arrow-top-right ml-15" />
+                  </Link></div>
+              </div> : <></>}
             </div>
           </div>
           {/* End .row */}

@@ -1,9 +1,40 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import flightsData from "../../../data/flights";
 import Skeleton from "@/components/common/skeletons/Skeleton";
+import { flightExtraCharges, updateSelectedReturnFlight } from "@/features/hero/flightSlice";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const FlightReturnProperties = (props) => {
   // {loading ? <Skeleton /> : ""}
+  const [fareItemindex, setFareItemindex] = useState();
+  const [flightItemIndex, setFlightItemIndex] = useState();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  
+  const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
+  const { returnFlightList,filterParam,loading,selectedReturnFlight } = useSelector((state) => state.flight);
+  const updateCart = (rqCreateBooking, fareItemindex, index)=>{
+    setFlightItemIndex(index)
+    setFareItemindex(fareItemindex);
+
+//# Select the single flight object
+const selectedReturnFlight = returnFlightList[index];
+
+//# Modify the passengerFareInfoList for the selected flight
+const modifiedPassengerFareInfo = selectedReturnFlight.passengerFareInfoList[fareItemindex];
+const modifiedFlight = {
+    ...selectedReturnFlight,
+    passengerFareInfoList: [modifiedPassengerFareInfo]
+};
+
+dispatch(updateSelectedReturnFlight(modifiedFlight));
+    
+    dispatch(flightExtraCharges({ flightExtraChargesRQ : {
+      requestXML: rqCreateBooking,
+      tripType: "ONE_WAY",
+  }, router, undefined }));
+  }
   return (
     <>
     {props.loading ? <Skeleton /> : (props.returnFlightList.length > 0 ? ( props.returnFlightList?.map((item,index) => (
@@ -129,7 +160,7 @@ day: 'numeric'
                   </div>
                 </div>
               </div>
-              {item.passengerFareInfoList.map((fareItem)=>(
+              {item.passengerFareInfoList.map((fareItem, fareItemindex)=>(
               <div className="py-30 px-30 border-top-light">
                 <div className="row y-gap-10 justify-between">
                   <div className="col-auto">
@@ -194,6 +225,7 @@ day: 'numeric'
                     <div className="text-14 mt-15 md:mt-5 text-light-1">{`${fareItem.cabin} - ${fareItem.cabinClassCode}`}</div>
                     <button
                       className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
+                      onClick={()=> updateCart(fareItem.rqCreateBooking, fareItemindex, index)}
                     >
                       {fareItem.pricingInfo.totalFare.currencyCode + " " + fareItem.pricingInfo.totalFare.amount} <div className="icon-arrow-top-right ml-15" />
                     </button>

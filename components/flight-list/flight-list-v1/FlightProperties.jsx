@@ -13,7 +13,7 @@ const FlightProperties = () => {
   const router = useRouter();
   
   const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
-  const { flightList,filterParam,loading } = useSelector((state) => state.flight);
+  const { flightList,filterParam,loading,selectedFlight } = useSelector((state) => state.flight);
   // 
   console.log(JSON.stringify(flightList));
   const updateCart = (rqCreateBooking, fareItemindex, index)=>{

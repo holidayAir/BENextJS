@@ -48,7 +48,7 @@ export const flightExtraCharges = createAsyncThunk(
       console.log(JSON.stringify(flightExtraChargesRQ));
       const response = await API.post(`api/flight/GetAirExtraCharges`,  flightExtraChargesRQ );
       //navigate("/booking-page");
-      router.push('/cart-page')
+      // router.push('/cart-page')
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
