@@ -12,9 +12,9 @@ import PirceSlider from "../sidebar/PirceSlider";
 const Sidebar = () => {
   return (
     <>
-      <div className="sidebar__item -no-border position-relative">
+      {/* <div className="sidebar__item -no-border position-relative">
         <Map />
-      </div>
+      </div> */}
       {/* End find map */}
 
       <div className="sidebar__item -no-border">

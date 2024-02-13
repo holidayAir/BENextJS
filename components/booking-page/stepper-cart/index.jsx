@@ -72,7 +72,7 @@ const Index = () => {
 
   return (
     <>
-    {isUserLoggedIn !== true && <ModalSigninSignup currentPath="cart-page" />}
+    {true !== true && <ModalSigninSignup currentPath="cart-page" />}
       <div className="row x-gap-40 y-gap-30 items-center">
         {steps.map((step, index) => (
           <React.Fragment key={index}>

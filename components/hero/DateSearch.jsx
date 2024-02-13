@@ -5,9 +5,11 @@ import { updateHotelCriteria, updateFlightAvailRQ } from "@/features/hero/search
 import React, { useState } from "react";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import { useDispatch, useSelector } from "react-redux";
+import { FLIGHT_TAB_NAME, HOTEL_TAB_NAME } from "@/utils/constants";
 
 const DateSearch = ({cutOfDayss,stayInDayss}) => {
   const { flightAvailRQ, hotelCriteria } = useSelector((state) => state.searchCriteria);
+  const { tabs, currentTab } = useSelector((state) => state.hero) || {};
   const { cutOfDays, stayInDays, startDate, endDate } = useSelector((state) => state.searchCriteria) || {};
   const { locationList, loading } = useSelector((state) => state.flight);
   const dispatch = useDispatch(); // Hook to dispatch actions
@@ -24,7 +26,7 @@ const DateSearch = ({cutOfDayss,stayInDayss}) => {
   ]);
   // Dispatch action to update startDate and endDate in the Redux store
   const updateSearchCriteria = (newDates) => {
-    if(flightAvailRQ.searchParam.tripType === "ONE_WAY"){
+    if(currentTab !== HOTEL_TAB_NAME && flightAvailRQ.searchParam.tripType === "ONE_WAY"){
       setDate(newDates);
       dispatch(
         updateHotelCriteria({
@@ -46,25 +48,25 @@ const DateSearch = ({cutOfDayss,stayInDayss}) => {
       setDates(newDates);
       if(newDates.length > 1)
       {
-    dispatch(
-      updateHotelCriteria({
-        ...hotelCriteria,
-        startDate: new Date(newDates[0]).toISOString(),
-        endDate: new Date(newDates[1]).toISOString(),
-        // startDate: newDates[0],//.format("dd-mm-yyyy"), // Modify the format as needed
-        // endDate: newDates[1]//.format("dd-mm-yyyy"),     // Modify the format as needed
-      })
-    );
-    dispatch(
-      updateFlightAvailRQ({
-          ...flightAvailRQ,
-          searchParam: {
-            ...flightAvailRQ.searchParam,
+        dispatch(
+          updateHotelCriteria({
+            ...hotelCriteria,
             startDate: new Date(newDates[0]).toISOString(),
             endDate: new Date(newDates[1]).toISOString(),
-          },
-      })
-    );
+            // startDate: newDates[0],//.format("dd-mm-yyyy"), // Modify the format as needed
+            // endDate: newDates[1]//.format("dd-mm-yyyy"),     // Modify the format as needed
+          })
+        );
+        dispatch(
+          updateFlightAvailRQ({
+              ...flightAvailRQ,
+              searchParam: {
+                ...flightAvailRQ.searchParam,
+                startDate: new Date(newDates[0]).toISOString(),
+                endDate: new Date(newDates[1]).toISOString(),
+              },
+          })
+        );
       }
     }
   };
@@ -75,18 +77,18 @@ var range = range;
       <DatePicker
         inputClass="custom_input-picker"
         containerClassName="custom_container-picker"
-        value={flightAvailRQ.searchParam.tripType === "ONE_WAY" ? date :dates}
+        value={currentTab !== HOTEL_TAB_NAME && flightAvailRQ.searchParam.tripType === "ONE_WAY" ? date :dates}
         onChange={(newDates) => {
           // Update the Redux store when the dates change
           updateSearchCriteria(newDates);
         }}
         minDate={new DateObject()}
         maxDate={new DateObject().add(6, "month")}
-        numberOfMonths={flightAvailRQ.searchParam.tripType === "ONE_WAY" ? 1 : 2}
+        numberOfMonths={currentTab !== HOTEL_TAB_NAME && flightAvailRQ.searchParam.tripType === "ONE_WAY" ? 1 : 2}
         offsetY={10}
-        range= {flightAvailRQ.searchParam.tripType !== "ONE_WAY"}
-        single= {flightAvailRQ.searchParam.tripType === "ONE_WAY"}
-        rangeHover= {flightAvailRQ.searchParam.tripType !== "ONE_WAY"}
+        range= {currentTab === HOTEL_TAB_NAME? true : flightAvailRQ.searchParam.tripType !== "ONE_WAY"}
+        single= {currentTab === HOTEL_TAB_NAME ? false : flightAvailRQ.searchParam.tripType === "ONE_WAY"}
+        rangeHover= {currentTab === HOTEL_TAB_NAME ? true :flightAvailRQ.searchParam.tripType !== "ONE_WAY"}
         format="MMM DD"
       />
     </div>
