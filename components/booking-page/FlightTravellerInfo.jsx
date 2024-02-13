@@ -608,7 +608,7 @@ const intialStateContact = {
             //disabled={currentStep === steps.length - 1}
             onClick={handleSubmit}
           >
-            Next <div className="icon-arrow-top-right ml-15" />
+            Next  {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
           </button>
         </div>
         {/* End next btn */}

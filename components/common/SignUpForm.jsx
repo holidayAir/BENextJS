@@ -152,7 +152,7 @@ const SignUpForm = () => {
           onClick={()=>handleSubmit()}
           className="button py-20 -dark-1 bg-blue-1 text-white w-100"
         >
-          Sign Up <div className="icon-arrow-top-right ml-15" />
+          Sign Up {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
         </button>
       </div>
       {/* End .col */}
