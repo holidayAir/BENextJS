@@ -4,7 +4,7 @@
 import React from "react";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 
-const DateSearch = ({name, dates, isSingle=false ,onChange, rest}) => {
+const DateSearch = ({name, dates, isSingle=false ,onChange, minDate, maxDate}) => {
 
   const datePickerProps = {
     value: dates,
@@ -12,11 +12,11 @@ const DateSearch = ({name, dates, isSingle=false ,onChange, rest}) => {
     range: !isSingle,
     single:isSingle,
     rangeHover: false,
-    format:"MMMM DD",
+    format:"MMMM DD YYYY",
     locale: "en",
     mapDays: null,
     onChange: (newDates) => {
-      const fakeEvent = { target: { name: name, value: newDates.length > 1 ? newDates[0]:newDates } };
+      const fakeEvent = { target: { name: name, value: newDates.length > 1 ? new Date(newDates[0]).toISOString():new Date(newDates).toISOString() } };
       onChange(fakeEvent);
     },
     className: "",
@@ -34,8 +34,8 @@ const DateSearch = ({name, dates, isSingle=false ,onChange, rest}) => {
     scrollSensitive: true,
     calendarPosition: "auto",
     editable: true,
-    minDate:(name === "passportExpiryDatenew" ? new DateObject().add(6, "month"):new DateObject()),
-    maxDate:(name === "passportExpiryDatenew" ? new DateObject().add(12, "month"):new DateObject()),
+    minDate:(minDate ? minDate :new DateObject()),
+    maxDate:(maxDate ? maxDate :new DateObject().add(6, "month")),
     numberOfMonths:1,
     offsetY:10,
   };

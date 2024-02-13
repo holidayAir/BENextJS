@@ -281,7 +281,8 @@ const intialStateContact = {
           <DateSearch
       name={`birthDate`}
       placeholder={"Sdfsdfs "}
-      dates={new DateObject("2026-02-09T14:03:18.654Z")}
+      minDate={new DateObject().add(-60, "year")}
+      maxDate={new DateObject()}
       isSingle={true}
       onChange={(e) => onInputChange(e, index)}
       {...customDatePickerProps}

@@ -228,6 +228,8 @@ const flightSlice = createSlice({
       state.totalFlights = action.payload.result?.totalFlights;
       state.totalRetutrnPages = action.payload.result?.totalPagesReturn;
       state.totalReturnFlights = action.payload.result?.totalFlightsReturn;
+      state.selectedFlight={};
+      state.selectedReturnFlight={};
     });
     builder.addCase(flightAvailResult.rejected, (state, action) => {
       
