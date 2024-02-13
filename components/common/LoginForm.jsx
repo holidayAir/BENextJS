@@ -125,7 +125,7 @@ const LoginForm = () => {
           className="button py-20 -dark-1 bg-blue-1 text-white w-100"
           onClick={() => handleSubmit()}
         >
-          Sign In <div className="icon-arrow-top-right ml-15" />
+          Sign In {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
         </button>
       </div>
       {/* End .col */}

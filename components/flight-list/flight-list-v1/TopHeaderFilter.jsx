@@ -7,7 +7,7 @@ const TopHeaderFilter = (props) => {
       <div className="row y-gap-10 items-center justify-between">
         <div className="col-auto">
           <div className="text-18 h-40">
-            <span className="fw-500">{props.totalFlights} properties</span>{`${props.flightList[0]?.departureAirport.locationName ? " - " +props.flightList[0]?.departureAirport.locationName : ""} `}
+            <span className="fw-500">{props.totalFlights} {props.triptype} Flights</span>{`${props.flightList[0]?.departureAirport.locationName ? " - " +props.flightList[0]?.departureAirport.locationName : ""} `}
           </div>
         </div>
         {/* End .col */}

@@ -34,6 +34,11 @@ dispatch(updateSelectedReturnFlight(modifiedFlight));
       requestXML: rqCreateBooking,
       tripType: "ONE_WAY",
   }, router, undefined }));
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+  document.getElementById(`div${selectedReturnFlight.flightSegmentID}`).remove('show');
   }
   return (
     <>
@@ -227,7 +232,7 @@ day: 'numeric'
                       className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
                       onClick={()=> updateCart(fareItem.rqCreateBooking, fareItemindex, index)}
                     >
-                      {fareItem.pricingInfo.totalFare.currencyCode + " " + fareItem.pricingInfo.totalFare.amount} <div className="icon-arrow-top-right ml-15" />
+                      {fareItem.pricingInfo.totalFare.currencyCode + " " + fareItem.pricingInfo.totalFare.amount} {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
                     </button>
                   </div>
                 </div>

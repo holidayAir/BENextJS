@@ -90,133 +90,16 @@ const index = ({ params }) => {
           <MainFilterSearchBox />
         </div>
       </section>
-      {/* Top SearchBanner */}
-{flightAvailRQ.searchParam.tripType === "ONE_WAY" ? (
+      
+      {(selectedFlight.flightSegmentID || selectedReturnFlight.flightSegmentID) ? 
       <section className="layout-pt-md layout-pb-md bg-light-2">
-        <div className="container">
-          <div className="row y-gap-30">
-            <div className="col-xl-3">
-              <aside className="sidebar py-20 px-20 xl:d-none bg-white">
-                <div className="row y-gap-40">
-                  <Sidebar type="outbound" filterParam={filterParam}  />
-                </div>
-              </aside>
-              {/* End sidebar for desktop */}
-
-              <div
-                className="offcanvas offcanvas-start"
-                tabIndex="-1"
-                id="listingSidebar"
-              >
-                <div className="offcanvas-header">
-                  <h5 className="offcanvas-title" id="offcanvasLabel">
-                    Filter Tours
-                  </h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="offcanvas"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                {/* End offcanvas header */}
-
-                <div className="offcanvas-body">
-                  <aside className="sidebar y-gap-40  xl:d-block">
-                    <Sidebar type="outbound" filterParam={filterParam}  />
-                  </aside>
-                </div>
-                {/* End offcanvas body */}
-              </div>
-              {/* End mobile menu sidebar */}
-            </div>
-            {/* End col */}
-
-            <div className="col-xl-9 ">
-                <TopHeaderFilter flightList={flightList} loading={loading} totalFlights={totalFlights} />
-
-              <div className="row">
-                <FlightProperties />
-              </div>
-              {/* End .row */}
-                {totalPages > 1 ?? <Pagination totalPages={totalPages} filterParam={flightAvailRQ.filterParam} />}
-            </div>
-            {/* End .col for right content */}
-          </div>
-          {/* End .row */}
-        </div>
-        {/* End .container */}
-      </section>) : (
-      <section className="layout-pt-md layout-pb-md bg-light-2">
-        <div className="container">
-          <div className="row y-gap-20 justify-between items-center">
-            <div className="col-auto">
-              {/* End .row */}
-            </div>
-            {/* End col-auto */}
-
-            {/* <div className="col-auto">
-              <button className="button -blue-1 h-40 px-20 rounded-100 bg-blue-1-05 text-15 text-blue-1">
-                <i className="icon-up-down text-14 mr-10"></i>
-                Top picks for your search
-              </button>
-            </div> */}
-            {/* End col-auto */}
-
-            {/* <div className="border-top-light mt-30 mb-30"></div> */}
-            {/* End border-top */}
-
-            <div className="row y-gap-30">
-              
-              <div className="col-xl-6 ">
-                <TopHeaderFilter flightList={flightList} loading={loading} totalFlights={totalFlights} />
-              <div className="row x-gap-20 mt-20 y-gap-10 items-center">
-                <div className="col-auto">
-                  <div className="text-18 fw-500">Filter</div>
-                </div>
-                {/* End .col-auto */}
-
-                <div className="col-auto">
-                  <div className="row x-gap-15 y-gap-15">
-                    <DropdownFlightFilters type="outbound" filterParam={filterParam} />
-                  </div>
-                </div>
-                {/* End .col-auto */}
-              </div>
-
-                <div className="row">
-                  <FlightProperties />
-                </div>
-                {/* End .row */}
-                {totalPages > 1 ?? <Pagination totalPages={totalPages} filterParam={flightAvailRQ.filterParam} />}
-              </div>
-              <div className="col-xl-6 ">
-                <TopHeaderFilter flightList={returnFlightList} loading={loading} totalFlights={totalReturnFlights}  />
-              <div className="row x-gap-20 mt-20 y-gap-10 items-center">
-                <div className="col-auto">
-                  <div className="text-18 fw-500">Filter</div>
-                </div>
-                {/* End .col-auto */}
-
-                <div className="col-auto">
-                  <div className="row x-gap-15 y-gap-15">
-                    <DropdownFlightFilters type="return" filterParam={returnFilterParam} />
-                  </div>
-                </div>
-                {/* End .col-auto */}
-              </div>
-
-                <div className="row">
-                  <FlightReturnProperties loading={loading} returnFlightList={returnFlightList} />
-                </div>
-                {/* End .row */}
-                {totalRetutrnPages > 1 && <Pagination totalPages={totalRetutrnPages} filterParam={flightAvailRQ.filterParam} />}
-              </div>
-              {(selectedFlight.flightSegmentID || selectedReturnFlight.flightSegmentID) ? <div className="row  bg-white">
+      <div className="container">
+        <div className="row y-gap-20 justify-between items-center bg-white">
                 <div className="col-6">
     {selectedFlight.flightSegmentID  ? <>
         <div className="js-accordion" key={selectedFlight.flightSegmentID}>
-          <div className="py-30 px-30 bg-white rounded-4 base-tr mt-30">
+          <div className="py-30 px-30 bg-white rounded-4 base-tr">
+          <div class="col-auto mb-20"><div class="text-18 h-40"><span class="fw-500">Selected Departure Flight</span></div></div>
             <div className="row y-gap-30 justify-between items-center">
               <div className="col">
                 <div className="row y-gap-10 items-center">
@@ -317,7 +200,7 @@ const index = ({ params }) => {
             <div className="col-6">
             {selectedReturnFlight.flightSegmentID  ? <>
         <div className="js-accordion" key={selectedReturnFlight.flightSegmentID}>
-          <div className="py-30 px-30 bg-white rounded-4 base-tr mt-30">
+          <div className="py-30 px-30 bg-white rounded-4 base-tr"><div class="col-auto mb-20"><div class="text-18 h-40"><span class="fw-500">Selected Return Flight</span></div></div>
             <div className="row y-gap-30 justify-between items-center">
               <div className="col">
                 <div className="row y-gap-10 items-center">
@@ -423,7 +306,126 @@ const index = ({ params }) => {
                   >
                     Continue <div className="icon-arrow-top-right ml-15" />
                   </Link>:<></>}</div>
-              </div> : <></>}
+                  </div></div></section> : <></>}
+      {/* Top SearchBanner */}
+{flightAvailRQ.searchParam.tripType === "ONE_WAY" ? (
+      <section className="layout-pt-md layout-pb-md bg-light-2">
+        <div className="container">
+          <div className="row y-gap-30">
+            <div className="col-xl-3">
+              <aside className="sidebar py-20 px-20 xl:d-none bg-white">
+                <div className="row y-gap-40">
+                  <Sidebar type="outbound" filterParam={filterParam}  />
+                </div>
+              </aside>
+              {/* End sidebar for desktop */}
+
+              <div
+                className="offcanvas offcanvas-start"
+                tabIndex="-1"
+                id="listingSidebar"
+              >
+                <div className="offcanvas-header">
+                  <h5 className="offcanvas-title" id="offcanvasLabel">
+                    Filter Tours
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                {/* End offcanvas header */}
+
+                <div className="offcanvas-body">
+                  <aside className="sidebar y-gap-40  xl:d-block">
+                    <Sidebar type="outbound" filterParam={filterParam}  />
+                  </aside>
+                </div>
+                {/* End offcanvas body */}
+              </div>
+              {/* End mobile menu sidebar */}
+            </div>
+            {/* End col */}
+
+            <div className="col-xl-9 ">
+                <TopHeaderFilter flightList={flightList} loading={loading} totalFlights={totalFlights} triptype={"Departure"} />
+
+              <div className="row">
+                <FlightProperties />
+              </div>
+              {/* End .row */}
+                {totalPages > 1 ?? <Pagination totalPages={totalPages} filterParam={flightAvailRQ.filterParam} />}
+            </div>
+            {/* End .col for right content */}
+          </div>
+          {/* End .row */}
+        </div>
+        {/* End .container */}
+      </section>) : (
+      <section className="layout-pt-md layout-pb-md bg-light-2">
+        <div className="container">
+          <div className="row y-gap-20 justify-between items-center">
+            {/* End col-auto */}
+
+            {/* <div className="col-auto">
+              <button className="button -blue-1 h-40 px-20 rounded-100 bg-blue-1-05 text-15 text-blue-1">
+                <i className="icon-up-down text-14 mr-10"></i>
+                Top picks for your search
+              </button>
+            </div> */}
+            {/* End col-auto */}
+
+            {/* <div className="border-top-light mt-30 mb-30"></div> */}
+            {/* End border-top */}
+
+            <div className="row y-gap-30">
+              
+              <div className="col-xl-6 ">
+                <TopHeaderFilter flightList={flightList} loading={loading} totalFlights={totalFlights} triptype={"Departure"} />
+              <div className="row x-gap-20 mt-20 y-gap-10 items-center">
+                <div className="col-auto">
+                  <div className="text-18 fw-500">Filter</div>
+                </div>
+                {/* End .col-auto */}
+
+                <div className="col-auto">
+                  <div className="row x-gap-15 y-gap-15">
+                    <DropdownFlightFilters type="outbound" filterParam={filterParam} />
+                  </div>
+                </div>
+                {/* End .col-auto */}
+              </div>
+
+                <div className="row">
+                  <FlightProperties />
+                </div>
+                {/* End .row */}
+                {totalPages > 1 ?? <Pagination totalPages={totalPages} filterParam={flightAvailRQ.filterParam} />}
+              </div>
+              <div className="col-xl-6 ">
+                <TopHeaderFilter flightList={returnFlightList} loading={loading} totalFlights={totalReturnFlights} triptype={"Return"}  />
+              <div className="row x-gap-20 mt-20 y-gap-10 items-center">
+                <div className="col-auto">
+                  <div className="text-18 fw-500">Filter</div>
+                </div>
+                {/* End .col-auto */}
+
+                <div className="col-auto">
+                  <div className="row x-gap-15 y-gap-15">
+                    <DropdownFlightFilters type="return" filterParam={returnFilterParam} />
+                  </div>
+                </div>
+                {/* End .col-auto */}
+              </div>
+
+                <div className="row">
+                  <FlightReturnProperties loading={loading} returnFlightList={returnFlightList} />
+                </div>
+                {/* End .row */}
+                {totalRetutrnPages > 1 && <Pagination totalPages={totalRetutrnPages} filterParam={flightAvailRQ.filterParam} />}
+              </div>
             </div>
           </div>
           {/* End .row */}
