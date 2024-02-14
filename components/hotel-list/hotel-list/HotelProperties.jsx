@@ -8,12 +8,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
+import Skeleton from "@/components/common/skeletons/Skeleton";
 
 const HotelProperties = () => {
   const { hotelList,loading,totalNights } = useSelector((state) => state.hotel);
   return (
     <>
-      {hotelList.map((item) => (
+    
+      {loading ? <Skeleton /> : hotelList.length > 0 ? (hotelList.map((item) => (
         <div className="col-12" key={item?.code}>
           <div className="border-top-light pt-30">
             <div className="row x-gap-20 y-gap-20">
@@ -195,7 +197,10 @@ const HotelProperties = () => {
             </div>
           </div>
         </div>
-      ))}
+      ))): <><div className="js-accordion">
+      <div className="py-30 px-30 bg-white rounded-4 base-tr mt-30">
+        <div className="row y-gap-30 justify-between items-center">
+          <div className="col text-center">No Hotel(s) Found</div></div></div></div></>}
     </>
   );
 };
