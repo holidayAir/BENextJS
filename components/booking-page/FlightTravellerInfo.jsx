@@ -11,25 +11,25 @@ import { createCart } from "@/features/hero/flightSlice";
 import { controllers } from "chart.js";
 const initialStatePassenger = {
   passengerTypeCode:"ADLT",
-  gender : "M",
-  givenName : "Praful",
-  surname : "Chauhan",
-  birthDate: "2020-02-09T14:03:18.654Z",
+  gender : "",
+  givenName : "",
+  surname : "",
+  birthDate: "",
   hasStretcher: false,
   nationality: "IND", // Added confirmPassword field
   nationalIdNumber : "91",
-  passportNumber:"87946518",
-  passportExpiryDate: "2026-02-09T14:03:18.654Z"
+  passportNumber:"",
+  passportExpiryDate: ""
 };
 
 const intialStateContact = {  
-  givenName:"Naitik",
-  surname:"Shah",
+  givenName:"",
+  surname:"",
   phoneNumberAreaCode: "845",
   phoneNumberCountryCode:"+91",
-  phoneNumberSubscriberNumber:"978418515",
-  email:"cprafulm@gmail.com",
-  socialSecurityNumber: "895184515",
+  phoneNumberSubscriberNumber:"",
+  email:"",
+  socialSecurityNumber: "",
   phoneNumberMarkedForSendingRezInfo:true,
   emailMarkedForSendingRezInfo:true,
 }
@@ -157,15 +157,32 @@ const intialStateContact = {
       }
     };
     
-  const onInputChange = (e, passengerIndex) => {
+  const onInputChange = (e, passengerIndex, type) => {
     const { name, value } = e.target;
+    if(type === "ADLT"){
     const updatedPassengerData = [...adultData];
     updatedPassengerData[passengerIndex] = {
       ...updatedPassengerData[passengerIndex],
       [name]: value,
     };
     setAdultData(updatedPassengerData);
-
+  }
+  else if(type === "CHLD"){
+    const updatedPassengerData = [...childData];
+    updatedPassengerData[passengerIndex] = {
+      ...updatedPassengerData[passengerIndex],
+      [name]: value,
+    };
+    setChildData(updatedPassengerData);
+  }
+  else if(type === "INFT"){
+    const updatedPassengerData = [...infantData];
+    updatedPassengerData[passengerIndex] = {
+      ...updatedPassengerData[passengerIndex],
+      [name]: value,
+    };
+    setInfantData(updatedPassengerData);
+  }
     const updatedValidation = [...validation];
     updatedValidation[passengerIndex] = {
       ...updatedValidation[passengerIndex],
@@ -224,7 +241,7 @@ const intialStateContact = {
           </div>
         <div className={`col-2`}>
           <div className={`form-input h-full ${validationRules.gender && !validation[index].gender ? 'error' : ''}`}>            
-            <select value={passenger.gender} className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 pt-25 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index)} >
+            <select value={passenger.gender} className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 pt-25 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index, "ADLT")} >
               <option >select</option>
               <option value="M">Male</option>
               <option value="F">Female</option>
@@ -237,7 +254,7 @@ const intialStateContact = {
   
         <div className={`col-5`}>
           <div className={`form-input ${validationRules.givenName && !validation[index].givenName ? 'error' : ''}`}>
-            <input type="text" value={passenger.givenName} required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" value={passenger.givenName} required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index, "ADLT")} />
             <label className="lh-1 text-14 text-light-1">First Name</label>
           </div>
         </div>
@@ -245,7 +262,7 @@ const intialStateContact = {
   
         <div className={`col-5`}>
           <div className={`form-input ${validationRules.surname && !validation[index].surname ? 'error' : ''}`}>
-            <input type="text" value={passenger.surname} required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" value={passenger.surname} required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index, "ADLT")} />
             <label className="lh-1 text-14 text-light-1">Last Name</label>
           </div>
         </div>
@@ -257,9 +274,11 @@ const intialStateContact = {
             <DateSearch
         name={`birthDate`}
         placeholder={"Sdfsdfs "}
-        dates={new DateObject("2026-02-09T14:03:18.654Z")}
+        dates={new DateObject(passenger.birthDate)}
+        minDate={new DateObject().add(-60, "year")}
+        maxDate={new DateObject()}
         isSingle={true}
-        onChange={(e) => onInputChange(e, index)}
+        onChange={(e) => onInputChange(e, index, "ADLT")}
         {...customDatePickerProps}
       />
             <label className="lh-1 text-14 text-light-1 label-float">Birthdate</label>
@@ -269,7 +288,7 @@ const intialStateContact = {
   
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.nationality && !validation[index].nationality ? 'error' : ''}`}>
-            <input type="email" value={passenger.nationality} required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index)} />
+            <input type="email" value={passenger.nationality} required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index, "ADLT")} />
             <label className="lh-1 text-14 text-light-1">Nationality</label>
           </div>
         </div>
@@ -277,7 +296,7 @@ const intialStateContact = {
   
         <div className={`col-4`}>
           <div className={`form-input ${validationRules.nationalIdNumber && !validation[index].nationalIdNumber ? 'error' : ''}`}>
-            <input type="text" value={passenger.nationalIdNumber} required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" value={passenger.nationalIdNumber} required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index, "ADLT")} />
             <label className="lh-1 text-14 text-light-1">National Id Number</label>
           </div>
         </div>
@@ -285,7 +304,7 @@ const intialStateContact = {
   
         <div className={`col-4`}>
           <div className={`form-input ${validationRules.passportNumber && !validation[index].passportNumber ? 'error' : ''}`}>
-            <input type="text" value={passenger.passportNumber} required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" value={passenger.passportNumber} required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index, "ADLT")} />
             <label className="lh-1 text-14 text-light-1">Passport Number</label>
           </div>
         </div>
@@ -294,9 +313,11 @@ const intialStateContact = {
                 {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
                 <DateSearch
             name={`passportExpiryDate`}
-            dates={new DateObject("2028-02-09T14:03:18.654Z")}
+            dates={new DateObject(passenger.passportExpiryDate)}
+            maxDate={new DateObject().add(10, "year")}
+            minDate={new DateObject()}
             isSingle={true}
-            onChange={(e) => onInputChange(e, index)}
+            onChange={(e) => onInputChange(e, index, "ADLT")}
             {...customDatePickerProps}
           />
                 <label className="lh-1 text-14 text-light-1 label-float">Passport Expiry Date</label>
@@ -335,7 +356,7 @@ const intialStateContact = {
           </div>
         <div className={`col-2`}>
           <div className={`form-input h-full ${validationRules.gender && !validation[index].gender ? 'error' : ''}`}>            
-            <select className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index)} >
+            <select className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index, "CHLD")} >
               <option >select</option>
               <option value="M">Male</option>
               <option value="F">Female</option>
@@ -348,7 +369,7 @@ const intialStateContact = {
   
         <div className={`col-5`}>
           <div className={`form-input ${validationRules.givenName && !validation[index].givenName ? 'error' : ''}`}>
-            <input type="text" required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index, "CHLD")} />
             <label className="lh-1 text-14 text-light-1">First Name</label>
           </div>
         </div>
@@ -356,7 +377,7 @@ const intialStateContact = {
   
         <div className={`col-5`}>
           <div className={`form-input ${validationRules.surname && !validation[index].surname ? 'error' : ''}`}>
-            <input type="text" required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index, "CHLD")} />
             <label className="lh-1 text-14 text-light-1">Last Name</label>
           </div>
         </div>
@@ -367,9 +388,11 @@ const intialStateContact = {
             {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
             <DateSearch
         name={`birthDate`}
-        dates={dates}
+        dates={new DateObject(passenger.birthDate)}
+        minDate={new DateObject().add(-12, "year")}
+        maxDate={new DateObject()}
         isSingle={true}
-        onChange={(e) => onInputChange(e, index)}
+        onChange={(e) => onInputChange(e, index, "CHLD")}
         {...customDatePickerProps}
       />
             <label className="lh-1 text-14 text-light-1 label-float">Birthdate</label>
@@ -379,7 +402,7 @@ const intialStateContact = {
   
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.nationality && !validation[index].nationality ? 'error' : ''}`}>
-            <input type="email" required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index)} />
+            <input type="email" required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index, "CHLD")} />
             <label className="lh-1 text-14 text-light-1">Nationality</label>
           </div>
         </div>
@@ -387,7 +410,7 @@ const intialStateContact = {
   
         <div className={`col-4`}>
           <div className={`form-input ${validationRules.nationalIdNumber && !validation[index].nationalIdNumber ? 'error' : ''}`}>
-            <input type="text" required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index, "CHLD")} />
             <label className="lh-1 text-14 text-light-1">National Id Number</label>
           </div>
         </div>
@@ -395,7 +418,7 @@ const intialStateContact = {
   
         <div className={`col-4`}>
           <div className={`form-input ${validationRules.passportNumber && !validation[index].passportNumber ? 'error' : ''}`}>
-            <input type="text" required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index)} />
+            <input type="text" required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index, "CHLD")} />
             <label className="lh-1 text-14 text-light-1">Passport Number</label>
           </div>
         </div>
@@ -406,9 +429,11 @@ const intialStateContact = {
                 {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
                 <DateSearch
             name={`passportExpiryDate`}
-            dates={dates}
+            dates={new DateObject(passenger.passportExpiryDate)}
+            maxDate={new DateObject().add(10, "year")}
+            minDate={new DateObject()}
             isSingle={true}
-            onChange={(e) => onInputChange(e, index)}
+            onChange={(e) => onInputChange(e, index, "CHLD")}
             {...customDatePickerProps}
           />
                 <label className="lh-1 text-14 text-light-1 label-float">Passport Expiry Date</label>
@@ -446,7 +471,7 @@ const intialStateContact = {
               </div>
             <div className={`col-2`}>
               <div className={`form-input h-full ${validationRules.gender && !validation[index].gender ? 'error' : ''}`}>            
-                <select className="form-select rounded-4 select-float border-light justify-between pt-3 text-16 fw-500 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index)} >
+                <select className="form-select rounded-4 select-float border-light justify-between pt-3 text-16 fw-500 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index, "INFT")} >
                   <option >select</option>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
@@ -459,7 +484,7 @@ const intialStateContact = {
       
             <div className={`col-5`}>
               <div className={`form-input ${validationRules.givenName && !validation[index].givenName ? 'error' : ''}`}>
-                <input type="text" required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index)} />
+                <input type="text" required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index, "INFT")} />
                 <label className="lh-1 text-14 text-light-1">First Name</label>
               </div>
             </div>
@@ -467,7 +492,7 @@ const intialStateContact = {
       
             <div className={`col-5`}>
               <div className={`form-input ${validationRules.surname && !validation[index].surname ? 'error' : ''}`}>
-                <input type="text" required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index)} />
+                <input type="text" required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index, "INFT")} />
                 <label className="lh-1 text-14 text-light-1">Last Name</label>
               </div>
             </div>
@@ -478,9 +503,11 @@ const intialStateContact = {
                 {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
                 <DateSearch
             name={`birthDate`}
-            dates={dates}
+            dates={new DateObject(passenger.birthDate)}
+            minDate={new DateObject().add(-2, "year")}
+            maxDate={new DateObject()}
             isSingle={true}
-            onChange={(e) => onInputChange(e, index)}
+            onChange={(e) => onInputChange(e, index, "INFT")}
             {...customDatePickerProps}
           />
                 <label className="lh-1 text-14 text-light-1 label-float">Birthdate</label>
@@ -490,7 +517,7 @@ const intialStateContact = {
       
             <div className={`col-4`}>
               <div className={`form-input ${validationRules.nationality && !validation[index].nationality ? 'error' : ''}`}>
-                <input type="email" required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index)} />
+                <input type="email" required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index, "INFT")} />
                 <label className="lh-1 text-14 text-light-1">Nationality</label>
               </div>
             </div>
@@ -498,7 +525,7 @@ const intialStateContact = {
       
             <div className={`col-4`}>
               <div className={`form-input ${validationRules.nationalIdNumber && !validation[index].nationalIdNumber ? 'error' : ''}`}>
-                <input type="text" required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index)} />
+                <input type="text" required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index, "INFT")} />
                 <label className="lh-1 text-14 text-light-1">National Id Number</label>
               </div>
             </div>

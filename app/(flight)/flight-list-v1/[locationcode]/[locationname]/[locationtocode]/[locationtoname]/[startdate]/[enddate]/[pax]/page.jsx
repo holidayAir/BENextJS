@@ -91,7 +91,7 @@ const index = ({ params }) => {
         </div>
       </section>
       
-      {(selectedFlight.flightSegmentID || selectedReturnFlight.flightSegmentID) ? 
+      {(flightAvailRQ.searchParam.tripType !== "ONE_WAY" && (selectedFlight.flightSegmentID || selectedReturnFlight.flightSegmentID)) ? 
       <section className="layout-pt-md layout-pb-md bg-light-2">
       <div className="container">
         <div className="row y-gap-20 justify-between items-center bg-white">
