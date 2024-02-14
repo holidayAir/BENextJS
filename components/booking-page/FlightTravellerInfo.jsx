@@ -119,6 +119,7 @@ const intialStateContact = {
         birthDate: !validationRules.birthDate || !!passenger.birthDate,
         nationalIdNumber: !validationRules.phonenumber || !!passenger.nationalIdNumber,
         passportNumber: !validationRules.passportNumber || !!passenger.passportNumber,
+        passportExpiryDate: !validationRules.passportExpiryDate || !!passenger.passportExpiryDate,
       }));
     
       setValidation(newValidation);

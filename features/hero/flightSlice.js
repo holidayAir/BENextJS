@@ -138,6 +138,7 @@ const flightSlice = createSlice({
     selectedReturnFlight:{},
     cart: [],
     reservationStatus: null,
+    resCart: {},
     error: "",
     totalFlights:0,
     totalPages:0,
@@ -259,7 +260,7 @@ const flightSlice = createSlice({
     builder.addCase(createCart.fulfilled, (state, action) => {
       
       state.loading = false;
-      state.extraCHARGES = action.payload.result
+      state.resCart = JSON.parse(action.payload.result);
     });
     builder.addCase(createCart.rejected, (state, action) => {
       
