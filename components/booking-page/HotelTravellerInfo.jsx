@@ -11,25 +11,25 @@ import { createCart } from "@/features/hero/hotelSlice";
 
 const initialStatePassenger = {
   passengerTypeCode:"ADLT",
-  gender : "M",
-  givenName : "Praful",
-  surname : "Chauhan",
-  birthDate: "2020-02-09T14:03:18.654Z",
+  gender : "",
+  givenName : "",
+  surname : "",
+  birthDate: "",
   hasStretcher: false,
-  nationality: "IND", // Added confirmPassword field
+  nationality: "ES", // Added confirmPassword field
   nationalIdNumber : "91",
-  passportNumber:"87946518",
-  passportExpiryDate: "2026-02-09T14:03:18.654Z"
+  passportNumber:"",
+  passportExpiryDate: ""
 };
 
 const intialStateContact = {  
-  givenName:"Naitik",
-  surname:"Shah",
+  givenName:"",
+  surname:"",
   phoneNumberAreaCode: "845",
   phoneNumberCountryCode:"+91",
-  phoneNumberSubscriberNumber:"978418515",
-  email:"cprafulm@gmail.com",
-  socialSecurityNumber: "895184515",
+  phoneNumberSubscriberNumber:"",
+  email:"",
+  socialSecurityNumber: "",
   phoneNumberMarkedForSendingRezInfo:true,
   emailMarkedForSendingRezInfo:true,
 }
@@ -57,7 +57,7 @@ const intialStateContact = {
       ContactEmail: true,
     });
     const [dates, setDates] = useState();
-    const { loading, error } = useSelector((state) => ({ ...state.auth }));
+    const { loading, error,isUserLoggedIn } = useSelector((state) => state.user);
     const { firstname, lastname, email, gender, birthdate, phonenumber, socialsecuritynumber } = passengerData;
     const dispatch = useDispatch();
     const router = useRouter();
@@ -192,7 +192,7 @@ const intialStateContact = {
     return (
       <>
       
-      <div className="col-xl-12 col-lg-12 mt-30">
+      {!isUserLoggedIn ?? <div className="col-xl-12 col-lg-12 mt-30">
       <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05">
             Sign in to book with your saved details or{" "}
             <Link href="/signup" className="text-blue-1 fw-500">
@@ -200,7 +200,7 @@ const intialStateContact = {
             </Link>{" "}
             to manage your bookings on the go!
           </div>
-          </div>
+          </div>}
         <div className="col-xl-8 col-lg-8 mt-30">
           {/* End register notify */}
 {/*   
@@ -281,6 +281,7 @@ const intialStateContact = {
           <DateSearch
       name={`birthDate`}
       placeholder={"Sdfsdfs "}
+      dates={new DateObject(passenger.birthDate)}
       minDate={new DateObject().add(-60, "year")}
       maxDate={new DateObject()}
       isSingle={true}
@@ -319,8 +320,10 @@ const intialStateContact = {
               {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
               <DateSearch
           name={`passportExpiryDate`}
-          dates={new DateObject("2028-02-09T14:03:18.654Z")}
+          dates={new DateObject(passenger.passportExpiryDate)}
           isSingle={true}
+          maxDate={new DateObject().add(10, "year")}
+          minDate={new DateObject()}
           onChange={(e) => onInputChange(e, index)}
           {...customDatePickerProps}
         />
