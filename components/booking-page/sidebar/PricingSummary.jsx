@@ -22,12 +22,12 @@ const PricingSummary = () => {
         </div>
         {/* End col */}
         <div className="col-auto">
-        <div className="text-15">{ new Intl.DateTimeFormat('en-US', {
+        <div className="text-15">{hotelDetails?.checkIn ? new Intl.DateTimeFormat('en-US', {
   weekday: 'short',
   month: 'short',
   day: 'numeric',
   year: 'numeric',
-}).format(new Date(hotelDetails?.checkIn))}</div>
+}).format(new Date(hotelDetails?.checkIn)) : ""}</div>
         </div>
         {/* End col */}
       </div>
@@ -38,12 +38,12 @@ const PricingSummary = () => {
           <div className="text-15">Check Out</div>
         </div>
         <div className="col-auto">
-          <div className="text-15">{new Intl.DateTimeFormat('en-US', {
+          <div className="text-15">{hotelDetails?.checkOut ? new Intl.DateTimeFormat('en-US', {
   weekday: 'short',
   month: 'short',
   day: 'numeric',
   year: 'numeric',
-}).format(new Date(hotelDetails?.checkOut))}</div>
+}).format(new Date(hotelDetails?.checkOut)) : ""}</div>
         </div>
       </div>
       {/* End .row */}
