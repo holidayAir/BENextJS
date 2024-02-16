@@ -132,16 +132,16 @@ className=" icon-user text-22 px-10 text-blue-3"
           "current menu-item-has-children"
         }
       >
-        <Link href={"#"}>My Bookings</Link>
+        <Link href={"/my-bookings"}>My Bookings</Link>
       </li>
-      <li
+      {/* <li
         key={2}
         className={
           "current menu-item-has-children"
         }
       >
         <Link href={"#"}>My Co-Travellers</Link>
-      </li>
+      </li> */}
       <li
         key={3}
         className={
