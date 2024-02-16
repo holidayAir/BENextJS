@@ -24,7 +24,7 @@ const index = ({params}) => {
   
   const dispatch = useDispatch();
   const { hotelCriteria } = useSelector((state) => state.searchCriteria) || {};
-  const { hotelList,hotelAvailRQ,loading } = useSelector((state) => state.hotel);
+  const { hotelList,hotelAvailRQ,loading,filterParam } = useSelector((state) => state.hotel);
   const router = useRouter();
   
   // const id = params.id;
@@ -110,39 +110,41 @@ const index = ({params}) => {
             <section className="layout-pt-md layout-pb-lg">
               <div className="container">
                 <div className="row y-gap-30">
+                  {hotelList.length > 0 ?
                   <div className="col-xl-3">
+
                     <aside className="sidebar y-gap-40 xl:d-none">
-                      <Sidebar />
+                      <Sidebar type="outbound" filterParam={filterParam}  />
                     </aside>
                     {/* End sidebar for desktop */}
+                      <div
+                        className="offcanvas offcanvas-start"
+                        tabIndex="-1"
+                        id="listingSidebar"
+                      >
+                        <div className="offcanvas-header">
+                          <h5 className="offcanvas-title" id="offcanvasLabel">
+                            Filter Hotels
+                          </h5>
+                          <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        {/* End offcanvas header */}
 
-                    <div
-                      className="offcanvas offcanvas-start"
-                      tabIndex="-1"
-                      id="listingSidebar"
-                    >
-                      <div className="offcanvas-header">
-                        <h5 className="offcanvas-title" id="offcanvasLabel">
-                          Filter Hotels
-                        </h5>
-                        <button
-                          type="button"
-                          className="btn-close"
-                          data-bs-dismiss="offcanvas"
-                          aria-label="Close"
-                        ></button>
+                        <div className="offcanvas-body">
+                          <aside className="sidebar y-gap-40  xl:d-block">
+                            <Sidebar />
+                          </aside>
+                        </div>
+                        {/* End offcanvas body */}
                       </div>
-                      {/* End offcanvas header */}
-
-                      <div className="offcanvas-body">
-                        <aside className="sidebar y-gap-40  xl:d-block">
-                          <Sidebar />
-                        </aside>
-                      </div>
-                      {/* End offcanvas body */}
-                    </div>
-                    {/* End mobile menu sidebar */}
                   </div>
+                  :""}
+
                   {/* End col */}
 
                   <div className="col-xl-9 ">

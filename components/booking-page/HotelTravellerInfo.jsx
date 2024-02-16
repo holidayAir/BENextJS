@@ -135,7 +135,7 @@ const intialStateContact = {
                       },
                       BookingCode:checkavailbookingrulesRS?.bookingCode,
                       selectedRoomTypeCode:checkavailbookingrulesRS?.hotelOptions?.hotelOption[0]?.ratePlanCode,
-                      HotelCode:selectedHotel?.selectedHotel?.jpCode,
+                      HotelCode:selectedHotel?.jpCode,
                       PriceRangeMinimum:checkavailbookingrulesRS?.priceRangeMinimum,
                       PriceRangeMaximum:checkavailbookingrulesRS?.priceRangeMaximum,
                       Currency:checkavailbookingrulesRS?.priceRangeCurrency,
@@ -188,7 +188,13 @@ const intialStateContact = {
       // format: "YYYY/MM/DD",
       // ... other props
     };
+
+    const [showCancellationPolicy, setShowCancellationPolicy] = useState(false);
     
+    const toggleCancellationPolicy = () => {
+      setShowCancellationPolicy(!showCancellationPolicy);
+    };
+
     return (
       <>
       
@@ -219,17 +225,34 @@ const intialStateContact = {
         {checkavailbookingrulesRS?.cancellationPolicy && (
           <div className="row x-gap-20 y-gap-20">
             <div className={`col-12`}>
-            
               <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05 border-bottom">
-                <h5>Cancellation Policy</h5>
-                <br/>
-                <ul>
-                  {checkavailbookingrulesRS?.cancellationPolicy.policyRules.map((item) => (
+                <div className="d-flex">
+                  <h5>Cancellation Policy</h5>
+                  
+                  {/* Show/hide button */}
+                  <button
+                    className="text-blue-1 fw-500"
+                    style={{ marginLeft: '74%' }} // Use double curly braces for an object
+                    onClick={toggleCancellationPolicy}
+                  >
+                    {showCancellationPolicy ? 'Hide' : 'Show'}
+                  </button>
+                </div>
+                {/* Cancellation policy content */}
+                {showCancellationPolicy && (
+                  <ul>
                     <li>
-                      If you cancel booking before {item?.to} days of check in then {item?.percentagePrice} percentage charges apply
+                      If you cancel booking before percentage charges apply
                     </li>
-                  ))}
-                </ul>
+                    {checkavailbookingrulesRS?.cancellationPolicy.policyRules.map(
+                      (item) => (
+                        <li key={item.to}>
+                          If you cancel booking before {item?.to} days of check-in then {item?.percentagePrice} percentage charges apply
+                        </li>
+                      )
+                    )}
+                  </ul>
+                )}
               </div>
             </div>
           </div>

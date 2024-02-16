@@ -5,11 +5,16 @@ import React, { useState } from "react";
 import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
+import OrderSubmittedInfoHotel from "../OrderSubmittedInfoHotel";
+import { FLIGHT_TAB_NAME, HOTEL_TAB_NAME } from "@/utils/constants";
 import FlightTravellerInfo from "../FlightTravellerInfo";
+import HotelTravellerInfo from "../HotelTravellerInfo";
 import { useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(2);
+  const { tabs, currentTab } = useSelector((state) => state.hero) || {};
   const router = useRouter();
   const steps = [
     {
@@ -23,7 +28,7 @@ const Index = () => {
           </div>
         </>
       ),
-      content: <FlightTravellerInfo />,
+      content: currentTab === HOTEL_TAB_NAME ? <HotelTravellerInfo /> : <FlightTravellerInfo />,
     },
     {
       title: "Payment Details",
@@ -43,7 +48,7 @@ const Index = () => {
       route: "/booking-confirm-page",
       stepNo: "3",
       stepBar: "",
-      content: <OrderSubmittedInfo />,
+      content: currentTab === HOTEL_TAB_NAME ? <OrderSubmittedInfoHotel /> : <OrderSubmittedInfo />,
     },
   ];
 

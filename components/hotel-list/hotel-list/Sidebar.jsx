@@ -9,7 +9,7 @@ import StyleFilter from "../sidebar/StyleFilter";
 import NeighborhoddFilter from "../sidebar/NeighborhoddFilter";
 import PirceSlider from "../sidebar/PirceSlider";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   return (
     <>
       {/* <div className="sidebar__item -no-border position-relative">
@@ -47,7 +47,7 @@ const Sidebar = () => {
         <h5 className="text-18 fw-500 mb-10">Nightly Price</h5>
         <div className="row x-gap-10 y-gap-30">
           <div className="col-12">
-            <PirceSlider />
+          <PirceSlider type={props.type} filterParam={props.filterParam} />
           </div>
         </div>
       </div>

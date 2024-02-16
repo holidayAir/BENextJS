@@ -14,12 +14,12 @@ const MainFilterSearchBox = ({params}) => {
   endDate,
   adult,
   child,
-  room } = useSelector((state) => state.searchCriteria) || {};
+  room } = useSelector((state) => state.searchCriteria.hotelCriteria) || {};
   const dispatch = useDispatch();
   const Router = useRouter()
   const handleSearch = () => {
     
-    Router.push(`/hotel-list/${locationCode}/${locationName}/${startDate}/${endDate}/${adult}/${child}/${room}`)
+    Router.push(`/hotel-list/${params.locationcode}/${params.locationname}/${startDate}/${endDate}/${adult}/${child}/${room}`)
   }
   const locationname = decodeURIComponent(params.locationname);
   return (
