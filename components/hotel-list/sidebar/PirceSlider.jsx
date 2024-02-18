@@ -9,22 +9,22 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import 'rc-slider/assets/index.css';
 
-const PirceSlider = () => {
+const PirceSlider = (props) => {
   const { hotelList,hotelAvailRQ, filterParam,loading } = useSelector((state) => state.hotel);
   
   const [price, setPrice] = useState({
-    value: { min: filterParam.priceMinMax[0], max: filterParam.priceMinMax[1] },
+    value: { min: props.filterParam?.priceMinMax[0], max: props.filterParam?.priceMinMax[1] },
   });
   const dispatch = useDispatch();
   const router = useRouter();
   const handleOnChange = (value) => {
-    setPrice({ value });
+    setPrice({ value: { min: value[0], max: value[1] },});
     dispatch(
       updateHotelAvailRQ({
           ...hotelAvailRQ,
           filterParam: {
             ...hotelAvailRQ.filterParam,
-            priceMinMax: [value.min, value.max],
+            priceMinMax: [value[0], value[1]],
             pageNumber: 0,
           },
       })
@@ -34,7 +34,7 @@ const PirceSlider = () => {
       ...hotelAvailRQ,
       filterParam: {
         ...hotelAvailRQ.filterParam,
-        priceMinMax: [value.min, value.max],
+        priceMinMax: [value[0], value[1]],
         pageNumber: 0,
       },
   }, router, undefined }));
@@ -59,12 +59,21 @@ const PirceSlider = () => {
           value={price.value}
           onChange={(value) => handleOnChange(value)}
         /> */}
-        <Slider
-          min={0}
-          max={2000}
+        <Slider 
+          min={props.filterParam?.priceMinMax[0]}
+          max={props.filterParam?.priceMinMax[1]}  defaultValue={[price.value.min, price.value.max]}
+          allowCross={false}
           range
-          value={price.value}
-          onChange={handleOnChange}
+          onAfterChange={handleOnChange}
+        trackStyle={{ backgroundColor: 'blue', height: 10 }}
+        railStyle={{ height: 10 }}
+        handleStyle={{
+          borderColor: 'blue',
+          height: 20,
+          width: 20,
+          marginTop: -5,
+          backgroundColor: 'white',
+        }}
         />
       </div>
     </div>

@@ -181,7 +181,7 @@ const hotelSlice = createSlice({
       const cartPayload = action.payload;
     
       // Update the state.cart with the payload
-      state.selectedHotel = cartPayload;
+      state.selectedHotel = cartPayload.selectedHotel;
       state.selectedRoomTypeCode = cartPayload.selectedRoomTypeCode;
       // If you need to merge the payload with an existing array in state.cart, use a spread operator
       // For example, if cartPayload is an array of items to add to the cart
@@ -254,7 +254,7 @@ const hotelSlice = createSlice({
     builder.addCase(createCart.fulfilled, (state, action) => {
       
       state.loading = false;
-      state.bookingRS = action.payload.result
+      state.bookingRS = JSON.parse(action.payload.result);
     });
     builder.addCase(createCart.rejected, (state, action) => {
       

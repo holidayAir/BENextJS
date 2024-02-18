@@ -6,9 +6,13 @@ import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
 import FlightTravellerInfo from "../FlightTravellerInfo";
+import HotelTravellerInfo from "../HotelTravellerInfo";
+import { FLIGHT_TAB_NAME, HOTEL_TAB_NAME } from "@/utils/constants";
+import { useSelector, useDispatch } from "react-redux";
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const { tabs, currentTab } = useSelector((state) => state.hero) || {};
   const steps = [
     {
       title: "Personal Details",
@@ -20,7 +24,7 @@ const Index = () => {
           </div>
         </>
       ),
-      content: <FlightTravellerInfo />,
+      content: currentTab === HOTEL_TAB_NAME ? <HotelTravellerInfo /> : <FlightTravellerInfo />,
     },
     {
       title: "Payment Details",

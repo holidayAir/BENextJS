@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
+import OrderSubmittedInfoHotel from "../OrderSubmittedInfoHotel";
 import FlightTravellerInfo from "../FlightTravellerInfo";
 import HotelTravellerInfo from "../HotelTravellerInfo";
 import { useRouter } from "next/navigation";
@@ -49,7 +50,7 @@ const Index = () => {
       route: "/booking-confirm-page",
       stepNo: "3",
       stepBar: "",
-      content: <OrderSubmittedInfo />,
+      content: currentTab === HOTEL_TAB_NAME ? <OrderSubmittedInfoHotel /> : <OrderSubmittedInfo />,
     },
   ];
 
