@@ -2,6 +2,7 @@
 'use client'
 
 import Link from "next/link";
+import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import MainMenu from "../MainMenu";
 import CurrenctyMegaMenu from "../CurrenctyMegaMenu";

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { toast } from "react-toastify";
 import BookingDetails from "./sidebar/BookingDetails";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
