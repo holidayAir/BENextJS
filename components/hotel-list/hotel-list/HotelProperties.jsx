@@ -190,7 +190,7 @@ const HotelProperties = () => {
                     className="button -md -dark-1 bg-blue-1 text-white mt-24"
                   >
                     See Availability{" "}
-                    <div className="icon-arrow-top-right ml-15"></div>
+                    {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
                   </Link>
                 </div>
               </div>

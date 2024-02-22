@@ -12,13 +12,13 @@ import { createCart } from "@/features/hero/hotelSlice";
 
 const initialStatePassenger = {
   passengerTypeCode:"ADLT",
-  gender : "",
+  gender : "M",
   givenName : "",
   surname : "",
   birthDate: "",
   hasStretcher: false,
   nationality: "ES", // Added confirmPassword field
-  nationalIdNumber : "91",
+  nationalIdNumber : "",
   passportNumber:"",
   passportExpiryDate: ""
 };
@@ -115,7 +115,7 @@ const intialStateContact = {
         nationality: !validationRules.gender || !!passenger.nationality,
         birthdate: !validationRules.birthdate || !!passenger.birthdate,
         nationalIdNumber: !validationRules.phonenumber || !!passenger.nationalIdNumber,
-        passportNumber: !validationRules.passportNumber || !!passenger.passportNumber,
+        //passportNumber: !validationRules.passportNumber || !!passenger.passportNumber,
       }));
     
       setValidation(newValidation);
@@ -273,7 +273,6 @@ const intialStateContact = {
       <div className={`col-2`}>
         <div className={`form-input h-full ${validationRules.gender && !validation[index].gender ? 'error' : ''}`}>            
           <select value={passenger.gender} className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 pt-25 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index)} >
-            <option >select</option>
             <option value="M">Male</option>
             <option value="F">Female</option>
           </select>
@@ -305,7 +304,7 @@ const intialStateContact = {
           <DateSearch
       name={`birthDate`}
       placeholder={"Sdfsdfs "}
-      dates={new DateObject(passenger.birthDate)}
+      dates={passenger.birthDate ? new DateObject(passenger.birthDate) : null}
       minDate={new DateObject().add(-60, "year")}
       maxDate={new DateObject()}
       isSingle={true}
@@ -317,7 +316,7 @@ const intialStateContact = {
       </div>
       {/* End .col */}
 
-      <div className={`col-6`}>
+      <div className={`col-3`}>
         <div className={`form-input ${validationRules.nationality && !validation[index].nationality ? 'error' : ''}`}>
           <input type="email" value={passenger.nationality} required id={`nationality-${index}`} name={`nationality`} onChange={(e) => onInputChange(e, index)} />
           <label className="lh-1 text-14 text-light-1">Nationality</label>
@@ -325,7 +324,7 @@ const intialStateContact = {
       </div>
       {/* End .col */}
 
-      <div className={`col-4`}>
+      <div className={`col-3`}>
         <div className={`form-input ${validationRules.nationalIdNumber && !validation[index].nationalIdNumber ? 'error' : ''}`}>
           <input type="text" value={passenger.nationalIdNumber} required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index)} />
           <label className="lh-1 text-14 text-light-1">National Id Number</label>
@@ -333,7 +332,7 @@ const intialStateContact = {
       </div>
       {/* End .col */}
 
-      <div className={`col-4`}>
+      {/* <div className={`col-4`}>
         <div className={`form-input ${validationRules.passportNumber && !validation[index].passportNumber ? 'error' : ''}`}>
           <input type="text" value={passenger.passportNumber} required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index)} />
           <label className="lh-1 text-14 text-light-1">Passport Number</label>
@@ -341,7 +340,6 @@ const intialStateContact = {
       </div>
           <div className={`col-4`}>
             <div className={`form-input ${validationRules.passportExpiryDate && !validation[index].passportExpiryDate ? 'error' : ''}`}>
-              {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
               <DateSearch
           name={`passportExpiryDate`}
           dates={new DateObject(passenger.passportExpiryDate)}
@@ -353,7 +351,7 @@ const intialStateContact = {
         />
               <label className="lh-1 text-14 text-light-1 label-float">Passport Expiry Date</label>
             </div>
-          </div>
+          </div> */}
       {/* End .col */}
 {/*   
       <div className="col-6">
@@ -476,7 +474,7 @@ const intialStateContact = {
             //disabled={currentStep === steps.length - 1}
             onClick={handleSubmit}
           >
-            Next <div className="icon-arrow-top-right ml-15" />
+            Next {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
           </button>
         </div>
         {/* End next btn */}
