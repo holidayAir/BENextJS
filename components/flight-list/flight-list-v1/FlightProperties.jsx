@@ -143,7 +143,7 @@ dispatch(updateSelectedFlight(modifiedFlight));
                         data-bs-toggle="collapse"
                         data-bs-target={`#div${item.flightSegmentID}`}
                       >
-                        View Deal s
+                        View Deal(s)
                       </button>
                     </div>
                   </div>

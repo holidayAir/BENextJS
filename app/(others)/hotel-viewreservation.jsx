@@ -1,7 +1,6 @@
 
 'use client'
 
-import { hotelsData } from "../../../data/hotels";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
 import Image from "next/image";
@@ -9,17 +8,9 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import Skeleton from "@/components/common/skeletons/Skeleton";
-import { useRouter } from "next/navigation";
 
-const HotelProperties = () => {
+const HotelViewReservation = () => {
   const { hotelList,loading,totalNights } = useSelector((state) => state.hotel);
-
-  const Router = useRouter()
-
-  let GoToDetails = (itemcode)=>{
-    Router.push(`/hotel-details/${itemcode}`);
-  };
-
   return (
     <>
     
@@ -193,14 +184,13 @@ const HotelProperties = () => {
                   {item?.currency} {item?.indicativePrice} taxes and charges
                   </div>
 
-                  <button
-                    onClick={()=> GoToDetails(item.code)}
-                    //href={`/hotel-details/${item.code}`}
+                  <Link
+                    href={`/hotel-details/${item.code}`}
                     className="button -md -dark-1 bg-blue-1 text-white mt-24"
                   >
                     See Availability{" "}
                     {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -209,9 +199,9 @@ const HotelProperties = () => {
       ))): <><div className="js-accordion">
       <div className="py-30 px-30 bg-white rounded-4 base-tr mt-30">
         <div className="row y-gap-30 justify-between items-center">
-          <div className="col text-center">No Hotel(s) Found</div></div></div></div></>}
+          <div className="col text-center">No Reservation Detail(s) Found</div></div></div></div></>}
     </>
   );
 };
 
-export default HotelProperties;
+export default HotelViewReservation;

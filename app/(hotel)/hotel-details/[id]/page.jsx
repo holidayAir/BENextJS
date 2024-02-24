@@ -34,10 +34,13 @@ import { useSelector } from "react-redux";
 
 const HotelSingleV1Dynamic = ({ params }) => {
   const id = params.id;
-  let hotelList = null;
-  if(sessionStorage.getItem("HotelListRS")){
-    hotelList = JSON.parse(sessionStorage.getItem("HotelListRS"));
-  }
+  //let hotelList = null;
+  const { hotelList,hotelAvailRQ, filterParam,loading,selectedRoomTypeCode } = useSelector((state) => ({ ...state.hotel }));
+  
+  //if(sessionStorage.getItem("HotelListRS")){
+  //  hotelList = JSON.parse(sessionStorage.getItem("HotelListRS"));
+  //}
+  debugger;
   const hotel = hotelList.find((item) => item.code == id);
   
   return (
