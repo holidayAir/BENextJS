@@ -48,7 +48,6 @@ export const flightExtraCharges = createAsyncThunk(
       console.log(JSON.stringify(flightExtraChargesRQ));
       const response = await API.post(`api/flight/GetAirExtraCharges`,  flightExtraChargesRQ );
       //navigate("/booking-page");
-      debugger;
 if(tripType==="ONE_WAY"){
       router.push('/cart-page')
 }

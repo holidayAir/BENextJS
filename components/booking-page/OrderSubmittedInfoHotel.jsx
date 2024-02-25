@@ -1,8 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const OrderSubmittedInfoHotel = () => {
   const { selectedHotel,selectedRoomTypeCode,bookingRS } = useSelector((state) => ({ ...state.hotel }));
-  debugger;
+  const Router = useRouter();
+  let GoToDetails = (itemcode)=>{
+    Router.push(`/viewreservation/hotel/${itemcode}`);
+  };
   return (
     <>
       <div className="col-xl-12 col-lg-12">
@@ -54,12 +58,10 @@ const OrderSubmittedInfoHotel = () => {
                 </div>
               </div>
               {/* End .col */}
-              {/* <div className="col-lg-3 col-md-6">
-                <div className="text-15 lh-12">Payment Method</div>
-                <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
-                  Direct Bank Transfer
-                </div>
-              </div> */}
+              <div className="col-lg-3 col-md-6">
+                <button class="button -md h-60 bg-blue-1 text-white"
+                  onClick={()=> GoToviewDetails(bookingRS?.bookingguid)}>View Reservation</button>
+              </div>
               {/* End .col */}
             </div>
           </div>

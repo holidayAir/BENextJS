@@ -59,7 +59,6 @@ const LocationSearch = ({ locationCodea, locationNamea }) => {
     }
   };
   const handleSwapLocation = () => { 
-    debugger;   
     dispatch(
       updateFlightAvailRQ({
           ...flightAvailRQ,

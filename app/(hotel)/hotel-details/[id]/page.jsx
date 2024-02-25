@@ -40,7 +40,6 @@ const HotelSingleV1Dynamic = ({ params }) => {
   //if(sessionStorage.getItem("HotelListRS")){
   //  hotelList = JSON.parse(sessionStorage.getItem("HotelListRS"));
   //}
-  debugger;
   const hotel = hotelList.find((item) => item.code == id);
   
   return (

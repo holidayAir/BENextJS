@@ -15,14 +15,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { updateHotelCriteria } from "@/features/hero/searchCriteriaSlice";
 import HotelViewReservation from "@/app/(others)/hotel-viewreservation";
-
+import { getBooking } from "@/features/hero/bookingSlice";
+import Skeleton from "@/components/common/skeletons/Skeleton";
 
 const index = ({params}) => {
   
+  const { loading } = useSelector((state) => ({...state.booking}));
+  
   const dispatch = useDispatch();
-  const { hotelCriteria } = useSelector((state) => state.searchCriteria) || {};
-  const { hotelList,hotelAvailRQ,loading,filterParam } = useSelector((state) => state.hotel);
   const router = useRouter();
+  const bookingid = params.id;
+  useEffect(() => {
+   dispatch(getBooking({ bookingid, router, undefined }));
+  }, []);
+  const { getbookingRS } = useSelector((state) => state.booking);
   
    return (
     <>
@@ -33,7 +39,7 @@ const index = ({params}) => {
 
       <Header11 />
       {/* End Header 1 */}
-
+ 
       <section className="pt-40 pb-40 bg-light-2">
         <div className="container">
           <div className="row">
@@ -41,13 +47,15 @@ const index = ({params}) => {
               <div className="text-center">
                 <h1 className="text-30 fw-600">{`Reservation Details`}</h1>
               </div>
-              {/* End text-center */}
-              {params.business == "hotel" ? <HotelViewReservation params={params}/> : <MainFilterSearchBox params={params}/>}
+              {loading && !getbookingRS ? <Skeleton /> :
+                params.business == "hotel" ? <HotelViewReservation params={getbookingRS}/> : <MainFilterSearchBox params={getbookingRS}/>
+              }
             </div>
             {/* End col-12 */}
           </div>
         </div>
       </section>
+
       {/* Top SearchBanner */}
       
       <CallToActions />

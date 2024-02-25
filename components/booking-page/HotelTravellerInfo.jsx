@@ -242,9 +242,6 @@ const intialStateContact = {
                 {/* Cancellation policy content */}
                 {showCancellationPolicy && (
                   <ul>
-                    <li>
-                      If you cancel booking before percentage charges apply
-                    </li>
                     {checkavailbookingrulesRS?.cancellationPolicy.policyRules.map(
                       (item) => (
                         <li key={item.to}>

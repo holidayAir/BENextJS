@@ -36,7 +36,6 @@ const intialStateContact = {
 }
   const FlightTravellerInfo = () => {
     const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
-    debugger;
     const { flightList,filterParam, selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
     const [adultData, setAdultData] = useState(Array(flightAvailRQ.searchParam.adult).fill(initialStatePassenger));
     const [childData, setChildData] = useState(Array(flightAvailRQ.searchParam.child).fill(initialStatePassenger));
@@ -140,7 +139,6 @@ const intialStateContact = {
     };
     
     const handleSubmit = async (e) => {
-      debugger;
       if (validateInput() && validateContactInput()) {
         try {
           if(selectedReturnFlight?.passengerFareInfoList){            
@@ -285,7 +283,7 @@ const intialStateContact = {
             <DateSearch
         name={`birthDate`}
         placeholder={"Sdfsdfs "}
-        dates={new DateObject(passenger.birthDate)}
+        dates={passenger.birthDate ? new DateObject(passenger.birthDate) : null}
         minDate={new DateObject().add(-60, "year")}
         maxDate={new DateObject()}
         isSingle={true}

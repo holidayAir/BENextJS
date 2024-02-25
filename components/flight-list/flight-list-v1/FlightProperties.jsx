@@ -17,7 +17,6 @@ const FlightProperties = () => {
   // 
   console.log(JSON.stringify(flightList));
   const updateCart = (rqCreateBooking, fareItemindex, index)=>{
-    debugger;
     setFlightItemIndex(index)
     setFareItemindex(fareItemindex);
 
@@ -32,7 +31,6 @@ const modifiedFlight = {
 };
 
 dispatch(updateSelectedFlight(modifiedFlight));
-    debugger;
     dispatch(flightExtraCharges({ flightExtraChargesRQ : {
       requestXML: rqCreateBooking,
       tripType: "ONE_WAY",

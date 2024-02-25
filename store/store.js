@@ -4,6 +4,7 @@ import UserSlice from   "../features/hero/authSlice"
 import searchCriteriaSlice from "@/features/hero/searchCriteriaSlice";
 import hotelSlice from "@/features/hero/hotelSlice";
 import flightSlice from "@/features/hero/flightSlice";
+import bookingSlice from "@/features/hero/bookingSlice";
 
 export const store = configureStore({
     reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
         searchCriteria: searchCriteriaSlice,
         hotel: hotelSlice,
         flight: flightSlice,
+        booking: bookingSlice
     },
 });

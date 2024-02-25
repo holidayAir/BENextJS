@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import createAPI from "./api";
 
-const API = createAPI("https://localhost:7007" ?? "https://argentinabookingapi.azurewebsites.net");//("https://localhost:7500");
+const API = createAPI(process.env.NEXT_PUBLIC_BOOKING_API_ENDPOINT ?? "https://argentinabookingapi.azurewebsites.net");//("https://localhost:7005");
 // Async Thunk for Fetching Hotel Location List
 
 export const getBooking = createAsyncThunk(
-  "api/booking",
-  async ({ getBookingRQ, router, toast }, { rejectWithValue }) => {
+  "booking/booking",
+  async ({ bookingid, router, toast }, { rejectWithValue }) => {
     try {
-      const response = await API.get("api/booking?id="+getBookingRQ.id);
+      const response = await API.get("api/booking/"+ bookingid);
       //router.push('/payment-page')
    //   router.push('/booking-confirm-page')
       return response.data;
@@ -23,7 +23,9 @@ const bookingSlice = createSlice({
   initialState: {
     business:null,
     bookingid:null,
-    bookingRS:null
+    getbookingRS:null,
+    loading: false, 
+    error: null, 
   },
   reducers: {
     clearError: (state) => {
@@ -40,9 +42,14 @@ const bookingSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(getBooking.fulfilled, (state, action) => {
-      
+      debugger;
+
+      let parsedData = {
+        ...action.payload.result,
+        bookingResponse: JSON.parse(action.payload.result.bookingResponse),
+      };
       state.loading = false;
-      state.bookingRS = JSON.parse(action.payload.result);
+      state.getbookingRS = parsedData;
     });
     builder.addCase(getBooking.rejected, (state, action) => {
       
