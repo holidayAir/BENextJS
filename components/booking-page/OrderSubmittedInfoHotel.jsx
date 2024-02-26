@@ -7,6 +7,7 @@ const OrderSubmittedInfoHotel = () => {
   let GoToDetails = (itemcode)=>{
     Router.push(`/viewreservation/hotel/${itemcode}`);
   };
+  
   return (
     <>
       <div className="col-xl-12 col-lg-12">
@@ -26,12 +27,12 @@ const OrderSubmittedInfoHotel = () => {
 
           <div className="border-type-1 rounded-8 px-50 py-35 mt-40">
             <div className="row">
-              <div className="col-lg-3 col-md-6">
+              {/* <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Hotel</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
                   {bookingRS?.BookingRS?.Reservations?.Reservation?.Items?.HotelItem?.HotelInfo.Name}
                 </div>
-              </div>
+              </div> */}
               <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Boking Ref Number</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
@@ -60,7 +61,7 @@ const OrderSubmittedInfoHotel = () => {
               {/* End .col */}
               <div className="col-lg-3 col-md-6">
                 <button class="button -md h-60 bg-blue-1 text-white"
-                  onClick={()=> GoToviewDetails(bookingRS?.bookingguid)}>View Reservation</button>
+                  onClick={()=> GoToDetails(bookingRS?.BookingGuid)}>View Reservation</button>
               </div>
               {/* End .col */}
             </div>
