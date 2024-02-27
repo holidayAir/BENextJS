@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const OrderSubmittedInfoHotel = () => {
   const { selectedHotel,selectedRoomTypeCode,bookingRS } = useSelector((state) => ({ ...state.hotel }));
