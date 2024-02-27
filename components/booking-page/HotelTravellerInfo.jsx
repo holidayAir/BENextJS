@@ -282,7 +282,7 @@ const intialStateContact = {
       <div className={`col-5`}>
         <div className={`form-input ${validationRules.givenName && !validation[index].givenName ? 'error' : ''}`}>
           <input type="text" value={passenger.givenName} required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index)} />
-          <label className="lh-1 text-14 text-light-1">First Name</label>
+          <label className="lh-1 text-14 text-light-1">First Name *</label>
         </div>
       </div>
       {/* End .col */}
@@ -290,7 +290,7 @@ const intialStateContact = {
       <div className={`col-5`}>
         <div className={`form-input ${validationRules.surname && !validation[index].surname ? 'error' : ''}`}>
           <input type="text" value={passenger.surname} required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index)} />
-          <label className="lh-1 text-14 text-light-1">Last Name</label>
+          <label className="lh-1 text-14 text-light-1">Last Name *</label>
         </div>
       </div>
       {/* End .col */}
@@ -308,7 +308,7 @@ const intialStateContact = {
               onChange={(e) => onInputChange(e, index)}
               {...customDatePickerProps}
             />
-          <label className="lh-1 text-14 text-light-1 label-float">Date Of Birth</label>
+          <label className="lh-1 text-14 text-light-1 label-float">Date Of Birth *</label>
         </div>
       </div>
       {/* End .col */}
@@ -574,7 +574,7 @@ const intialStateContact = {
             <option value="ZM">Zambia</option>
             <option value="ZW">Zimbabwe</option>
           </select>
-          <label className="lh-1 text-14 text-light-1 label-float">Nationality</label>
+          <label className="lh-1 text-14 text-light-1 label-float">Nationality *</label>
         </div>
       </div>
       {/* End .col */}
@@ -582,7 +582,7 @@ const intialStateContact = {
       <div className={`col-3`}>
         <div className={`form-input ${validationRules.nationalIdNumber && !validation[index].nationalIdNumber ? 'error' : ''}`}>
           <input type="text" value={passenger.nationalIdNumber} required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index)} />
-          <label className="lh-1 text-14 text-light-1">Id Proof Number</label>
+          <label className="lh-1 text-14 text-light-1">Id Proof Number *</label>
         </div>
       </div>
       {/* End .col */}
@@ -632,13 +632,13 @@ const intialStateContact = {
   
       <div className={`col-12`}>
         <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05 border-bottom">
-            Contact Information
+            Contact/ communication information (tickets will be sent in this number)
           </div>
           </div>
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.givenName && !validationContact.givenName ? 'error' : ''}`}>
             <input type="text" required id={`givenName`} name={`givenName`} onChange={(e) => onContactInputChange(e)} />
-            <label className="lh-1 text-14 text-light-1">First Name</label>
+            <label className="lh-1 text-14 text-light-1">First Name *</label>
           </div>
         </div>
         {/* End .col */}
@@ -646,7 +646,7 @@ const intialStateContact = {
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.surname && !validationContact.surname ? 'error' : ''}`}>
             <input type="text" required id={`surname`} name={`surname`} onChange={(e) => onContactInputChange(e)} />
-            <label className="lh-1 text-14 text-light-1">Last Name</label>
+            <label className="lh-1 text-14 text-light-1">Last Name *</label>
           </div>
         </div>
         {/* End .col */}
@@ -654,7 +654,7 @@ const intialStateContact = {
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.email && !validationContact.email ? 'error' : ''}`}>
             <input type="text" required id={`email`} name={`email`} onChange={(e) => onContactInputChange(e)} />
-            <label className="lh-1 text-14 text-light-1">Email</label>
+            <label className="lh-1 text-14 text-light-1">Email *</label>
           </div>
         </div>
         {/* End .col */}
@@ -662,12 +662,12 @@ const intialStateContact = {
         <div className={`col-6`}>
           <div className={`form-input ${validationRules.phoneNumberSubscriberNumber && !validationContact.phoneNumberSubscriberNumber ? 'error' : ''}`}>
             <input type="text" required id="phoneNumberSubscriberNumber" name="phoneNumberSubscriberNumber" onChange={(e) => onContactInputChange(e)} />
-            <label className="lh-1 text-14 text-light-1">Phone</label>
+            <label className="lh-1 text-14 text-light-1">Phone *</label>
           </div>
         </div>
         {/* End .col */}
   
-        <div className="col-6">
+        {/* <div className="col-6">
           <div className="d-flex ">
             <div className="form-checkbox mt-5">
               <input type="checkbox" name={`phoneNumberMarkedForSendingRezInfo`} id={`phoneNumberMarkedForSendingRezInfo`} onChange={(e) => onContactInputChangege(e)} />
@@ -679,11 +679,11 @@ const intialStateContact = {
               Yes send phone msg PNR
             </div>
           </div>
-        </div>
+        </div> */}
         {/* End .col */}
         {/* End .col */}
   
-        <div className="col-6">
+        {/* <div className="col-6">
           <div className="d-flex ">
             <div className="form-checkbox mt-5">
               <input type="checkbox" name={`emailMarkedForSendingRezInfo`} id={`emailMarkedForSendingRezInfo`} onChange={(e) => onContactInputChangege(e)} />
@@ -695,7 +695,7 @@ const intialStateContact = {
               Yes send email msg PNR
             </div>
           </div>
-        </div>
+        </div> */}
         {/* End .col */} 
         
         </div>       

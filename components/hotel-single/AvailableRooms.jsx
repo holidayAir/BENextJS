@@ -271,7 +271,7 @@ const AvailableRooms = ({ hotel }) => {
                     className="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-10"
                     onClick={() => handleBooking(item.ratePlanCode)}
                   >
-                    Reserve {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
+                    Reserve {loading ? <i class="spinner-border spinner-border-sm  ml-15"></i>:<div className="icon-arrow-top-right ml-15" />}
                   </a>
                   <div className="text-15 fw-500 mt-30">
                     You&lsquo;ll be taken to the next step

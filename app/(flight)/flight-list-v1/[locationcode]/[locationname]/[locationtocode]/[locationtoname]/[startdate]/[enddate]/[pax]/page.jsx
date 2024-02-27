@@ -98,7 +98,7 @@ const index = ({ params }) => {
                 <div className="col-6">
     {selectedFlight.flightSegmentID  ? <>
         <div className="js-accordion" key={selectedFlight.flightSegmentID}>
-          <div className="py-30 px-30 bg-white rounded-4 base-tr">
+          <div className="py-30 px-30 bg-white rounded-4 base-tr" style={{"border-right":"1px solid var(--color-border)"}}>
           <div class="col-auto mb-20"><div class="text-18 h-40"><span class="fw-500">Selected Departure Flight</span></div></div>
             <div className="row y-gap-30 justify-between items-center">
               <div className="col">
