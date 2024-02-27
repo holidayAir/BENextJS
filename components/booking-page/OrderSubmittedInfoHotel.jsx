@@ -61,7 +61,7 @@ const OrderSubmittedInfoHotel = () => {
               {/* End .col */}
               <div className="col-lg-3 col-md-6">
                 <button class="button -md h-60 bg-blue-1 text-white"
-                  onClick={()=> GoToDetails(bookingRS?.BookingGuid)}>View Reservation</button>
+                  onClick={()=> {console.log("Button clicked"+bookingRS?.BookingGuid);GoToDetails(bookingRS?.BookingGuid)}}>View Reservation</button>
               </div>
               {/* End .col */}
             </div>
