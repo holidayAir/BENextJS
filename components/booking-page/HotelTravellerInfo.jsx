@@ -632,7 +632,7 @@ const intialStateContact = {
   
       <div className={`col-12`}>
         <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05 border-bottom">
-            Contact/ communication information (tickets will be sent in this number)
+            Contact/ Communication Information (Ticket(s) will be sent in this number)
           </div>
           </div>
         <div className={`col-6`}>

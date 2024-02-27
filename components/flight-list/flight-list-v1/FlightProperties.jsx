@@ -228,8 +228,8 @@ dispatch(updateSelectedFlight(modifiedFlight));
                         {`Fare Baggage: ${fareItem.fareBaggageMaxAllowedPieces} ${fareItem.fareBaggageAllowanceType}(${fareItem.fareBaggageWeight} ${fareItem.fareBaggageUnitOfMeasureCode})`}
                         <br />
                         {`${fareItem.fareGroupName} - ${fareItem.fareReferenceName} (${fareItem.fareReferenceCode})`}
-                        <br />
-                        {`Seat Availability : ${0}`}
+                        {/* <br />
+                        {`Seat Availability : ${0}`} */}
                       </div>
                       <button
                         className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
@@ -243,8 +243,8 @@ dispatch(updateSelectedFlight(modifiedFlight));
                       {`Fare Baggage: ${fareItem.fareBaggageMaxAllowedPieces} ${fareItem.fareBaggageAllowanceType}(${fareItem.fareBaggageWeight} ${fareItem.fareBaggageUnitOfMeasureCode})`}
                       <br />
                       {`${fareItem.fareGroupName} - ${fareItem.fareReferenceName} (${fareItem.fareReferenceCode})`}
-                      <br />
-                      {`Seat Availability : ${0}`}
+                      {/* <br />
+                      {`Seat Availability : ${0}`} */}
                     </div>
                   </div>
                   <div className="col-auto text-right md:text-left">
