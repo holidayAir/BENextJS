@@ -60,8 +60,10 @@ const OrderSubmittedInfoHotel = () => {
               </div>
               {/* End .col */}
               <div className="col-lg-3 col-md-6">
-                <button class="button -md h-60 bg-blue-1 text-white"
-                  onClick={()=> {console.log("Button clicked"+bookingRS?.BookingGuid);GoToDetails(bookingRS?.BookingGuid)}}>View Reservation</button>
+                <Link class="button -md h-60 bg-blue-1 text-white"
+                  href={`/viewreservation/hotel/${bookingRS?.BookingGuid}`}
+                  //onClick={()=> {console.log("Button clicked"+bookingRS?.BookingGuid);GoToDetails(bookingRS?.BookingGuid)}}
+                >View Reservation</Link>
               </div>
               {/* End .col */}
             </div>
