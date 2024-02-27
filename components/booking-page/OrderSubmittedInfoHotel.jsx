@@ -7,7 +7,7 @@ const OrderSubmittedInfoHotel = () => {
   let GoToDetails = (itemcode)=>{
     Router.push(`/viewreservation/hotel/${itemcode}`);
   };
-  
+  console.log(bookingRS);
   return (
     <>
       <div className="col-xl-12 col-lg-12">
@@ -43,12 +43,12 @@ const OrderSubmittedInfoHotel = () => {
               <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Booking Date</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
-                {new Intl.DateTimeFormat('en-US', {
+                {bookingRS?.BookingRS["@TimeStamp"] ? new Intl.DateTimeFormat('en-US', {
                                           weekday: 'short',
                                           month: 'short',
                                           day: 'numeric',
                                           year: 'numeric',
-                                        }).format(new Date(bookingRS?.BookingRS["@TimeStamp"]))}
+                                        }).format(new Date(bookingRS?.BookingRS["@TimeStamp"])) : ""}
                 </div>
               </div>
               {/* End .col */}
