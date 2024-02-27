@@ -308,7 +308,7 @@ const intialStateContact = {
               onChange={(e) => onInputChange(e, index)}
               {...customDatePickerProps}
             />
-          <label className="lh-1 text-14 text-light-1 label-float">Birthdate</label>
+          <label className="lh-1 text-14 text-light-1 label-float">Date Of Birth</label>
         </div>
       </div>
       {/* End .col */}
