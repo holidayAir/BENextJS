@@ -114,10 +114,7 @@ const intialStateContact = {
       const sixMonthsFromNow = new DateObject(flightAvailRQ.searchParam.startDate).add(6, 'month');
     
       const newValidation = adultData.map((passenger) => {
-        const isPassportExpiryValid =
-          !validationRules.passportExpiryDate ||
-          (!!passenger.passportExpiryDate &&
-            new DateObject(passenger.passportExpiryDate).isAfter(sixMonthsFromNow));
+        const isPassportExpiryValid = !validationRules.passportExpiryDate;
     
         return {
           gender: !validationRules.gender || !!passenger.gender,
@@ -127,7 +124,7 @@ const intialStateContact = {
           birthDate: !validationRules.birthDate || !!passenger.birthDate,
           nationalIdNumber: !validationRules.phonenumber || !!passenger.nationalIdNumber,
           passportNumber: !validationRules.passportNumber || !!passenger.passportNumber,
-          passportExpiryDate: isPassportExpiryValid,
+          passportExpiryDate: !validationRules.passportExpiryDate || !! passenger.passportExpiryDate,
         };
       });
     
@@ -582,7 +579,7 @@ const intialStateContact = {
             name={`passportExpiryDate`}
             dates={new DateObject(passenger.passportExpiryDate)}
             maxDate={new DateObject().add(10, "year")}
-            minDate={new DateObject()}
+            minDate={new DateObject().add(-6,"month")}
             isSingle={true}
             onChange={(e) => onInputChange(e, index, "ADLT")}
             {...customDatePickerProps}
@@ -956,7 +953,7 @@ const intialStateContact = {
             name={`passportExpiryDate`}
             dates={new DateObject(passenger.passportExpiryDate)}
             maxDate={new DateObject().add(10, "year")}
-            minDate={new DateObject()}
+            minDate={new DateObject().add(-6,"month")}
             isSingle={true}
             onChange={(e) => onInputChange(e, index, "CHLD")}
             {...customDatePickerProps}
