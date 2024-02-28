@@ -114,7 +114,7 @@ const intialStateContact = {
       const sixMonthsFromNow = new DateObject(flightAvailRQ.searchParam.startDate).add(6, 'month');
     
       const newValidation = adultData.map((passenger) => {
-        const isPassportExpiryValid = !validationRules.passportExpiryDate;
+        //const isPassportExpiryValid = !validationRules.passportExpiryDate;
     
         return {
           gender: !validationRules.gender || !!passenger.gender,
