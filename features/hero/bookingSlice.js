@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import createAPI from "./api";
 
-const API = createAPI("https://argentinabookingapi.azurewebsites.net" ?? "https://argentinabookingapi.azurewebsites.net");//("https://localhost:7005");
+const API = createAPI("https://argentinaorderapi.azurewebsites.net" ?? "https://argentinabookingapi.azurewebsites.net");//("https://localhost:7005");
 // Async Thunk for Fetching Hotel Location List
 
 export const getBooking = createAsyncThunk(
