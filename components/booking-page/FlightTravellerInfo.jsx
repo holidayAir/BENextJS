@@ -282,7 +282,7 @@ const intialStateContact = {
         placeholder={"Sdfsdfs "}
         dates={passenger.birthDate ? new DateObject(passenger.birthDate) : null}
         minDate={new DateObject().add(-60, "year")}
-        maxDate={new DateObject()}
+        maxDate={new DateObject().add(-18, "year")}
         isSingle={true}
         onChange={(e) => onInputChange(e, index, "ADLT")}
         {...customDatePickerProps}
@@ -577,7 +577,7 @@ const intialStateContact = {
                 {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
                 <DateSearch
             name={`passportExpiryDate`}
-            dates={new DateObject(passenger.passportExpiryDate)}
+            dates={passenger.passportExpiryDate ? new DateObject(passenger.passportExpiryDate) : null}
             maxDate={new DateObject().add(10, "year")}
             minDate={new DateObject().add(6,"month")}
             isSingle={true}
@@ -951,7 +951,7 @@ const intialStateContact = {
                 {/* <input type="text" required id="birthDate" name="birthDate" onChange={(e) => onInputChange(e, index)} /> */}
                 <DateSearch
             name={`passportExpiryDate`}
-            dates={new DateObject(passenger.passportExpiryDate)}
+            dates={passenger.passportExpiryDate ? new DateObject(passenger.passportExpiryDate) : null}
             maxDate={new DateObject().add(10, "year")}
             minDate={new DateObject().add(6,"month")}
             isSingle={true}
