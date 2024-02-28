@@ -27,7 +27,7 @@ const index = ({params}) => {
   const bookingid = params.id;
   useEffect(() => {
    dispatch(getBooking({ bookingid, router, undefined }));
-  }, []);
+  },  [dispatch]);
   const { getbookingRS } = useSelector((state) => state.booking);
   console.log("enter into index view reservation page BookingRS:"+getbookingRS);
   console.log("enter into index view reservation page params:"+params);
