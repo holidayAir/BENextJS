@@ -579,7 +579,7 @@ const intialStateContact = {
             name={`passportExpiryDate`}
             dates={new DateObject(passenger.passportExpiryDate)}
             maxDate={new DateObject().add(10, "year")}
-            minDate={new DateObject().add(-6,"month")}
+            minDate={new DateObject().add(6,"month")}
             isSingle={true}
             onChange={(e) => onInputChange(e, index, "ADLT")}
             {...customDatePickerProps}
@@ -953,7 +953,7 @@ const intialStateContact = {
             name={`passportExpiryDate`}
             dates={new DateObject(passenger.passportExpiryDate)}
             maxDate={new DateObject().add(10, "year")}
-            minDate={new DateObject().add(-6,"month")}
+            minDate={new DateObject().add(6,"month")}
             isSingle={true}
             onChange={(e) => onInputChange(e, index, "CHLD")}
             {...customDatePickerProps}
