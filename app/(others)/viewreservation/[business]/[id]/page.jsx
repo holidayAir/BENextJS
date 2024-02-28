@@ -48,7 +48,7 @@ const viewreservation = ({params}) => {
               <div className="text-center">
                 <h1 className="text-30 fw-600">{`Reservation Details`}</h1>
               </div>
-              {!loading && !getbookingRS ? <Skeleton /> :
+              {(!getbookingRS || getbookingRS === null) ? <Skeleton /> :
                 params.business == "hotel" ? <HotelViewReservation params={getbookingRS}/> : <MainFilterSearchBox params={getbookingRS}/>
               }
             </div>
