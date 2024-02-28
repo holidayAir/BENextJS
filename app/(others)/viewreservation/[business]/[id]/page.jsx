@@ -18,7 +18,7 @@ import HotelViewReservation from "@/app/(others)/hotel-viewreservation";
 import { getBooking } from "@/features/hero/bookingSlice";
 import Skeleton from "@/components/common/skeletons/Skeleton";
 
-const index = ({params}) => {
+const viewreservation = ({params}) => {
   
   const { loading } = useSelector((state) => ({...state.booking}));
   console.log("enter into index view reservation page");
@@ -26,8 +26,8 @@ const index = ({params}) => {
   const router = useRouter();
   const bookingid = params.id;
   useEffect(() => {
-   dispatch(getBooking({ bookingid, router, undefined }));
-  },  [dispatch]);
+    dispatch(getBooking({ bookingid, router, undefined }));
+  }, [dispatch]);
   const { getbookingRS } = useSelector((state) => state.booking);
   console.log("enter into index view reservation page BookingRS:"+getbookingRS);
   console.log("enter into index view reservation page params:"+params);
@@ -48,7 +48,7 @@ const index = ({params}) => {
               <div className="text-center">
                 <h1 className="text-30 fw-600">{`Reservation Details`}</h1>
               </div>
-              {loading && !getbookingRS ? <Skeleton /> :
+              {!loading && !getbookingRS ? <Skeleton /> :
                 params.business == "hotel" ? <HotelViewReservation params={getbookingRS}/> : <MainFilterSearchBox params={getbookingRS}/>
               }
             </div>
@@ -67,4 +67,4 @@ const index = ({params}) => {
   );
 };
 
-export default index;
+export default viewreservation;

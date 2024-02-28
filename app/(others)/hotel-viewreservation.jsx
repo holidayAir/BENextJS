@@ -7,7 +7,6 @@ import Skeleton from "@/components/common/skeletons/Skeleton";
 import { useDispatch, useSelector } from "react-redux";
 
 const HotelViewReservation = ({params}) => {
-debugger;
 console.log("enter into Hotel view reservation page");
   return (
     <>

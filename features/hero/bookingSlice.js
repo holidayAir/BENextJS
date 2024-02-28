@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import createAPI from "./api";
 
-const API = createAPI(process.env.NEXT_PUBLIC_BOOKING_API_ENDPOINT ?? "https://argentinabookingapi.azurewebsites.net");//("https://localhost:7005");
+const API = createAPI("https://argentinabookingapi.azurewebsites.net" ?? "https://argentinabookingapi.azurewebsites.net");//("https://localhost:7005");
 // Async Thunk for Fetching Hotel Location List
 
 export const getBooking = createAsyncThunk(
@@ -34,16 +34,12 @@ const bookingSlice = createSlice({
     
   },
   extraReducers: (builder) => {
-    builder.addCase(clearError, (state) => {
-      state.error = "";
-    });
     builder.addCase(getBooking.pending, (state) => {
       
       state.loading = true;
     });
     builder.addCase(getBooking.fulfilled, (state, action) => {
-      debugger;
-
+      
       let parsedData = {
         ...action.payload.result,
         bookingResponse: JSON.parse(action.payload.result.bookingResponse),
