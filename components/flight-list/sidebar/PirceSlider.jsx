@@ -5,7 +5,7 @@ import { flightAvailResult } from "@/features/hero/flightSlice";
 import { updateFlightAvailRQ } from "@/features/hero/searchCriteriaSlice";
 import { useRouter } from "next/navigation";
 import Slider, { Range } from 'rc-slider';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import InputRange from "react-input-range";
 import { useDispatch, useSelector } from "react-redux";
 import 'rc-slider/assets/index.css';
@@ -18,6 +18,12 @@ const PirceSlider = (props) => {
   });
   const dispatch = useDispatch();
   const router = useRouter();
+  useEffect(()=> {    
+    if(props.filterParam?.priceMinMax[0] > 0 && props.filterParam?.priceMinMax[1] > 0){
+    setPrice({ 
+      value: { min: props.filterParam?.priceMinMax[0], max: props.filterParam?.priceMinMax[1] },});
+    }
+  },[props.filterParam?.priceMinMax[0]])
 
   const handleOnChange = (value) => {
     debugger;
@@ -69,14 +75,14 @@ const PirceSlider = (props) => {
     }
   };
 
-  return (
+  return (props.filterParam?.priceMinMax[0] > 0 && props.filterParam?.priceMinMax[1] > 0) ? (
     <div className="js-price-rangeSlider">
       <div className="text-14 fw-500"></div>
 
       <div className="d-flex justify-between mb-20">
         <div className="text-15 text-dark-1">
-          <span className="js-lower mx-1">${price.value.min}</span>-
-          <span className="js-upper mx-1">${price.value.max}</span>
+          <span className="js-lower mx-1">${props.filterParam?.priceMinMax[0]}</span>-
+          <span className="js-upper mx-1">${props.filterParam?.priceMinMax[1]}</span>
         </div>
       </div>
 
@@ -106,7 +112,7 @@ const PirceSlider = (props) => {
         />
       </div>
     </div>
-  );
+  ):(<></>);
 };
 
 export default PirceSlider;
