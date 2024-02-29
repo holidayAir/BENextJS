@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { toast } from "react-toastify";
 import BookingDetails from "./sidebar/BookingDetails";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import BirthDate from "../common/BirthDate";
@@ -36,7 +36,7 @@ const intialStateContact = {
 }
   const FlightTravellerInfo = () => {
     const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
-    const { flightList,filterParam, selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
+    const { loading,flightList,filterParam, selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
     const [adultData, setAdultData] = useState(Array(flightAvailRQ.searchParam.adult).fill(initialStatePassenger));
     const [childData, setChildData] = useState(Array(flightAvailRQ.searchParam.child).fill(initialStatePassenger));
     const [infantData, setInfantData] = useState(Array(flightAvailRQ.searchParam.infant).fill(initialStatePassenger));
@@ -59,7 +59,7 @@ const intialStateContact = {
       email: true,
     });
     const [dates, setDates] = useState();//new DateObject("2026-02-09T14:03:18.654Z"));//      new DateObject());//.add((cutOfDays), "day"),
-    const { loading, error,isUserLoggedIn } = useSelector((state) => state.user);
+    const { error,isUserLoggedIn } = useSelector((state) => state.user);
     const { givenName, surname, email, gender, birthDate, phonenumber, socialsecuritynumber } = adultData;
     const dispatch = useDispatch();
     const router = useRouter();
@@ -1415,7 +1415,7 @@ const intialStateContact = {
             //disabled={currentStep === steps.length - 1}
             onClick={handleSubmit}
           >
-            Next  {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
+            Next &nbsp;&nbsp;{loading ? <React.Fragment><i class="spinner-border spinner-border-sm ml-5"></i>&nbsp;&nbsp;</React.Fragment>:<div className="icon-arrow-top-right ml-15" />}
           </button>
         </div>
         {/* End next btn */}
