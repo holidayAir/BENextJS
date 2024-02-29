@@ -26,6 +26,7 @@ import Link from "next/link";
 const index = ({ params }) => {
   
   const dispatch = useDispatch();
+  debugger;
   const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
   const { flightList, returnFlightList, filterParam, returnFilterParam,loading, totalFlights, totalReturnFlights, totalPages, totalRetutrnPages,selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
   const router = useRouter();

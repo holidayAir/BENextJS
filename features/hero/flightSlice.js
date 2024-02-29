@@ -116,14 +116,14 @@ const flightSlice = createSlice({
   initialState: {
     filterParam: {
       cabin: [],
-      priceMinMax: [0, 100000],
+      priceMinMax: [],
       stops: [],
       pageNumber: 0,
       pageSize: 10
     },
     returnFilterParam: {
       cabin: [],
-      priceMinMax: [0, 100000],
+      priceMinMax: [],
       stops: [],
       pageNumber: 0,
       pageSize: 10
