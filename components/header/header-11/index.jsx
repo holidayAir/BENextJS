@@ -114,7 +114,7 @@ width={20}
 height={20}
 className=" icon-user text-22 px-10 text-blue-3"
 ></i>
-    <span className="mr-10" style={{minWidth:"120px"}}>{user?.firstName} </span>
+    <span className="mr-10" style={{minWidth:"120px"}}>{user?.firstName + " " + user?.lastName} </span>
     <i className="icon icon-chevron-sm-down" />
   </a>
   <ul className="subnav" style={{minWidth:"200px"}}>

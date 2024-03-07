@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const FlightViewReservation = ({params}) => {
-  
+
 console.log("enter into Flight view reservation page");
   return (
     <>
@@ -33,7 +33,7 @@ console.log("enter into Flight view reservation page");
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Itinerary Name</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{Flight + "-" + params?.itineraryName}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{"Flight -" + params?.itineraryName}</div>
                     </div>
                   </div>
                 </div>
