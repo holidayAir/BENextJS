@@ -143,7 +143,7 @@ const BookingTable = () => {
                       </span>}
                     </td>
                     <td>
-                      <ActionsButton />
+                      <ActionsButton business={item.businessId === "117279ec-1a23-4c1d-8a58-599fde6b3043" ? "flight" : "hotel"} bookingId={item.id} />
                     </td>
                   </tr>
                   ))): <tr><td colspan="8">
