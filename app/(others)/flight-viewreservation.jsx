@@ -45,7 +45,7 @@ console.log("enter into Flight view reservation page");
                   <div class="row">
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Details</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.departureAirport?.locationName} " To " {params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.arrivalAirport?.locationName}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.departureAirport?.locationName + " To " + params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.arrivalAirport?.locationName}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Flight Number</div>
