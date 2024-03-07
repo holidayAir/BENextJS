@@ -5,6 +5,7 @@ import DefaultHeader from "@/components/header/default-header";
 import DefaultFooter from "@/components/footer/default";
 import BookingTable from "@/components/db-booking/components/BookingTable";
 import Image from "next/image";
+import FilterBox from "@/components/dashboard/vendor-dashboard/booking/components/filter-box";
 
 export const metadata = {
   title: "Booking History || BE - Argentina - Travel & Tour React NextJS Template",
@@ -38,10 +39,10 @@ export default function page() {
         <div className="row justify-center text-center">
           <div className="col-xl-6 col-lg-8 col-md-10">
             <h1 className="text-40 md:text-25 fw-600 text-white">
-              My Profile
+              My Bookings
             </h1>
             <div className="text-white mt-15">
-              Your trusted trip companion
+              List of your bookings
             </div>
           </div>
         </div>
@@ -50,8 +51,9 @@ export default function page() {
     </section>
     {/* End About Banner Section */}
 
-    <section className="layout-pt-md layout-pb-md">
+    <section className="layout-pt-md layout-pb-md bg-light-2">
       <div className="container">
+        
         <div className="tabs js-tabs">
               <BookingTable />
         </div>

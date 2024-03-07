@@ -11,11 +11,12 @@ const ActionsButton = () => {
   };
 
   const filters = [
-    { label: "All", value: "all" },
-    { label: "Details", value: "details" },
-    { label: "Invoice", value: "invoice" },
-    { label: "Confirm", value: "confirm" },
-    { label: "Cancel", value: "cancel" },
+    // { label: "All", value: "all" },
+    { label: "View", value: "view" },
+    // { label: "Details", value: "details" },
+    // { label: "Invoice", value: "invoice" },
+    // { label: "Confirm", value: "confirm" },
+    // { label: "Cancel", value: "cancel" },
   ];
 
   return (

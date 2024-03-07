@@ -2,12 +2,29 @@
 'use client'
 
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { myBookings, updateFilterParam } from "@/features/hero/bookingSlice";
+import { useRouter } from "next/navigation";
 
-const Pagination = () => {
+const Pagination = (props) => {
+  const { bookings, filterParam, loading, totalPages, totalBookings } = useSelector((state) => state.booking);
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
+    dispatch(
+      updateFilterParam({
+          ...filterParam,
+            pageNumber: (pageNumber),
+      })
+    );
+    
+    dispatch(myBookings({ filterParam : {
+      ...filterParam,
+        pageNumber: (pageNumber),
+  }, router, undefined }));
   };
 
   const renderPage = (pageNumber, isActive = false) => {
@@ -24,13 +41,13 @@ const Pagination = () => {
   };
 
   const renderPages = () => {
-    const totalPages = 5; // Change this to the actual total number of pages
+    //const totalPages = totalPages; // Change this to the actual total number of pages
     const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = 1; i <= props.totalPages; i++) {
       pageNumbers.push(i);
     }
     const pages = pageNumbers.map((pageNumber) =>
-      renderPage(pageNumber, pageNumber === currentPage)
+      renderPage(pageNumber, pageNumber === (props.filterParam.pageNumber))
     );
     return pages;
   };
@@ -47,12 +64,12 @@ const Pagination = () => {
         <div className="col-md-auto md:order-3">
           <div className="row x-gap-20 y-gap-20 items-center md:d-none">
             {renderPages()}
-            <div className="col-auto">
+            {/* <div className="col-auto">
               <div className="size-40 flex-center rounded-full">...</div>
             </div>
             <div className="col-auto">
               <div className="size-40 flex-center rounded-full">20</div>
-            </div>
+            </div> */}
           </div>
 
           <div className="row x-gap-10 y-gap-20 justify-center items-center d-none md:d-flex">
