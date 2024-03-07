@@ -50,29 +50,29 @@ console.log("enter into Hotel view reservation page");
                   <div class="row">
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Name</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Items.HotelItem.HotelInfo.Name}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.HotelInfo?.Name}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Category</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Items.HotelItem.HotelInfo.HotelCategory["#text"]}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.HotelInfo?.HotelCategory["#text"]}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Address</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Items.HotelItem.HotelInfo.Address}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.HotelInfo?.Address}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Room Name</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Items.HotelItem.HotelRooms.HotelRoom.Name}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.HotelRooms?.HotelRoom?.Name}</div>
                     </div>
                   </div>
                   <div class="row mt-3">
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Check In</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Items.HotelItem["@Start"]}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem["@Start"]}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Check Out</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Items.HotelItem["@End"]}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem["@End"]}</div>
                     </div>
                   </div>
                 </div>
@@ -84,19 +84,19 @@ console.log("enter into Hotel view reservation page");
                   <div class="row">
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Name</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Paxes.Pax[0].Name + " " + params?.bookingResponse.Reservation.Paxes.Pax[0].Surname}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Paxes?.Pax[0].Name + " " + params?.bookingResponse?.Reservation?.Paxes?.Pax[0].Surname}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Email</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Paxes.Pax[0].Email}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Paxes?.Pax[0].Email}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Document Number</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Paxes.Pax[0].Document["#text"]}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Paxes?.Pax[0].Document["#text"]}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Phone Number</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Paxes.Pax[0].PhoneNumbers.PhoneNumber}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Paxes?.Pax[0].PhoneNumbers.PhoneNumber}</div>
                     </div>
                   </div>
                 </div>
@@ -108,15 +108,15 @@ console.log("enter into Hotel view reservation page");
                   <div class="row">
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Base Price</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Items.HotelItem.Prices.Price["@Currency"] + " " + params?.bookingResponse.Reservation.Items.HotelItem.Prices.Price.TotalFixAmounts.Service["@Amount"]}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price["@Currency"] + " " + params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price?.TotalFixAmounts?.Service["@Amount"]}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Service Tax</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Items.HotelItem.Prices.Price["@Currency"] + " " + params?.bookingResponse.Reservation.Items.HotelItem.Prices.Price.TotalFixAmounts.ServiceTaxes["@Amount"]}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price["@Currency"] + " " + params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price?.TotalFixAmounts?.ServiceTaxes["@Amount"]}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Total</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse.Reservation.Items.HotelItem.Prices.Price["@Currency"] + " " + params?.bookingResponse.Reservation.Items.HotelItem.Prices.Price.TotalFixAmounts["@Nett"]}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price["@Currency"] + " " + params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price?.TotalFixAmounts["@Nett"]}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12"></div>
@@ -130,7 +130,7 @@ console.log("enter into Hotel view reservation page");
                 <div class="border-type-1 rounded-8 px-50 py-35">
                   <div class="row">
                     <ul>
-                      {params?.bookingResponse.Reservation.Items.HotelItem.CancellationPolicy?.PolicyRules.Rule.map(
+                      {params?.bookingResponse?.Reservation?.Items?.HotelItem?.CancellationPolicy?.PolicyRules?.Rule.map(
                         (item) => (
                           <li key={item["@To"]}>
                             If you cancel booking before {item["@To"]} days of check-in then {item["@PercentPrice"]} percentage charges apply

@@ -103,15 +103,15 @@ console.log("enter into Flight view reservation page");
                   <div class="row">
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Base Price</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.ticketInfo?.ticketItemList?.pricingInfo?.baseFare?.amount?.currency?.code + " " + params?.bookingResponse?.airBookingList?.airReservation?.ticketInfo?.ticketItemList?.pricingInfo?.baseFare?.amount?.value}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.ticketInfo?.ticketItemList?.pricingInfo?.baseFare?.amount?.currency?.code + " " + params?.bookingResponse?.airBookingList?.ticketInfo?.ticketItemList?.pricingInfo?.baseFare?.amount?.value}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Tax</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.ticketInfo?.ticketItemList?.pricingInfo?.taxes?.totalAmount?.currency?.code + " " + params?.bookingResponse?.airBookingList?.airReservation?.ticketInfo?.ticketItemList?.pricingInfo?.taxes?.totalAmount?.value}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.ticketInfo?.ticketItemList?.pricingInfo?.taxes?.totalAmount?.currency?.code + " " + params?.bookingResponse?.airBookingList?.ticketInfo?.ticketItemList?.pricingInfo?.taxes?.totalAmount?.value}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Total</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.ticketInfo?.ticketItemList?.totalAmountText}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.ticketInfo?.ticketItemList?.totalAmountText}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12"></div>
