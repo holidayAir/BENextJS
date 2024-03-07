@@ -1,13 +1,13 @@
 import AvatarUploader from "./AvatarUploader";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogin } from '../../../../../features/hero/authSlice';
-//import { toast } from "react-toastify";
+import { updateUser, userLogin } from '../../../../../features/hero/authSlice';
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 const initialState = {
-  firstname: "",
-  lastname: "",
+  firstName: "",
+  lastName: "",
   gender: "",
   birthdate: "",
   address: "",
@@ -21,8 +21,8 @@ const PersonalInfo = () => {
   
   const [userData, setuserData] = useState(initialState);
   const [validation, setValidation] = useState({
-    firstname: true,
-    lastname: true,
+    firstName: true,
+    lastName: true,
     gender: true,
     birthdate: true,
     address: true,
@@ -34,8 +34,8 @@ const PersonalInfo = () => {
   });
   const { loading, error, user } = useSelector((state) => ({ ...state.user }));
   console.log(user);
-  const { firstname,
-    lastname,
+  const { firstName,
+    lastName,
     gender,
     birthdate,
     address,
@@ -48,8 +48,8 @@ const PersonalInfo = () => {
   const router = useRouter();
   
   const validationRules = {
-    firstname: true,
-    lastname: true,
+    firstName: true,
+    lastName: true,
     gender: true,
     birthdate: true,
     address: true,
@@ -69,8 +69,8 @@ const PersonalInfo = () => {
   useEffect(() => {
     // Populate userData with user data when user changes
     setuserData({
-      firstname: user.firstname || "",
-      lastname: user.lastname || "",
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
       gender: user.gender || "",
       birthdate: user.birthdate || "",
       address: user.address || "",
@@ -90,16 +90,16 @@ const PersonalInfo = () => {
   };
   const validateInput = () => {
     const newValidation = {
-      firstname: !validationRules.firstname || !!firstname,
-      lastname: !validationRules.lastname || !!lastname,
-      gender: !validationRules.gender || !!gender,
+      firstName: !validationRules.firstName || !!firstName,
+      lastName: !validationRules.lastName || !!lastName,
+      //gender: !validationRules.gender || !!gender,
       birthdate: !validationRules.birthdate || !!birthdate,
       address: !validationRules.address || !!address,
       city: !validationRules.city || !!city,
       state: !validationRules.state || !!state,
       country: !validationRules.country || !!country,
       zipcode: !validationRules.zipcode || !!zipcode,
-      phonenumber: !validationRules.phonenumber || !!phonenumber,
+      //phonenumber: !validationRules.phonenumber || !!phonenumber,
     };
 
     setValidation(newValidation);
@@ -107,10 +107,10 @@ const PersonalInfo = () => {
     return Object.values(newValidation).every((isValid) => isValid);
   };
   const handleSubmit = async (e) => {
-    
+    debugger;
     if (validateInput()) {
       try {
-        await dispatch(userLogin({ userData,toast,router }));
+        await dispatch(updateUser({ userDataRQ:{...userData},toast,router }));
         
         } catch (error) {
           console.error('Login error:', error);
@@ -128,6 +128,7 @@ const PersonalInfo = () => {
       setValidation({...validation, [name]:false});
     }
   };
+  console.log(userData);
   return (
     <>
         {/* <AvatarUploader /> */}
@@ -147,18 +148,18 @@ const PersonalInfo = () => {
             </div> */}
             {/* End col-12 */}
             <div className="col-md-6">
-              <div className={`form-input ${validationRules.firstname && !validation.firstname ? 'error' : ''}`}>
-                <input type="text" required id="firstname" name="firstname" onChange={onInputChange} 
-                value={userData.firstname} />
+              <div className={`form-input ${validationRules.firstname && !validation.firstName ? 'error' : ''}`}>
+                <input type="text" required id="firstName" name="firstName" onChange={onInputChange} 
+                value={userData.firstName} />
                 <label className="lh-1 text-16 text-light-1">First Name</label>
               </div>
             </div>
             {/* End col-6 */}
 
             <div className="col-md-6">
-              <div className={`form-input ${validationRules.lastname && !validation.lastname ? 'error' : ''}`}>
-                <input type="text" required id="lastname" name="lastname" onChange={onInputChange}
-                value={userData.lastname} />
+              <div className={`form-input ${validationRules.lastName && !validation.lastName ? 'error' : ''}`}>
+                <input type="text" required id="lastName" name="lastName" onChange={onInputChange}
+                value={userData.lastName} />
                 <label className="lh-1 text-16 text-light-1">Last Name</label>
               </div>
             </div>
