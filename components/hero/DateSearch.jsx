@@ -19,7 +19,7 @@ const DateSearch = ({cutOfDayss,stayInDayss}) => {
   //   1597994736000, //unix time in milliseconds (August 21 2020)
   // ]);
   
-  const [date, setDate] = useState(new DateObject(startDate));
+  const [date, setDate] = useState(new DateObject(hotelCriteria.startDate));
   const [dates, setDates] = useState([
     new DateObject(hotelCriteria.startDate),//.add((cutOfDays), "day"),
     new DateObject(hotelCriteria.endDate)//.add((cutOfDays+stayInDays), "day"),
@@ -72,6 +72,7 @@ const DateSearch = ({cutOfDayss,stayInDayss}) => {
   };
 var single = single;
 var range = range;
+debugger;
   return (
     <div className="text-15 text-light-1 ls-2 lh-16 custom_dual_datepicker">
       <DatePicker
