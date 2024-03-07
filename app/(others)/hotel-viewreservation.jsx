@@ -110,10 +110,12 @@ console.log("enter into Hotel view reservation page");
                       <div class="text-15 lh-12">Base Price</div>
                       <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price["@Currency"] + " " + params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price?.TotalFixAmounts?.Service["@Amount"]}</div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                      <div class="text-15 lh-12">Service Tax</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price["@Currency"] + " " + params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price?.TotalFixAmounts?.ServiceTaxes["@Amount"]}</div>
-                    </div>
+                    {params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price?.TotalFixAmounts?.ServiceTaxes &&
+                      <div class="col-lg-3 col-md-6">
+                        <div class="text-15 lh-12">Service Tax</div>
+                        <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price["@Currency"] + " " + params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price?.TotalFixAmounts?.ServiceTaxes["@Amount"]}</div>
+                      </div>
+                    }
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Total</div>
                       <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price["@Currency"] + " " + params?.bookingResponse?.Reservation?.Items?.HotelItem?.Prices?.Price?.TotalFixAmounts["@Nett"]}</div>
