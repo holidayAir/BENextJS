@@ -1,12 +1,14 @@
 
 'use client'
 
+import Link from "next/link";
 import { useState } from "react";
 
-const ActionsButton = () => {
+const ActionsButton = (props) => {
   const [activeFilter, setActiveFilter] = useState("all");
 
   const handleFilterClick = (filter) => {
+    debugger;
     setActiveFilter(filter);
   };
 
@@ -39,14 +41,18 @@ const ActionsButton = () => {
         <div className="text-14 fw-500 js-dropdown-list">
           {filters.map((filter) => (
             <div key={filter.value}>
-              <button
+              <Link 
+                className={`d-block js-dropdown-link ${
+                  activeFilter === filter.value ? "text-blue-1" : ""
+                }`} target="_blank" href={`/viewreservation/${props.business}/${props.bookingId}`}>View</Link>
+              {/* <button
                 className={`d-block js-dropdown-link ${
                   activeFilter === filter.value ? "text-blue-1" : ""
                 }`}
                 onClick={() => handleFilterClick(filter.value)}
               >
                 {filter.label}
-              </button>
+              </button> */}
             </div>
           ))}
         </div>
