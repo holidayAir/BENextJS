@@ -64,7 +64,8 @@ export const createCart = createAsyncThunk(
   async ({ createCartRQ, router, toast }, { rejectWithValue }) => {
     try {
       const response = await API.post("api/flight/CreateCart", createCartRQ);
-      router.push('/payment-page')
+      //router.push('/payment-page')
+      router.push('/booking-confirm-page')
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);

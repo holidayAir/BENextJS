@@ -2,19 +2,12 @@
 'use client'
 import CallToActions from "@/components/common/CallToActions";
 import Header11 from "@/components/header/header-3";
-import { hotelsData } from "@/data/hotels";
 import DefaultFooter from "@/components/footer/default";
-import MainFilterSearchBox from "@/components/hotel-list/hotel-list/MainFilterSearchBox";
-import TopHeaderFilter from "@/components/hotel-list/hotel-list/TopHeaderFilter";
-import HotelProperties from "@/components/hotel-list/hotel-list/HotelProperties";
-import Pagination from "@/components/hotel-list/common/Pagination";
-import Sidebar from "@/components/hotel-list/hotel-list/Sidebar";
-import { hotelAvailResult } from "@/features/hero/hotelSlice";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { updateHotelCriteria } from "@/features/hero/searchCriteriaSlice";
 import HotelViewReservation from "@/app/(others)/hotel-viewreservation";
+import FlightViewReservation from "@/app/(others)/flight-viewreservation";
 import { getBooking } from "@/features/hero/bookingSlice";
 import Skeleton from "@/components/common/skeletons/Skeleton";
 
@@ -49,7 +42,7 @@ const viewreservation = ({params}) => {
                 <h1 className="text-30 fw-600">{`Reservation Details`}</h1>
               </div>
               {(!getbookingRS || getbookingRS === null) ? <Skeleton /> :
-                params.business == "hotel" ? <HotelViewReservation params={getbookingRS}/> : <MainFilterSearchBox params={getbookingRS}/>
+                params.business == "hotel" ? <HotelViewReservation params={getbookingRS}/> : <FlightViewReservation params={getbookingRS}/>
               }
             </div>
             {/* End col-12 */}
