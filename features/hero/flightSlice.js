@@ -216,6 +216,8 @@ const flightSlice = createSlice({
     builder.addCase(flightAvailResult.pending, (state) => {
       
       state.loading = true;
+      state.selectedFlight={};
+      state.selectedReturnFlight={};
     });
     builder.addCase(flightAvailResult.fulfilled, (state, action) => {
       
