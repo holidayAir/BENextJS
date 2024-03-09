@@ -49,7 +49,7 @@ console.log("enter into Flight view reservation page");
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Flight Number</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightNumber}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.flightNumber}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Class</div>
