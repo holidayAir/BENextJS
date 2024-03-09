@@ -114,13 +114,13 @@ const index = ({ params }) => {
                   <div className="col">
                     <div className="row x-gap-20 items-end">
                       <div className="col-auto">
-                        <div className="lh-15 fw-500">{new Date(selectedFlight.departureDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                        <div className="lh-15 fw-500">{new Date(selectedFlight.departureDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
                         <div className="text-15 lh-15 text-light-1">{selectedFlight.departureAirport.locationCode}</div>
                       </div>
                       <div className="col text-center">
 {flightAvailRQ.searchParam.tripType !== "ONE_WAY" ? (
                       <div className="text-15 lh-15 text-light-1 mb-10">
-                        {selectedFlight.journeyDuration}
+                        {selectedFlight.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}
                       </div>):(<></>)}
                         <div className="flightLine">
                           <div />
@@ -131,7 +131,7 @@ const index = ({ params }) => {
                         </div>
                       </div>
                       <div className="col-auto">
-                        <div className="lh-15 fw-500">{new Date(selectedFlight.arrivalDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                        <div className="lh-15 fw-500">{new Date(selectedFlight.arrivalDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
                         <div className="text-15 lh-15 text-light-1">{selectedFlight.arrivalAirport.locationCode}</div>
                       </div>
                     </div>
@@ -139,7 +139,7 @@ const index = ({ params }) => {
                   
 {flightAvailRQ.searchParam.tripType === "ONE_WAY" ? (<div className="col-md-auto">
                     <div className="text-15 text-light-1 px-20 md:px-0">
-                      {selectedFlight.journeyDuration}
+                      {selectedFlight.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}
                     </div>
                   </div>):(<></>)}
                 </div>
@@ -187,7 +187,7 @@ const index = ({ params }) => {
                   <div>
                     <div className="text-right md:text-left mb-10">
                       <div className="text-18 lh-16 fw-500">{`${selectedFlight.passengerFareInfoList[0].pricingInfo.totalFare.currencyCode + " " + selectedFlight.passengerFareInfoList[0].pricingInfo.totalFare.amount}`}</div>
-                      <div className="text-15 lh-16 text-light-1">{`${selectedFlight.passengerFareInfoList.length} deals`}</div>
+                      {/* <div className="text-15 lh-16 text-light-1">{`${selectedFlight.passengerFareInfoList.length} deals`}</div> */}
                     </div>
                   </div>
                 </div>
@@ -215,13 +215,13 @@ const index = ({ params }) => {
                   <div className="col">
                     <div className="row x-gap-20 items-end">
                       <div className="col-auto">
-                        <div className="lh-15 fw-500">{new Date(selectedReturnFlight.departureDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                        <div className="lh-15 fw-500">{new Date(selectedReturnFlight.departureDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
                         <div className="text-15 lh-15 text-light-1">{selectedReturnFlight.departureAirport.locationCode}</div>
                       </div>
                       <div className="col text-center">
 {flightAvailRQ.searchParam.tripType !== "ONE_WAY" ? (
                       <div className="text-15 lh-15 text-light-1 mb-10">
-                        {selectedReturnFlight.journeyDuration}
+                        {selectedReturnFlight.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}
                       </div>):(<></>)}
                         <div className="flightLine">
                           <div />
@@ -232,7 +232,7 @@ const index = ({ params }) => {
                         </div>
                       </div>
                       <div className="col-auto">
-                        <div className="lh-15 fw-500">{new Date(selectedReturnFlight.arrivalDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                        <div className="lh-15 fw-500">{new Date(selectedReturnFlight.arrivalDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
                         <div className="text-15 lh-15 text-light-1">{selectedReturnFlight.arrivalAirport.locationCode}</div>
                       </div>
                     </div>
@@ -240,7 +240,7 @@ const index = ({ params }) => {
                   
 {flightAvailRQ.searchParam.tripType === "ONE_WAY" ? (<div className="col-md-auto">
                     <div className="text-15 text-light-1 px-20 md:px-0">
-                      {selectedReturnFlight.journeyDuration}
+                      {selectedReturnFlight.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}
                     </div>
                   </div>):(<></>)}
                 </div>
@@ -288,7 +288,7 @@ const index = ({ params }) => {
                   <div>
                     <div className="text-right md:text-left mb-10">
                       <div className="text-18 lh-16 fw-500">{`${selectedReturnFlight.passengerFareInfoList[0].pricingInfo.totalFare.currencyCode + " " + selectedReturnFlight.passengerFareInfoList[0].pricingInfo.totalFare.amount}`}</div>
-                      <div className="text-15 lh-16 text-light-1">{`${selectedReturnFlight.passengerFareInfoList.length} deals`}</div>
+                      {/* <div className="text-15 lh-16 text-light-1">{`${selectedReturnFlight.passengerFareInfoList.length} deals`}</div> */}
                     </div>
                   </div>
                 </div>

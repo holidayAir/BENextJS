@@ -66,7 +66,7 @@ dispatch(updateSelectedFlight(modifiedFlight));
                       <div className="col text-center">
 {flightAvailRQ.searchParam.tripType !== "ONE_WAY" ? (
                       <div className="text-15 lh-15 text-light-1 mb-10">
-                        {item.journeyDuration}
+                        {item.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}
                       </div>):(<></>)}
                         <div className="flightLine">
                           <div />
@@ -85,7 +85,7 @@ dispatch(updateSelectedFlight(modifiedFlight));
                   
 {flightAvailRQ.searchParam.tripType === "ONE_WAY" ? (<div className="col-md-auto">
                     <div className="text-15 text-light-1 px-20 md:px-0">
-                      {item.journeyDuration}
+                      {item.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}
                     </div>
                   </div>):(<></>)}
                 </div>
@@ -133,7 +133,7 @@ dispatch(updateSelectedFlight(modifiedFlight));
                   <div>
                     <div className="text-right md:text-left mb-10">
                       <div className="text-18 lh-16 fw-500">{`USD ${item.indicativePrice}`}</div>
-                      <div className="text-15 lh-16 text-light-1">{`${item.passengerFareInfoList.length} deals`}</div>
+                      <div className="text-15 lh-16 text-light-1">{`${item.passengerFareInfoList.length} flights`}</div>
                     </div>
                     <div className="accordion__button">
                       <button
@@ -141,7 +141,7 @@ dispatch(updateSelectedFlight(modifiedFlight));
                         data-bs-toggle="collapse"
                         data-bs-target={`#div${item.flightSegmentID}`}
                       >
-                        View Deal(s)
+                        View Flight(s)
                       </button>
                     </div>
                   </div>
@@ -202,7 +202,7 @@ dispatch(updateSelectedFlight(modifiedFlight));
                           <div className="w-28 d-flex justify-center mr-15">
                             <img src="/img/flights/plane.svg" alt="image" />
                           </div>
-                          <div className="text-14 text-light-1">{item.journeyDuration}</div>
+                          <div className="text-14 text-light-1">{item.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}</div>
                         </div>
                         <div className="d-flex items-center mt-15">
                           <div className="w-28 d-flex justify-center mr-15">

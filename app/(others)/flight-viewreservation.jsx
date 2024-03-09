@@ -57,7 +57,7 @@ console.log("enter into Flight view reservation page");
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Duration</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.journeyDuration}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}</div>
                     </div>
                   </div>
                   <div class="row mt-3">
