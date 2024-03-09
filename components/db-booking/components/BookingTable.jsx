@@ -111,10 +111,10 @@ const BookingTable = () => {
                 <thead className="bg-light-2">
                   <tr>
                     <th>Type</th>
-                    <th>BRN</th>
-                    <th>Title</th>
+                    <th>Ref Number</th>
+                    <th>Particular</th>
                     <th>Booking Date</th>
-                    <th>Execution Time</th>
+                    <th>Travell Time</th>
                     <th>Total</th>
                     <th>Status</th>
                     <th>Action</th>

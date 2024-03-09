@@ -17,7 +17,7 @@ const initialStatePassenger = {
   surname : "",
   birthDate: "",
   hasStretcher: false,
-  nationality: "IND", // Added confirmPassword field
+  nationality: "AR", // Added confirmPassword field
   nationalIdNumber : "91",
   passportNumber:"",
   passportExpiryDate: ""

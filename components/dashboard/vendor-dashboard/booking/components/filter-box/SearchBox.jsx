@@ -14,7 +14,7 @@ const SearchBox = () => {
       <input
         className="pl-50 bg-white text-dark-1 h-50 rounded-8"
         type="text"
-        placeholder="Search"
+        placeholder="Search by Ref Number"
         required
       />
       <button type="submit" className="absolute d-flex items-center h-full">

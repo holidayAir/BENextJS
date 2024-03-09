@@ -4,8 +4,8 @@
     display: block;
     overflow: hidden;
 }
-.error input {
-    border: 1px red solid;
+.error input, .error select {
+    border: 1px red solid !important;
 }
 .nsm7Bb-HzV7m-LgbsSe.jVeSEe.i5vt6e-Ia7Qfc.uaxL4e-RbRzK {
     margin: 0px auto;
