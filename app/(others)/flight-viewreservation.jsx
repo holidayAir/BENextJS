@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const FlightViewReservation = ({params}) => {
 
-console.log("enter into Flight view reservation page");
+console.log("enter into Flight view reservation page params:" + JSON.stringify(params));
   return (
     <>
       
@@ -41,7 +41,6 @@ console.log("enter into Flight view reservation page");
               <div className="pt-2">
                 <h4>Flight Info</h4>
                 <div class="border-type-1 rounded-8 px-50 py-35">
-                  
                   <div class="row">
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Details</div>
