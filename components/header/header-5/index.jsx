@@ -91,7 +91,7 @@ const Header1 = () => {
                     href="/signup"
                     className="button h-50 px-30 fw-400 text-14 -outline-white text-white ml-20 sm:ml-0"
                   >
-                    Sign In / Register
+                    Register
                   </Link>
                 </div>
                 {/* End btn-group */}

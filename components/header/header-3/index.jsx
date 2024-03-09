@@ -169,7 +169,7 @@ className=" icon-user text-22 px-10 text-blue-3"
                     href="/signup"
                     className="button ml-10 px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white"
                   >
-                    Sign In / Register
+                    Register
                   </Link>
                 </div>) : <></>)}
                 {/* End btn-group */}

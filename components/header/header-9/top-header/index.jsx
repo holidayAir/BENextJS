@@ -49,7 +49,7 @@ const HeaderBanner = () => {
               {/* End .col-auto */}
               <div className="col-auto">
                 <Link href="/login" className="text-12 text-white">
-                  Sign In / Register
+                  Register
                 </Link>
               </div>
               {/* End .col-auto */}

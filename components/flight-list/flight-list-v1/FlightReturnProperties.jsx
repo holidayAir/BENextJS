@@ -58,7 +58,7 @@ dispatch(updateSelectedReturnFlight(modifiedFlight));
                 <div className="col">
                   <div className="row x-gap-20 items-end">
                     <div className="col-auto">
-                      <div className="lh-15 fw-500">{new Date(item.departureDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                      <div className="lh-15 fw-500">{new Date(item.departureDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
                       <div className="text-15 lh-15 text-light-1">{item.departureAirport.locationCode}</div>
                     </div>
                     <div className="col text-center">
@@ -74,7 +74,7 @@ dispatch(updateSelectedReturnFlight(modifiedFlight));
                       </div>
                     </div>
                     <div className="col-auto">
-                      <div className="lh-15 fw-500">{new Date(item.arrivalDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                      <div className="lh-15 fw-500">{new Date(item.arrivalDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
                       <div className="text-15 lh-15 text-light-1">{item.arrivalAirport.locationCode}</div>
                     </div>
                   </div>
@@ -157,7 +157,7 @@ dispatch(updateSelectedReturnFlight(modifiedFlight));
 weekday: 'short',
 month: 'short',
 day: 'numeric'
-}).format(new Date(item.departureDateTimeUTC))}
+}).format(new Date(item.departureDateTime))}
                     </div>
                   </div>
                   <div className="col-auto">
@@ -185,7 +185,7 @@ day: 'numeric'
                         </div>
                         <div className="row d-flex justify-center items-center ">
                           <div className="col-auto">
-                            <div className="lh-14 fw-500 text-center">{new Date(item.departureDateTimeUTC).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric',})}<br />{new Date(item.departureDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                            <div className="lh-14 fw-500 text-center">{new Date(item.departureDateTime).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric',})}<br />{new Date(item.departureDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
                           </div>
                           <div className="col-auto">
                             <div className="lh-14 fw-500">
@@ -206,7 +206,7 @@ day: 'numeric'
                         </div>
                         <div className="row d-flex justify-center items-center">
                           <div className="col-auto">
-                            <div className="lh-14 fw-500 text-center">{new Date(item.arrivalDateTimeUTC).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric',})}<br />{new Date(item.arrivalDateTimeUTC).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
+                            <div className="lh-14 fw-500 text-center">{new Date(item.arrivalDateTime).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric',})}<br />{new Date(item.arrivalDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div>
                           </div>
                           <div className="col-auto">
                             <div className="lh-14 fw-500">

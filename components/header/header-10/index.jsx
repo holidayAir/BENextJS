@@ -62,7 +62,7 @@ const Header1 = () => {
                     href="/signup"
                     className="button px-30 fw-400 text-14 border-dark-4 -blue-1 h-50 text-dark-4 ml-20"
                   >
-                    Sign In / Register
+                    Register
                   </Link>
                 </div>
                 {/* End d-flex */}

@@ -80,7 +80,7 @@ const Header1 = () => {
                     href="/signup"
                     className="button px-30 fw-400 text-14 -outline-blue-1 h-50 text-blue-1 ml-20"
                   >
-                    Sign In / Register
+                    Register
                   </Link>
                 </div>
                 {/* End btn-group */}
