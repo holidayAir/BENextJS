@@ -44,8 +44,8 @@ const bookingSlice = createSlice({
     bookings:[],
     filterParam: {
       ByStatus: "",
-      StartDate: new Date(new DateObject().add(-70,"days")).toISOString(),
-      EndDate: new Date(new DateObject().add(3,"month")).toISOString(),
+      StartDate: new Date(new DateObject().add(-30,"day")).toISOString(),
+      EndDate: new Date(new DateObject().add(10,"day")).toISOString(),
       BookingRefNumber: "",
       SortBy: "BookingDate",
       SortDirection: "dsc",
