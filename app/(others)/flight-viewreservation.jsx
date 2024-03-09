@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const FlightViewReservation = ({params}) => {
 
-console.log("enter into Flight view reservation page params:" + JSON.stringify(params));
+console.log("enter into Flight view reservation page");
   return (
     <>
       
@@ -44,29 +44,33 @@ console.log("enter into Flight view reservation page params:" + JSON.stringify(p
                   <div class="row">
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Details</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.departureAirport?.locationName + " To " + params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.arrivalAirport?.locationName}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.flightSegment?.departureAirport?.locationName + " To " + params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.flightSegment?.arrivalAirport?.locationName}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Flight Number</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.flightNumber}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.flightSegment?.flightNumber}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Class</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.bookingClass?.cabin}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.bookingClass?.cabin}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Duration</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.flightSegment?.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}</div>
                     </div>
                   </div>
                   <div class="row mt-3">
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Departure</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.departureDateTime}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.flightSegment?.departureDateTime}</div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="text-15 lh-12">Arrival</div>
-                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList?.bookFlightSegmentList?.flightSegment?.arrivalDateTime}</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.flightSegment?.arrivalDateTime}</div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                      <div class="text-15 lh-12">Baggage</div>
+                      <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.fareInfo?.fareBaggageAllowance?.maxAllowedPieces + " " + params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.fareInfo?.fareBaggageAllowance?.allowanceType + "("+ params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.fareInfo?.fareBaggageAllowance?.maxAllowedWeight.weight + " " + params?.bookingResponse?.airBookingList?.airReservation?.airItinerary?.bookOriginDestinationOptions?.bookOriginDestinationOptionList[0].bookFlightSegmentList?.fareInfo?.fareBaggageAllowance?.maxAllowedWeight.unitOfMeasureCode + ")"}</div>
                     </div>
                   </div>
                 </div>
