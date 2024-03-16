@@ -10,6 +10,7 @@ import { DateObject } from "react-multi-date-picker";
 import BookingDetailsFlight from "./sidebar/BookingDetailsFlight";
 import { createCart } from "@/features/hero/flightSlice";
 import { controllers } from "chart.js";
+import { addSessionCart, getSessionCart } from "@/features/hero/cartSlice";
 const initialStatePassenger = {
   passengerTypeCode:"ADLT",
   gender : "",
@@ -34,14 +35,20 @@ const intialStateContact = {
   phoneNumberMarkedForSendingRezInfo:true,
   emailMarkedForSendingRezInfo:true,
 }
-  const FlightTravellerInfo = () => {
+  const FlightTravellerInfo = (props) => {
+   
+    const { cartItems } = useSelector((state) => state.cart);
+   
+    const filteredItems = (cartItems && cartItems.length > 0) ? cartItems[0].items.filter(item => item.cartData.business === "Flight") : {};
+    
+    const  flightAvailRQtemp  = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.request) :{};
     const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
     const { loading,flightList,filterParam, selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
-    const [adultData, setAdultData] = useState(Array(flightAvailRQ.searchParam.adult).fill(initialStatePassenger));
-    const [childData, setChildData] = useState(Array(flightAvailRQ.searchParam.child).fill(initialStatePassenger));
-    const [infantData, setInfantData] = useState(Array(flightAvailRQ.searchParam.infant).fill(initialStatePassenger));
+    const [adultData, setAdultData] = useState(Array(flightAvailRQ?.searchParam?.adult).fill(initialStatePassenger));
+    const [childData, setChildData] = useState(Array(flightAvailRQ?.searchParam?.child).fill(initialStatePassenger));
+    const [infantData, setInfantData] = useState(Array(flightAvailRQ?.searchParam?.infant).fill(initialStatePassenger));
     const [contactData, setContactData] = useState(intialStateContact);
-    const [validation, setValidation] = useState(Array(flightAvailRQ.searchParam.adult).fill({
+    const [validation, setValidation] = useState(Array(flightAvailRQ?.searchParam?.adult).fill({
       gender : true,
       givenName : true,
       surname : true,
@@ -65,6 +72,38 @@ const intialStateContact = {
     const router = useRouter();
   // 
     
+  const addToCart = (departureFlight, returnFlight)=>{
+    dispatch(addSessionCart({ rqAddSessionCart : {
+      business: "Flight",
+      request: JSON.stringify(flightAvailRQ),
+      response: JSON.stringify(departureFlight),
+      adultPrice: 3000,
+      childPrice: 2000,
+      infantPrice: 1000,
+      adult: 1,
+      child: 1,
+      infant: 0,
+      flightType: "RoundTrip",
+      returnFlightResponse: JSON.stringify(returnFlight),
+      returnFlightAdultPrice: 1500,
+      returnFlightChildPrice: 1000,
+      returnFlightInfantPrice: 500,
+      startDate: "2024-03-15T09:57:50.004Z",
+      endDate: "2024-03-15T09:57:50.004Z",
+      room: 0,
+      nights: 0
+  }, router }));
+    }
+    // useEffect(() => {
+    //   addToCart("adasdasd","asdsadsad");
+    // }, []);
+    const getCart =()=>{
+      dispatch(getSessionCart({ undefined, router }));
+    }
+  // useEffect(() => {
+  //   debugger;
+  //   dispatch(getSessionCart({ undefined, router }));
+  // }, [dispatch]);
     useEffect(() => {
       error && toast.error(error);
     }, [error]);
@@ -230,6 +269,19 @@ const intialStateContact = {
           </div>
           </div>}
         <div className="col-xl-8 col-lg-8 mt-30">
+          
+        <button
+                      className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
+                      onClick={()=> addToCart("fareItem", "index")}
+                    >
+                      Add Cart
+                    </button>
+        <button
+                      className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
+                      onClick={()=> getCart()}
+                    >
+                      Get Cart
+                    </button>
           {/* End register notify */}
 {/*   
           <h2 className="text-22 fw-500 mt-40 md:mt-24">
