@@ -271,13 +271,13 @@ const intialStateContact = {
         <div className="col-xl-8 col-lg-8 mt-30">
           
         <button
-                      className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
+                      className="button -dark-1 px-30 h-40 bg-blue-1 text-white d-none float-end"
                       onClick={()=> addToCart("fareItem", "index")}
                     >
                       Add Cart
                     </button>
         <button
-                      className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
+                      className="button -dark-1 d-none px-30 h-40 bg-blue-1 text-white float-end"
                       onClick={()=> getCart()}
                     >
                       Get Cart
