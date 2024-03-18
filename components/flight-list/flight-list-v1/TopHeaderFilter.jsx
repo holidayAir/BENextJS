@@ -22,7 +22,7 @@ const TopHeaderFilter = (props) => {
             </div> */}
             {/* End .col */}
 
-            <div className="col-auto d-none xl:d-block">
+            <div className="col-auto d-none xl:d-none">
               <button
                 data-bs-toggle="offcanvas"
                 data-bs-target="#listingSidebar"
