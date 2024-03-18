@@ -26,7 +26,7 @@ const PirceSlider = (props) => {
   },[props.filterParam?.priceMinMax[0]])
 
   const handleOnChange = (value) => {
-    debugger;
+   
     setPrice({ 
       value: { min: value[0], max: value[1] },});
     if(props.type === "return")

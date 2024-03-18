@@ -22,7 +22,7 @@ export const getBooking = createAsyncThunk(
 export const myBookings = createAsyncThunk(
   "booking/mybookings",
   async ({ filterParam, navigate, toast }, { rejectWithValue }) => {
-    debugger;
+   
     try {
       console.log(JSON.stringify(filterParam));
       const response = await API.post(`api/booking/mybookings`,  filterParam );
@@ -87,18 +87,18 @@ const bookingSlice = createSlice({
       state.error = action.payload.message;
     });
     builder.addCase(myBookings.pending, (state) => {
-      debugger;
+     
             state.loading = true;
     });
     builder.addCase(myBookings.fulfilled, (state, action) => {      
-      debugger;
+     
       state.loading = false;
       state.bookings = action.payload.result?.bookingList;
       state.totalPages = action.payload.result?.totalPages;
       state.totalBookings = action.payload.result?.totalBookings;
     });
     builder.addCase(myBookings.rejected, (state, action) => {     
-      debugger; 
+      
       state.loading = false;
       state.error = action.payload.message;
     });

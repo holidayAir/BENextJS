@@ -48,9 +48,10 @@ export const flightExtraCharges = createAsyncThunk(
       console.log(JSON.stringify(flightExtraChargesRQ));
       const response = await API.post(`api/flight/GetAirExtraCharges`,  flightExtraChargesRQ );
       //navigate("/booking-page");
-if(tripType==="ONE_WAY"){
-      router.push('/cart-page')
-}
+     
+      if(tripType==="ONE_WAY"){
+            router.push('/cart-page')
+      }
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -222,6 +223,8 @@ const flightSlice = createSlice({
     builder.addCase(flightAvailResult.fulfilled, (state, action) => {
       
       state.loading = false;
+      if(action.payload.result)
+      {
       state.flightList = action.payload.result?.flightList;
       state.filterParam = action.payload.result?.filterCriteria;
       //state.flightAvailRQ.filterParam = action.payload.result?.filterCriteria; // Corrected assignment
@@ -233,6 +236,7 @@ const flightSlice = createSlice({
       state.totalReturnFlights = action.payload.result?.totalFlightsReturn;
       state.selectedFlight={};
       state.selectedReturnFlight={};
+      }
     });
     builder.addCase(flightAvailResult.rejected, (state, action) => {
       

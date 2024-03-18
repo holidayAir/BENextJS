@@ -17,6 +17,7 @@ import { DateObject } from "react-multi-date-picker";
 import DropdownFlightFilters from "@/components/hotel-list/common/DropdownFlightFilters";
 import { updateFlightAvailRQ } from "@/features/hero/searchCriteriaSlice";
 import Link from "next/link";
+import { addSessionCart } from "@/features/hero/cartSlice";
 
 // export const metadata = {
 //   title: "Flight List v1 || BE - Argentina - Travel & Tour React NextJS Template",
@@ -26,7 +27,6 @@ import Link from "next/link";
 const index = ({ params }) => {
   
   const dispatch = useDispatch();
-  debugger;
   const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
   const { flightList, returnFlightList, filterParam, returnFilterParam,loading, totalFlights, totalReturnFlights, totalPages, totalRetutrnPages,selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
   const router = useRouter();
@@ -76,6 +76,29 @@ const index = ({ params }) => {
   }, router, undefined }));
     }
   }, [dispatch]);
+  
+  const addToCart = (departureFlight, returnFlight)=>{
+  dispatch(addSessionCart({ rqAddSessionCart : {
+    business: "Flight",
+    request: JSON.stringify(flightAvailRQ),
+    response: JSON.stringify(departureFlight),
+    adultPrice: 3000,
+    childPrice: 2000,
+    infantPrice: 1000,
+    adult: flightAvailRQ.searchParam.adult,
+    child: flightAvailRQ.searchParam.child,
+    infant: flightAvailRQ.searchParam.infant,
+    flightType: "RoundTrip",
+    returnFlightResponse: JSON.stringify(returnFlight),
+    returnFlightAdultPrice: 1500,
+    returnFlightChildPrice: 1000,
+    returnFlightInfantPrice: 500,
+    startDate: "2024-03-15T09:57:50.004Z",
+    endDate: "2024-03-15T09:57:50.004Z",
+    room: 0,
+    nights: 0
+}, router, undefined }));
+  }
   return (
     <>
       {/* End Page Title */}
@@ -301,12 +324,12 @@ const index = ({ params }) => {
             </div>
             
             <div className="col-12">
-            {(selectedFlight.flightSegmentID && selectedReturnFlight.flightSegmentID)?<Link
-                    href="/cart-page"
+            {(selectedFlight.flightSegmentID && selectedReturnFlight.flightSegmentID)?<button
+                    onClick={()=> addToCart(selectedFlight, selectedReturnFlight)}
                     className="button -outline-blue-1 px-30 h-50 text-blue-1"
                   >
                     Continue <div className="icon-arrow-top-right ml-15" />
-                  </Link>:<></>}</div>
+                  </button>:<></>}</div>
                   </div></div></section> : <></>}
       {/* Top SearchBanner */}
 {flightAvailRQ.searchParam.tripType === "ONE_WAY" ? (

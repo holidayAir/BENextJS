@@ -8,7 +8,7 @@ const ActionsButton = (props) => {
   const [activeFilter, setActiveFilter] = useState("all");
 
   const handleFilterClick = (filter) => {
-    debugger;
+   
     setActiveFilter(filter);
   };
 

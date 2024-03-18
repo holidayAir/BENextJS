@@ -4,6 +4,7 @@ import Skeleton from "@/components/common/skeletons/Skeleton";
 import { flightExtraCharges, updateSelectedReturnFlight } from "@/features/hero/flightSlice";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { addSessionCart } from "@/features/hero/cartSlice";
 
 const FlightReturnProperties = (props) => {
   // {loading ? <Skeleton /> : ""}
@@ -34,6 +35,29 @@ dispatch(updateSelectedReturnFlight(modifiedFlight));
       requestXML: rqCreateBooking,
       tripType: "ONE_WAY",
   }, router, undefined }));
+  
+  if(flightAvailRQ.searchParam.tripType === "ONE_WAY"){
+    dispatch(addSessionCart({ rqAddSessionCart : {
+      business: "Flight",
+      request: JSON.stringify(flightAvailRQ),
+      response: JSON.stringify(modifiedFlight),
+      adultPrice: 1000,
+      childPrice: 100,
+      infantPrice: 0,
+      adult: 0,
+      child: 0,
+      infant: 0,
+      flightType: "string",
+      returnFlightResponse: "string",
+      returnFlightAdultPrice: 0,
+      returnFlightChildPrice: 0,
+      returnFlightInfantPrice: 0,
+      startDate: "2024-03-15T09:57:50.004Z",
+      endDate: "2024-03-15T09:57:50.004Z",
+      room: 0,
+      nights: 0
+  }, router, undefined }));
+  }
   window.scrollTo({
     top: 0,
     behavior: "smooth",

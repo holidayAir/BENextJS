@@ -107,7 +107,7 @@ const PersonalInfo = () => {
     return Object.values(newValidation).every((isValid) => isValid);
   };
   const handleSubmit = async (e) => {
-    debugger;
+   
     if (validateInput()) {
       try {
         await dispatch(updateUser({ userDataRQ:{...userData},toast,router }));

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import createAPI from "./api";
 
-const API = createAPI((process.env.NEXT_PUBLIC_CART_API_ENDPOINT?? "https://argentinacouponapi.azurewebsites.net"));
+const API = createAPI((process.env.NEXT_PUBLIC_FLIGHT_API_ENDPOINT?? "https://argentinaflightapi.azurewebsites.net"));
 
 export const getSessionCart = createAsyncThunk(
   "cart/getSessionCart",
@@ -92,7 +92,7 @@ const cartSlice = createSlice({
     builder.addCase(getSessionCart.fulfilled, (state, action) => {
       state.loading = false;
      
-      state.cartItems = action.payload;
+      state.cartItems = JSON.parse(action.payload);
     });
     builder.addCase(getSessionCart.rejected, (state, action) => {
       state.cartItems = [];
@@ -105,7 +105,7 @@ const cartSlice = createSlice({
     builder.addCase(addSessionCart.fulfilled, (state, action) => {   
       state.loading = false;
      
-      state.cartItems = action.payload;
+      state.cartItems = JSON.parse(action.payload);
     });
     builder.addCase(addSessionCart.rejected, (state, action) => { 
       state.loading = false;
@@ -116,7 +116,7 @@ const cartSlice = createSlice({
     });
     builder.addCase(deleteSessionCartItem.fulfilled, (state, action) => {
       state.loading = false;
-      state.cartItems = action.payload;
+      state.cartItems = JSON.parse(action.payload);
     });
     builder.addCase(deleteSessionCartItem.rejected, (state, action) => {
       state.loading = false;
@@ -127,7 +127,7 @@ const cartSlice = createSlice({
     });
     builder.addCase(clearSessionCart.fulfilled, (state, action) => {
       state.loading = false;
-      state.cartItems = action.payload;
+      state.cartItems = JSON.parse(action.payload);
     });
     builder.addCase(clearSessionCart.rejected, (state, action) => {
       state.loading = false;

@@ -1,7 +1,7 @@
 
 'use client'
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
@@ -9,10 +9,18 @@ import FlightTravellerInfo from "../FlightTravellerInfo";
 import HotelTravellerInfo from "../HotelTravellerInfo";
 import { FLIGHT_TAB_NAME, HOTEL_TAB_NAME } from "@/utils/constants";
 import { useSelector, useDispatch } from "react-redux";
+import { getSessionCart } from "@/features/hero/cartSlice";
+import { useRouter } from "next/navigation";
 
 const Index = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const { tabs, currentTab } = useSelector((state) => state.hero) || {};
+  
+  useEffect(() => {
+    dispatch(getSessionCart({ undefined, router, undefined }));
+  }, [dispatch]);
   const steps = [
     {
       title: "Personal Details",

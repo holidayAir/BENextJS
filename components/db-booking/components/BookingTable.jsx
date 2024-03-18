@@ -19,7 +19,7 @@ const BookingTable = () => {
   const router = useRouter();
   //const hotel = hotelsData.find((item) => item.id == id) || hotelsData[0];
   useEffect(() => {
-    debugger;
+   
     dispatch(myBookings({ filterParam, router, undefined }));
   }, [dispatch]);
   const [activeTab, setActiveTab] = useState(0);
