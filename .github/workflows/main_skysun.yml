@@ -53,9 +53,6 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
       
-      - name: Clean up temporary files
-        run: rm -rf ./*
-      
       - name: Login to Azure
         uses: azure/login@v1
         with:
