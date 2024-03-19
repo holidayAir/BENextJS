@@ -10,7 +10,7 @@ import { DateObject } from "react-multi-date-picker";
 import BookingDetailsFlight from "./sidebar/BookingDetailsFlight";
 import { createCart } from "@/features/hero/flightSlice";
 import { controllers } from "chart.js";
-import { addSessionCart, getSessionCart } from "@/features/hero/cartSlice";
+import { addSessionCart, addSessionCartSC, addSessionCartTR, getSessionCart, getSessionCartSC, getSessionCartTR } from "@/features/hero/cartSlice";
 const initialStatePassenger = {
   passengerTypeCode:"ADLT",
   gender : "",
@@ -38,12 +38,15 @@ const intialStateContact = {
   const FlightTravellerInfo = (props) => {
    
     const { cartItems } = useSelector((state) => state.cart);
-   
     const filteredItems = (cartItems && cartItems.length > 0) ? cartItems[0].items.filter(item => item.cartData.business === "Flight") : {};
-    
-    const  flightAvailRQtemp  = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.request) :{};
-    const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
-    const { loading,flightList,filterParam, selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
+    const  flightAvailRQ  = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.request) :{};
+    const selectedFlight = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.response) :{};
+    //console.log(selectedFlight);
+    const selectedReturnFlight = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.returnFlightResponse) :{};
+    //console.log(selectedReturnFlight);
+    debugger;
+    //const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
+    const { loading,flightList,filterParam } = useSelector((state) => state.flight);
     const [adultData, setAdultData] = useState(Array(flightAvailRQ?.searchParam?.adult).fill(initialStatePassenger));
     const [childData, setChildData] = useState(Array(flightAvailRQ?.searchParam?.child).fill(initialStatePassenger));
     const [infantData, setInfantData] = useState(Array(flightAvailRQ?.searchParam?.infant).fill(initialStatePassenger));
@@ -72,6 +75,12 @@ const intialStateContact = {
     const router = useRouter();
   // 
     
+  const getCart =()=>{
+    dispatch(getSessionCart({ undefined, router }));
+  }
+  const clearCart =()=>{
+    dispatch(clearCart());
+  }
   const addToCart = (departureFlight, returnFlight)=>{
     dispatch(addSessionCart({ rqAddSessionCart : {
       business: "Flight",
@@ -97,13 +106,17 @@ const intialStateContact = {
     // useEffect(() => {
     //   addToCart("adasdasd","asdsadsad");
     // }, []);
-    const getCart =()=>{
-      dispatch(getSessionCart({ undefined, router }));
-    }
-  // useEffect(() => {
-  //   debugger;
-  //   dispatch(getSessionCart({ undefined, router }));
-  // }, [dispatch]);
+    useEffect(() => {
+      if (cartItems.length === 0) {
+        dispatch(getSessionCart({ undefined, router })).then(() => {
+          debugger;
+          if (cartItems.length === 0) {
+            //router.push("/");
+            console.log("");
+          }
+        });
+      }
+    }, [dispatch]);
     useEffect(() => {
       error && toast.error(error);
     }, [error]);
@@ -270,12 +283,6 @@ const intialStateContact = {
           </div>}
         <div className="col-xl-8 col-lg-8 mt-30">
           
-        <button
-                      className="button -dark-1 px-30 h-40 bg-blue-1 text-white d-none float-end"
-                      onClick={()=> addToCart("fareItem", "index")}
-                    >
-                      Add Cart
-                    </button>
         <button
                       className="button -dark-1 d-none px-30 h-40 bg-blue-1 text-white float-end"
                       onClick={()=> getCart()}
@@ -1442,6 +1449,16 @@ const intialStateContact = {
       {/* End .col-xl-7 */}
 
       <div className="col-xl-4 col-lg-4 mt-30">
+        <div className="row x-gap-20 y-gap-20 pt-20">
+          <div className="col-xl-12">
+        <button
+                      className="button -dark-1 px-30 h-40 mb-20 bg-blue-1 text-white float-end"
+                      onClick={()=> clearCart()}
+                    >
+                      Clear Cart
+                    </button>
+          </div>
+        </div>
         <div className="booking-sidebarw">
           <BookingDetailsFlight />
         </div>

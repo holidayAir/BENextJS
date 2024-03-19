@@ -17,6 +17,35 @@ export const getSessionCart = createAsyncThunk(
     }
   }
 );
+export const getSessionCartSC = createAsyncThunk(
+  "cart/getSessionCartSC",
+  async ({ bookingid, router }, { rejectWithValue }) => {
+   
+    try {
+      const response = await API.get("api/SessionCartControllerSC");
+      //router.push('/payment-page')
+   //   router.push('/booking-confirm-page')
+      await dispatch(getSessionCartTR());
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const getSessionCartTR = createAsyncThunk(
+  "cart/getSessionCartTR",
+  async ({ bookingid, router }, { rejectWithValue }) => {
+   
+    try {
+      const response = await API.get("api/SessionCartControllerTR");
+      //router.push('/payment-page')
+   //   router.push('/booking-confirm-page')
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const addSessionCart = createAsyncThunk(
   "cart/addSessionCart",
@@ -26,6 +55,40 @@ export const addSessionCart = createAsyncThunk(
       
       console.log(JSON.stringify(rqAddSessionCart));
       const response = await API.post(`api/SessionCart/add`,  rqAddSessionCart );
+      router.push('/cart-page')
+      // Dispatch getSessionCart action after addSessionCart is fulfilled
+      await dispatch(getSessionCart()); // Dispatch getSessionCart action
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const addSessionCartSC = createAsyncThunk(
+  "cart/addSessionCart",
+  async ({ rqAddSessionCart, router }, { rejectWithValue }) => {
+   
+    try {
+      
+      console.log(JSON.stringify(rqAddSessionCart));
+      const response = await API.post(`api/SessionCartControllerSC/add`,  rqAddSessionCart );
+      router.push('/cart-page')
+      // Dispatch getSessionCart action after addSessionCart is fulfilled
+      await dispatch(getSessionCart()); // Dispatch getSessionCart action
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const addSessionCartTR = createAsyncThunk(
+  "cart/addSessionCart",
+  async ({ rqAddSessionCart, router }, { rejectWithValue }) => {
+   
+    try {
+      
+      console.log(JSON.stringify(rqAddSessionCart));
+      const response = await API.post(`api/SessionCartControllerTR/add`,  rqAddSessionCart );
       router.push('/cart-page')
       // Dispatch getSessionCart action after addSessionCart is fulfilled
       await dispatch(getSessionCart()); // Dispatch getSessionCart action
@@ -87,17 +150,49 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getSessionCart.pending, (state) => {
+      debugger;
       state.loading = true;
     });
     builder.addCase(getSessionCart.fulfilled, (state, action) => {
+      debugger;
+      state.loading = false;
+      action.payload[0].items.length > 0 ?
+      state.cartItems = action.payload : 
+      action.meta.arg.router.push("/");
+    });
+    builder.addCase(getSessionCart.rejected, (state, action) => {
+      debugger;
+      state.cartItems = [];
+      state.loading = false;
+      state.error = action.payload;
+    });
+    
+    builder.addCase(getSessionCartSC.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getSessionCartSC.fulfilled, (state, action) => {
       state.loading = false;
      
       state.cartItems = action.payload;
     });
-    builder.addCase(getSessionCart.rejected, (state, action) => {
+    builder.addCase(getSessionCartSC.rejected, (state, action) => {
       state.cartItems = [];
       state.loading = false;
-      state.error = action.payload.message;
+      state.error = action.payload;
+    });
+    
+    builder.addCase(getSessionCartTR.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getSessionCartTR.fulfilled, (state, action) => {
+      state.loading = false;
+     
+      state.cartItems = action.payload;
+    });
+    builder.addCase(getSessionCartTR.rejected, (state, action) => {
+      state.cartItems = [];
+      state.loading = false;
+      state.error = action.payload;
     });
     builder.addCase(addSessionCart.pending, (state) => {
       state.loading = true;
@@ -109,7 +204,7 @@ const cartSlice = createSlice({
     });
     builder.addCase(addSessionCart.rejected, (state, action) => { 
       state.loading = false;
-      state.error = action.payload.message;
+      state.error = action.payload;
     });
     builder.addCase(deleteSessionCartItem.pending, (state, action) => {
       state.loading = true;
@@ -120,7 +215,7 @@ const cartSlice = createSlice({
     });
     builder.addCase(deleteSessionCartItem.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload.message;
+      state.error = action.payload;
     });
     builder.addCase(clearSessionCart.pending, (state, action) => {
       state.loading = true;
@@ -131,7 +226,7 @@ const cartSlice = createSlice({
     });
     builder.addCase(clearSessionCart.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload.message;
+      state.error = action.payload;
     });
   },
 });

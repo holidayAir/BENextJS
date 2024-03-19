@@ -2,13 +2,20 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 
 const BookingDetailsFlight = () => {
-  const { selectedFlight, selectedReturnFlight } = useSelector((state) => state.flight);
+  const { cartItems } = useSelector((state) => state.cart);
+  const filteredItems = (cartItems && cartItems.length > 0) ? cartItems[0].items.filter(item => item.cartData.business === "Flight") : {};
+  const  flightAvailRQ  = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.request) :{};
+  const selectedFlight = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.response) :{};
+  //console.log(selectedFlight);
+  const selectedReturnFlight = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.returnFlightResponse) :{};
   // console.log("selectedFlight :",JSON.stringify(selectedFlight))
   // console.log(selectedReturnFlight)
   return selectedFlight?.flightSegmentID ? (
     <>
     
     <div className="mb-20" id={`div${selectedFlight?.flightSegmentID}`}  key={`${selectedFlight?.flightSegmentID}`}>
+    <div className=" float-end">
+    <button class="flex-censter position-absolute e-0 translate-middle bg-light-2 rounded-4 size-35 items-end"><i class="icon-trash-2 text-16 text-light-1"></i></button></div>
               <div className="border-light rounded-4">
                 <div className="py-20 px-30">
                   <div className="row justify-between items-center">
