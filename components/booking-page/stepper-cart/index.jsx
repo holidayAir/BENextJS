@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { FLIGHT_TAB_NAME, HOTEL_TAB_NAME } from "@/utils/constants";
 import { useSelector, useDispatch } from "react-redux";
 import ModalSigninSignup from "@/components/header/ModalSigninSignup";
+import MainCart from "../MainCart";
 
 const Index = () => {
   const { user, isUserLoggedIn } = useSelector((state) => state.user);
@@ -20,7 +21,7 @@ const Index = () => {
   const router = useRouter();
   const steps = [
     {
-      title: "Personal Details",
+      title: "Personal Detailsz",
       route: "/cart-page",
       stepNo: "1",
       stepBar: (
@@ -30,7 +31,7 @@ const Index = () => {
           </div>
         </>
       ),
-      content: currentTab === HOTEL_TAB_NAME ? <HotelTravellerInfo /> : <FlightTravellerInfo />,
+      content: <MainCart />,//<FlightTravellerInfo />,//currentTab === HOTEL_TAB_NAME ? <HotelTravellerInfo /> : <FlightTravellerInfo />,
     },
     {
       title: "Payment Details",

@@ -1,8 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 
 
-const PricingSummary = () => {
-  const { selectedHotel,selectedRoomTypeCode } = useSelector((state) => ({ ...state.hotel }));
+const PricingSummary = (props) => {
+  const request = JSON.parse(props?.request);
+  const response = JSON.parse(props?.response);
+  const selectedHotel = response?.selectedHotel
+  const selectedRoomTypeCode  = response?.selectedRoomTypeCode;
+  debugger;
   const { checkavailbookingrulesRS } = useSelector((state) => state.hotel);
   //console.log(selectedHotel);
   let hotelinfo = selectedHotel?.hotelOptions?.hotelOption.find(x=>x.ratePlanCode == selectedRoomTypeCode);
@@ -13,7 +17,11 @@ const PricingSummary = () => {
   }
   return (
     <>
-    <div className="px-30 py-30 border-light rounded-4 mt-30">
+    <div className="mt-30">
+    <div className=" float-end">
+    <button class="flex-censter position-absolute e-0 translate-middle bg-light-2 rounded-4 size-35 items-end"><i class="icon-trash-2 text-16 text-light-1"></i></button></div>
+    <div className="px-30 py-30 border-light rounded-4">
+      
       <div className="text-18 fw-500 mb-20"><i class="fa-solid fa-hotel"></i> {hotelDetails?.name}</div>
       <div className="row y-gap-5 justify-between">
       
@@ -48,9 +56,7 @@ const PricingSummary = () => {
       </div>
       {/* End .row */}
 
-      
-    </div>
-    <div className="px-30 py-30 border-light rounded-4 mt-30">
+      <hr className="mt-20 p-0" />
       <div className="text-20 fw-500 mb-20">Your price summary</div>
       <div className="text-15 fw-500 mb-20"><i class="fa-solid fa-hotel"></i> {hotelDetails?.name}</div>
       <div className="row y-gap-5 justify-between">
@@ -66,14 +72,14 @@ const PricingSummary = () => {
       </div>
       {/* End .row */}
 
-      <div className="row y-gap-5 justify-between pt-5">
+      {hotelinfo?.prices?.price?.totalFixAmounts.service.serviceTaxAmount && <div className="row y-gap-5 justify-between pt-5">
         <div className="col-auto">
           <div className="text-15">Taxes and fees</div>
         </div>
         <div className="col-auto">
           <div className="text-15">{selectedHotel?.currency} {hotelinfo?.prices?.price?.totalFixAmounts.service.serviceTaxAmount}</div>
         </div>
-      </div>
+      </div>}
       {/* End .row */}
 
       {/* <div className="row y-gap-5 justify-between pt-5">
@@ -97,6 +103,7 @@ const PricingSummary = () => {
         </div>
       </div>
       {/* End .row */}
+    </div>
     </div>
     </>
     // End px-30

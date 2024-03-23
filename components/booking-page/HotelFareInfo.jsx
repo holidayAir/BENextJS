@@ -17,7 +17,7 @@ const initialStatePassenger = {
   surname : "",
   birthDate: "",
   hasStretcher: false,
-  nationality: "AR", // Added confirmPassword field
+  nationality: "ES", // Added confirmPassword field
   nationalIdNumber : "",
   passportNumber:"",
   passportExpiryDate: ""
@@ -34,7 +34,7 @@ const intialStateContact = {
   phoneNumberMarkedForSendingRezInfo:true,
   emailMarkedForSendingRezInfo:true,
 }
-  const HotelTravellerInfo = () => {
+  const HotelFareInfo = () => {
     const { hotelCriteria } = useSelector((state) => ({ ...state.searchCriteria }));
     const { loading,selectedHotel,checkavailbookingrulesRS,selectedRoomTypeCode } = useSelector((state) => state.hotel);
 
@@ -729,4 +729,4 @@ const intialStateContact = {
   };
   
 
-export default HotelTravellerInfo;
+export default HotelFareInfo;

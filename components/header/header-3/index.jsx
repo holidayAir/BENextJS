@@ -179,7 +179,7 @@ className=" icon-user text-22 px-10 text-blue-3"
                   
         {isUserLoggedIn == true ? (
           
-          <div className="header-menu">
+          <div className="header-menu header-menu-profile">
           <div className="header-menu__content">
 <nav className="menu js-navList">
 <ul className={`menu__nav text-dark-1 -is-active`}>

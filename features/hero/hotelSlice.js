@@ -61,7 +61,7 @@ export const hotelCheckavailBookingRules = createAsyncThunk(
       console.log(JSON.stringify(hotelCheckAvailBookingRulesRQ));
       const response = await API.post(`api/hotel/hotelcheckavailbookingrules`,  hotelCheckAvailBookingRulesRQ );
       //navigate("/booking-page");
-      router.push('/cart-page')
+      //router.push('/cart-page')
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -225,6 +225,7 @@ const hotelSlice = createSlice({
     builder.addCase(hotelCheckavailBookingRules.pending, (state) => {
       
       state.loading = true;
+      state.checkavailbookingrulesRS = null;
     });
     builder.addCase(hotelCheckavailBookingRules.fulfilled, (state, action) => {
       
@@ -238,6 +239,7 @@ const hotelSlice = createSlice({
     builder.addCase(hotelCheckavailBookingRules.rejected, (state, action) => {
       
       state.loading = false;
+      state.checkavailbookingrulesRS = null;
       state.error = action.payload?.message;
     });
     

@@ -8,7 +8,7 @@ import BirthDate from "../common/BirthDate";
 import DateSearch from "../common/BirthDate";
 import { DateObject } from "react-multi-date-picker";
 import PricingSummary from "./sidebar/PricingSummary";
-import { createCart } from "@/features/hero/hotelSlice";
+import { createCart, hotelCheckavailBookingRules } from "@/features/hero/hotelSlice";
 
 const initialStatePassenger = {
   passengerTypeCode:"ADLT",
@@ -17,7 +17,7 @@ const initialStatePassenger = {
   surname : "",
   birthDate: "",
   hasStretcher: false,
-  nationality: "AR", // Added confirmPassword field
+  nationality: "ES", // Added confirmPassword field
   nationalIdNumber : "",
   passportNumber:"",
   passportExpiryDate: ""
@@ -34,14 +34,14 @@ const intialStateContact = {
   phoneNumberMarkedForSendingRezInfo:true,
   emailMarkedForSendingRezInfo:true,
 }
-  const HotelTravellerInfo = () => {
-    const { hotelCriteria } = useSelector((state) => ({ ...state.searchCriteria }));
-    const { loading,selectedHotel,checkavailbookingrulesRS,selectedRoomTypeCode } = useSelector((state) => state.hotel);
-
+  const HotelTravellers = (props) => {
+    const { loading,checkavailbookingrulesRS } = useSelector((state) => state.hotel);
+    const request = JSON.parse(props?.request);
+    const response = JSON.parse(props?.response);
     
-    const [passengerData, setPassengerData] = useState(Array(hotelCriteria?.room).fill(initialStatePassenger));
+    const [passengerData, setPassengerData] = useState(Array(request?.room).fill(initialStatePassenger));
     const [contactData, setContactData] = useState(intialStateContact);
-    const [validation, setValidation] = useState(Array(hotelCriteria?.room).fill({
+    const [validation, setValidation] = useState(Array(request?.room).fill({
       gender : true,
       firstname : true,
       lastname : true,
@@ -62,6 +62,21 @@ const intialStateContact = {
     const { firstname, lastname, email, gender, birthdate, phonenumber, socialsecuritynumber } = passengerData;
     const dispatch = useDispatch();
     const router = useRouter();
+    useEffect(() => {      
+     const pax = Array(request?.room).fill().map(() => ({ age: 25 }));
+     const hotelCheckAvailBookingRulesRQ = {
+        searchParam: {
+          startDate: new Date(decodeURIComponent(request?.startDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
+          endDate: new Date(decodeURIComponent(request?.endDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
+          pax: pax
+        },
+        selectedRoomTypeCode:response?.selectedRoomTypeCode,
+        HotelCode:response?.selectedHotel?.jpCode
+      };
+      
+      dispatch(hotelCheckavailBookingRules({ hotelCheckAvailBookingRulesRQ, router, undefined }));
+  
+    }, [dispatch]);
     useEffect(() => {
       error && toast.error(error);
     }, [error]);
@@ -124,19 +139,19 @@ const intialStateContact = {
         Object.values(passengerValidation).every((isValid) => isValid)
       );
     };
-    const pax = Array(hotelCriteria.room).fill().map(() => ({ age: 25 }));
+    const pax = Array(request?.room).fill().map(() => ({ age: 25 }));
     const handleSubmit = async (e) => {
       if (validateInput() && validateContactInput()) {
         try {
           dispatch(createCart({ createCartRQ : {
                       searchParam: {
-                        startDate: new Date(decodeURIComponent(hotelCriteria.startDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
-                        endDate: new Date(decodeURIComponent(hotelCriteria.endDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
+                        startDate: new Date(decodeURIComponent(request?.startDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
+                        endDate: new Date(decodeURIComponent(request?.endDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
                         pax: pax
                       },
                       BookingCode:checkavailbookingrulesRS?.bookingCode,
                       selectedRoomTypeCode:checkavailbookingrulesRS?.hotelOptions?.hotelOption[0]?.ratePlanCode,
-                      HotelCode:selectedHotel?.jpCode,
+                      HotelCode:response?.selectedHotel?.jpCode,
                       PriceRangeMinimum:checkavailbookingrulesRS?.priceRangeMinimum,
                       PriceRangeMaximum:checkavailbookingrulesRS?.priceRangeMaximum,
                       Currency:checkavailbookingrulesRS?.priceRangeCurrency,
@@ -189,22 +204,6 @@ const intialStateContact = {
 
     return (
       <>
-      
-      {!isUserLoggedIn ?? <div className="col-xl-12 col-lg-12 mt-30">
-      <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05">
-            Sign in to book with your saved details or{" "}
-            <Link href="/signup" className="text-blue-1 fw-500">
-              register
-            </Link>{" "}
-            to manage your bookings on the go!
-          </div>
-          </div>}
-        <div className="col-xl-8 col-lg-8 mt-30">
-          {/* End register notify */}
-{/*   
-          <h2 className="text-22 fw-500 mt-40 md:mt-24">
-            Let us know who you are
-          </h2> */}
         {checkavailbookingrulesRS?.warningCode && checkavailbookingrulesRS?.warningCode === "warnPriceChanged" &&
           <div className="row x-gap-20 y-gap-20">
             <div className={`col-12`}>
@@ -616,117 +615,9 @@ const intialStateContact = {
       
       </div>       
       ))}
-      
-      <div className="row x-gap-20 y-gap-20 pt-20">
-  
-      <div className={`col-12`}>
-        <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05 border-bottom">
-            Contact/ Communication Information (Ticket(s) will be sent in this number)
-          </div>
-          </div>
-        <div className={`col-6`}>
-          <div className={`form-input ${validationRules.givenName && !validationContact.givenName ? 'error' : ''}`}>
-            <input type="text" required id={`givenName`} name={`givenName`} onChange={(e) => onContactInputChange(e)} />
-            <label className="lh-1 text-14 text-light-1">First Name *</label>
-          </div>
-        </div>
-        {/* End .col */}
-  
-        <div className={`col-6`}>
-          <div className={`form-input ${validationRules.surname && !validationContact.surname ? 'error' : ''}`}>
-            <input type="text" required id={`surname`} name={`surname`} onChange={(e) => onContactInputChange(e)} />
-            <label className="lh-1 text-14 text-light-1">Last Name *</label>
-          </div>
-        </div>
-        {/* End .col */}
-  
-        <div className={`col-6`}>
-          <div className={`form-input ${validationRules.email && !validationContact.email ? 'error' : ''}`}>
-            <input type="text" required id={`email`} name={`email`} onChange={(e) => onContactInputChange(e)} />
-            <label className="lh-1 text-14 text-light-1">Email *</label>
-          </div>
-        </div>
-        {/* End .col */}
-  
-        <div className={`col-6`}>
-          <div className={`form-input ${validationRules.phoneNumberSubscriberNumber && !validationContact.phoneNumberSubscriberNumber ? 'error' : ''}`}>
-            <input type="text" required id="phoneNumberSubscriberNumber" name="phoneNumberSubscriberNumber" onChange={(e) => onContactInputChange(e)} />
-            <label className="lh-1 text-14 text-light-1">Phone *</label>
-          </div>
-        </div>
-        {/* End .col */}
-  
-        {/* <div className="col-6">
-          <div className="d-flex ">
-            <div className="form-checkbox mt-5">
-              <input type="checkbox" name={`phoneNumberMarkedForSendingRezInfo`} id={`phoneNumberMarkedForSendingRezInfo`} onChange={(e) => onContactInputChangege(e)} />
-              <div className="form-checkbox__mark">
-                <div className="form-checkbox__icon icon-check" />
-              </div>
-            </div>
-            <div className="text-15 lh-15 text-light-1 ml-10">
-              Yes send phone msg PNR
-            </div>
-          </div>
-        </div> */}
-        {/* End .col */}
-        {/* End .col */}
-  
-        {/* <div className="col-6">
-          <div className="d-flex ">
-            <div className="form-checkbox mt-5">
-              <input type="checkbox" name={`emailMarkedForSendingRezInfo`} id={`emailMarkedForSendingRezInfo`} onChange={(e) => onContactInputChangege(e)} />
-              <div className="form-checkbox__mark">
-                <div className="form-checkbox__icon icon-check" />
-              </div>
-            </div>
-            <div className="text-15 lh-15 text-light-1 ml-10">
-              Yes send email msg PNR
-            </div>
-          </div>
-        </div> */}
-        {/* End .col */} 
-        
-        </div>       
-        {/* End .row */}
-      </div>
-      {/* End .col-xl-7 */}
-
-      <div className="col-xl-4 col-lg-4 mt-30">
-        <div className="booking-sidebarw">
-          <PricingSummary />
-        </div>
-      </div>
-      {/*  */}
-      
-
-      <div className="row x-gap-20 y-gap-20 pt-20">
-        <div className="col-auto">
-          <button
-            className="FTI button h-60 px-24 -blue-1 bg-light-2"
-            // disabled={currentStep === 0}
-            //onClick={previousStep}
-          >
-            Previous
-          </button>
-        </div>
-        {/* End prvious btn */}
-
-        <div className="col-auto">
-          <button
-            className="button h-60 px-24 -dark-1 bg-blue-1 text-white"
-            //disabled={currentStep === steps.length - 1}
-            onClick={handleSubmit}
-          >
-            Next &nbsp;&nbsp;{loading ? <React.Fragment><i class="spinner-border spinner-border-sm ml-5"></i>&nbsp;&nbsp;</React.Fragment>:<div className="icon-arrow-top-right ml-15" />}
-          </button>
-        </div>
-        {/* End next btn */}
-      </div>
-      {/* End stepper button */}
     </>
     );
   };
   
 
-export default HotelTravellerInfo;
+export default HotelTravellers;

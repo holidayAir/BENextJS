@@ -13,7 +13,7 @@ const Index = () => {
   const router = useRouter();
   const steps = [
     {
-      title: "Personal Details",
+      title: "Personal Detailsss",
       route: "/cart-page",
       stepNo: "1",
       stepBar: (

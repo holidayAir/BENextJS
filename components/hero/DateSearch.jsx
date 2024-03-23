@@ -72,7 +72,7 @@ const DateSearch = ({cutOfDayss,stayInDayss}) => {
   };
 var single = single;
 var range = range;
-debugger;
+
   return (
     <div className="text-15 text-light-1 ls-2 lh-16 custom_dual_datepicker">
       <DatePicker

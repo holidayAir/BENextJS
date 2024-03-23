@@ -32,7 +32,7 @@ const modifiedFlight = {
 };
 
 dispatch(updateSelectedFlight(modifiedFlight));
-debugger;
+
     dispatch(flightExtraCharges({ flightExtraChargesRQ : {
       requestXML: rqCreateBooking,
       tripType: "ONE_WAY",
@@ -157,7 +157,7 @@ debugger;
                   <div>
                     <div className="text-right md:text-left mb-10">
                       <div className="text-18 lh-16 fw-500">{`USD ${item.indicativePrice}`}</div>
-                      <div className="text-15 lh-16 text-light-1">{`${item.passengerFareInfoList.length} flights`}</div>
+                      <div className="text-15 lh-16 text-light-1">{`${item.fareComponentList.length} flights`}</div>
                     </div>
                     <div className="accordion__button">
                       <button
@@ -193,7 +193,7 @@ debugger;
                     </div>
                   </div>
                 </div>
-                {item.passengerFareInfoList.map((fareItem, fareItemindex)=>(
+                {item.fareComponentList.map((fareItem, fareItemindex)=>(
                 <div className="py-30 px-30 border-top-light">
                   <div className="row y-gap-10 justify-between">
                     <div className="col-auto">
@@ -259,7 +259,7 @@ debugger;
                         className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
                         onClick={()=> updateCart(fareItem.rqCreateBooking, fareItemindex, index)}
                       >
-                        {fareItem.pricingInfo.totalFare.currencyCode + " " + fareItem.pricingInfo.totalFare.amount} {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
+                        {"USD " + fareItem.indicativeBaseFare} {loading ? <i class="spinner-border spinner-border-sm"></i>:<div className="icon-arrow-top-right ml-15" />}
                       </button>
                     </div>):(<>
                   <div className="col-auto text-left md:text-left">
@@ -277,7 +277,7 @@ debugger;
                       className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
                       onClick={()=> updateCart(fareItem.rqCreateBooking, fareItemindex, index)}
                     >
-                      {fareItem.pricingInfo.totalFare.currencyCode + " " + fareItem.pricingInfo.totalFare.amount} <div className="icon-arrow-top-right ml-15" />
+                      {"USD " + fareItem.indicativeBaseFare} <div className="icon-arrow-top-right ml-15" />
                     </button>
                   </div></>)}
                   </div>

@@ -1,13 +1,10 @@
 import Image from "next/image";
 import { useSelector } from "react-redux";
 
-const BookingDetailsFlight = () => {
-  const { cartItems } = useSelector((state) => state.cart);
-  const filteredItems = (cartItems && cartItems.length > 0) ? cartItems[0].items.filter(item => item.cartData.business === "Flight") : {};
-  const  flightAvailRQ  = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.request) :{};
-  const selectedFlight = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.response) :{};
+const BookingDetailsFlight = (props) => {
+  const selectedFlight = props.response ? JSON.parse(props.response) :{};
   //console.log(selectedFlight);
-  const selectedReturnFlight = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.returnFlightResponse) :{};
+  const selectedReturnFlight = props.response ? JSON.parse(props.returnFlightResponse) :{};
   // console.log("selectedFlight :",JSON.stringify(selectedFlight))
   // console.log(selectedReturnFlight)
   return selectedFlight?.flightSegmentID ? (
@@ -54,90 +51,9 @@ const BookingDetailsFlight = () => {
                   </div>
                 </div>
                 ))}
-              </div>
-              <div className="border-light rounded-4 mt-20" style={{display:"none"}}>
-                <div className="py-20 px-30">
-                  <div className="row justify-between items-center">
-                    <div className="col-auto">
-                      <div className="fw-500 text-dark-1">
-                        Depart • Sat, Mar 26
-                      </div>
-                    </div>
-                    <div className="col-auto">
-                      <div className="text-14 text-light-1">4h 05m</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="py-30 px-30 border-top-light">
-                  <div className="row y-gap-10 justify-between">
-                    <div className="col-auto">
-                      <div className="d-flex items-center mb-15">
-                        <div className="w-28 d-flex justify-center mr-15">
-                          <img src="/img/flights/HolidayAir.svg" alt="image" />
-                        </div>
-                        <div className="text-14 text-light-1">
-                          Pegasus Airlines 1169
-                        </div>
-                      </div>
-                      <div className="relative z-0">
-                        <div className="border-line-2" />
-                        <div className="d-flex items-center">
-                          <div className="w-28 d-flex justify-center mr-15">
-                            <div className="size-10 border-light rounded-full bg-white" />
-                          </div>
-                          <div className="row">
-                            <div className="col-auto">
-                              <div className="lh-14 fw-500">8:25 am</div>
-                            </div>
-                            <div className="col-auto">
-                              <div className="lh-14 fw-500">
-                                Istanbul Sabiha Gokcen (SAW)
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="d-flex items-center mt-15">
-                          <div className="w-28 d-flex justify-center mr-15">
-                            <img src="/img/flights/plane.svg" alt="image" />
-                          </div>
-                          <div className="text-14 text-light-1">4h 05m</div>
-                        </div>
-                        <div className="d-flex items-center mt-15">
-                          <div className="w-28 d-flex justify-center mr-15">
-                            <div className="size-10 border-light rounded-full bg-border" />
-                          </div>
-                          <div className="row">
-                            <div className="col-auto">
-                              <div className="lh-14 fw-500">9:30 am</div>
-                            </div>
-                            <div className="col-auto">
-                              <div className="lh-14 fw-500">
-                                London Stansted (STN)
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-auto text-right md:text-left">
-                      <div className="text-14 text-light-1">Economy</div>
-                      <div className="text-14 mt-15 md:mt-5">
-                        Airbus A320neo (Narrow-body jet)
-                        <br />
-                        Wi-Fi available
-                        <br />
-                        USB outlet
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                
             {selectedReturnFlight?.flightSegmentID ? (
-    <>
-    
-    <div className="mb-20" id={`div${selectedReturnFlight?.flightSegmentID}`}  key={`${selectedReturnFlight?.flightSegmentID}`}>
-              <div className="border-light rounded-4">
+    <><hr className="mt-20 p-0" />
                 <div className="py-20 px-30">
                   <div className="row justify-between items-center">
                     <div className="col-auto">
@@ -175,7 +91,6 @@ const BookingDetailsFlight = () => {
                   </div>
                 </div>
                 ))}
-              </div>
               <div className="border-light rounded-4 mt-20" style={{display:"none"}}>
                 <div className="py-20 px-30">
                   <div className="row justify-between items-center">
@@ -253,10 +168,11 @@ const BookingDetailsFlight = () => {
                   </div>
                 </div>
               </div>
-            </div>
     </>
     // End px-30
   ):(<></>)}
+              </div>
+            </div>
     </>
     // End px-30
   ):(<></>);

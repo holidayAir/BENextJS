@@ -4,20 +4,40 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 // import InputRange from "react-input-range";
 import { useDispatch, useSelector } from "react-redux";
+import { addSessionCart } from "@/features/hero/cartSlice";
 
 const AvailableRooms = ({ hotel }) => {
   const { hotelList,hotelAvailRQ, filterParam,loading,selectedRoomTypeCode } = useSelector((state) => ({ ...state.hotel }));
   const { hotelCriteria } = useSelector((state) => state.searchCriteria);
   const dispatch = useDispatch();
   const router = useRouter();
-  const handleBooking = (ratePlanCode) => {
+  const handleBooking = (ratePlanCode, itemPrice) => {
     // Your booking logic goes here
     console.log(`Booking room with rate plan code: ${ratePlanCode}`);
     const modifiedHotel = {
       selectedHotel:hotel,
       selectedRoomTypeCode:ratePlanCode,
     };
-   dispatch(updateSelectedHotel(modifiedHotel));
+    
+    const startDate = new Date(decodeURIComponent(hotelCriteria.startDate));
+    const endDate = new Date(decodeURIComponent(hotelCriteria.endDate));
+    const differenceInTime = endDate.getTime() - startDate.getTime();
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+  dispatch(addSessionCart({ rqAddSessionCart : {
+    business: "Hotel",
+    request: JSON.stringify(hotelCriteria),
+    response: JSON.stringify(modifiedHotel),
+    adultPrice: itemPrice,
+    childPrice: 0,
+    infantPrice: 0,
+    adult: (hotelCriteria?.room),
+    child: 0,
+    startDate: "2024-03-15T09:57:50.004Z",
+    endDate: "2024-03-15T09:57:50.004Z",
+    room: (hotelCriteria?.room),
+    nights: (Math.ceil(differenceInDays))
+}, router, undefined }));
+   //dispatch(updateSelectedHotel(modifiedHotel));
    const pax = Array(hotelCriteria.room).fill().map(() => ({ age: 25 }));
    const hotelCheckAvailBookingRulesRQ = {
       searchParam: {
@@ -29,8 +49,7 @@ const AvailableRooms = ({ hotel }) => {
       HotelCode:hotel?.jpCode
     };
     
-    dispatch(hotelCheckavailBookingRules({ hotelCheckAvailBookingRulesRQ, router, undefined }));
-
+    //dispatch(hotelCheckavailBookingRules({ hotelCheckAvailBookingRulesRQ, router, undefined }));
     //router.push('/cart-page');
     // Add additional booking logic as needed
   };
@@ -269,7 +288,7 @@ const AvailableRooms = ({ hotel }) => {
                   </div>
                   <a
                     className="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-10"
-                    onClick={() => handleBooking(item.ratePlanCode)}
+                    onClick={() => handleBooking(item.ratePlanCode, item?.prices.price.totalFixAmounts.gross)}
                   >
                     Reserve {loading ? <i class="spinner-border spinner-border-sm  ml-15"></i>:<div className="icon-arrow-top-right ml-15" />}
                   </a>

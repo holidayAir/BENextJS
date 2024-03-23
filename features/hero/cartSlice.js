@@ -150,18 +150,18 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getSessionCart.pending, (state) => {
-      debugger;
+      
       state.loading = true;
     });
     builder.addCase(getSessionCart.fulfilled, (state, action) => {
-      debugger;
+      
       state.loading = false;
       action.payload[0].items.length > 0 ?
       state.cartItems = action.payload : 
       action.meta.arg.router.push("/");
     });
     builder.addCase(getSessionCart.rejected, (state, action) => {
-      debugger;
+      
       state.cartItems = [];
       state.loading = false;
       state.error = action.payload;

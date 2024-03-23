@@ -11,6 +11,7 @@ import { FLIGHT_TAB_NAME, HOTEL_TAB_NAME } from "@/utils/constants";
 import { useSelector, useDispatch } from "react-redux";
 import { getSessionCart } from "@/features/hero/cartSlice";
 import { useRouter } from "next/navigation";
+import MainCart from "../MainCart";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const Index = () => {
   }, [dispatch]);
   const steps = [
     {
-      title: "Personal Details",
+      title: "Personal Detailss",
       stepNo: "1",
       stepBar: (
         <>
@@ -32,7 +33,7 @@ const Index = () => {
           </div>
         </>
       ),
-      content: currentTab === HOTEL_TAB_NAME ? <HotelTravellerInfo /> : <FlightTravellerInfo />,
+      content: <MainCart />//<FlightTravellerInfo />,//currentTab === HOTEL_TAB_NAME ? <HotelTravellerInfo /> : <FlightTravellerInfo />,
     },
     {
       title: "Payment Details",

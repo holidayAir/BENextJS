@@ -9,6 +9,7 @@ import { getSessionCart } from "@/features/hero/cartSlice";
 import FlightFareInfo from "./FlightFareInfo";
 import FlightTravellers from "./FlightTravellers";
 import PricingSummary from "./sidebar/PricingSummary";
+import HotelTravellers from "./HotelTravellers";
 const initialStatePassenger = {
   passengerTypeCode:"ADLT",
   gender : "",
@@ -33,7 +34,7 @@ const intialStateContact = {
   phoneNumberMarkedForSendingRezInfo:true,
   emailMarkedForSendingRezInfo:true,
 }
-  const FlightTravellerInfo = (props) => {
+  const MainCart = (props) => {
    
     const { cartItems, loading } = useSelector((state) => state.cart);
     const filteredItems = (cartItems && cartItems.length > 0) ? cartItems[0].items.filter(item => item.cartData.business === "Flight") : {};
@@ -180,6 +181,7 @@ const intialStateContact = {
       setValidationContact({...validationContact, [name]:false});
     }
   };
+  console.log(cartItems);
     return (!loading && cartItems.length > 0 && cartItems[0].items.length > 0) ? (
       <>
       {!isUserLoggedIn ?? <div className="col-xl-12 col-lg-12 mt-30">
@@ -194,7 +196,10 @@ const intialStateContact = {
         <div className="col-xl-8 col-lg-8 mt-30">
           
   {cartItems[0].items.map((cartItem, index) => (
-          <FlightTravellers {...cartItem} />   
+    <>
+          
+          {cartItem?.cartData?.business === "Hotel"  ? <HotelTravellers {...cartItem.cartData} /> :<FlightTravellers {...cartItem?.cartData} /> }  
+          </>
           ))}
       
       <hr className="mt-20 p-0" />
@@ -253,9 +258,20 @@ const intialStateContact = {
         <div className="booking-sidebarw">
   {cartItems[0].items.map((cartItem, index) => (
     <>
-          {cartItem.business === "Hotel" ? <PricingSummary {...cartItem} /> :<FlightFareInfo {...cartItem} />  } 
+          {cartItem?.cartData?.business === "Hotel" ? <PricingSummary {...cartItem?.cartData} /> :<FlightFareInfo {...cartItem?.cartData} />  } 
           </>
           ))}
+          {cartItems[0].totalCost && cartItems[0].totalCost > 0 && <div className="px-20 py-20 bg-blue-2 rounded-4 mt-20">
+            <div className="row y-gap-5 justify-between">
+              <div className="col-auto">
+                <div className="text-18 lh-13 fw-500">Total Price</div>
+              </div>
+              <div className="col-auto">
+                <div className="text-18 lh-13 fw-500">{`USD`} {cartItems[0].totalCost}</div>
+              </div>
+            </div>
+          </div>
+          }
           </div>
       </div>
       {/*  */}
@@ -290,4 +306,4 @@ const intialStateContact = {
   };
   
 
-export default FlightTravellerInfo;
+export default MainCart;

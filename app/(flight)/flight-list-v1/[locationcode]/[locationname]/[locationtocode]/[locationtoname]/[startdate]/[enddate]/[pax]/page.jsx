@@ -78,6 +78,9 @@ const index = ({ params }) => {
   }, [dispatch]);
   
   const addToCart = (departureFlight, returnFlight)=>{
+    console.log(departureFlight);
+    console.log(returnFlight);
+
   dispatch(addSessionCart({ rqAddSessionCart : {
     business: "Flight",
     request: JSON.stringify(flightAvailRQ),
