@@ -22,11 +22,11 @@ const FlightReturnProperties = (props) => {
 //# Select the single flight object
 const selectedReturnFlight = returnFlightList[index];
 
-//# Modify the passengerFareInfoList for the selected flight
-const modifiedPassengerFareInfo = selectedReturnFlight.passengerFareInfoList[fareItemindex];
+//# Modify the fareComponentList for the selected flight
+const modifiedPassengerFareInfo = selectedReturnFlight.fareComponentList[fareItemindex];
 const modifiedFlight = {
     ...selectedReturnFlight,
-    passengerFareInfoList: [modifiedPassengerFareInfo]
+    fareComponentList: [modifiedPassengerFareInfo]
 };
 
 dispatch(updateSelectedReturnFlight(modifiedFlight));
@@ -56,7 +56,14 @@ dispatch(updateSelectedReturnFlight(modifiedFlight));
       endDate: "2024-03-15T09:57:50.004Z",
       room: 0,
       nights: 0
-  }, router, undefined }));
+  }, router, undefined })).then((action) => {
+    // Check if cart is empty, then redirect
+    if (action.payload[0].items.length === 0) {
+      router.push('/'); // Assuming you have access to router here
+    } else {
+      router.push('/cart-page'); // Or redirect to cart page
+    }
+});
   }
   window.scrollTo({
     top: 0,
@@ -152,7 +159,7 @@ dispatch(updateSelectedReturnFlight(modifiedFlight));
                 <div className="pl-30 border-left-light h-full md:d-none" />
                 <div>
                   <div className="text-right md:text-left mb-10">
-                    <div className="text-18 lh-16 fw-500">{`USD ${item.indicativePrice}`}</div>
+                    <div className="text-18 lh-16 fw-500">{`USD ${item.indicativeBaseFare}`}</div>
                     <div className="text-15 lh-16 text-light-1">{`${item.fareComponentList.length} flights`}</div>
                   </div>
                   <div className="accordion__button">
@@ -247,7 +254,7 @@ day: 'numeric'
                       <br />
                       {`${fareItem.fareGroupName} - ${fareItem.fareReferenceName} (${fareItem.fareReferenceCode})`}
                       <br />
-                      {`Seat Availability : ${0}`}
+                      {`Seat Availability : ${item.bookingClassList[fareItemindex].resBookDesigQuantity}`}
                     </div>
                   </div>
                   <div className="col-auto text-right md:text-left">

@@ -8,7 +8,7 @@ const OrderSubmittedInfo = () => {
   let GoToDetails = (itemcode)=>{
     Router.push(`/viewreservation/flight/${itemcode}`);
   };
-  console.log(resCart);
+  //console.log(resCart);
   return (
     <>
       <div className="col-xl-12 col-lg-12">
@@ -28,12 +28,6 @@ const OrderSubmittedInfo = () => {
 
           <div className="border-type-1 rounded-8 px-50 py-35 mt-40">
             <div className="row">
-              {/* <div className="col-lg-3 col-md-6">
-                <div className="text-15 lh-12">Hotel</div>
-                <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
-                  {bookingRS?.BookingRS?.Reservations?.Reservation?.Items?.HotelItem?.HotelInfo.Name}
-                </div>
-              </div> */}
               <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Boking Ref Number</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
@@ -63,94 +57,12 @@ const OrderSubmittedInfo = () => {
               <div className="col-lg-3 col-md-6">
                 <Link class="button -md h-60 bg-blue-1 text-white"
                   href={`/viewreservation/flight/${resCart?.BookingGuid}`}
-                  //onClick={()=> {console.log("Button clicked"+bookingRS?.BookingGuid);GoToDetails(bookingRS?.BookingGuid)}}
+                  //onClick={()=> {//console.log("Button clicked"+bookingRS?.BookingGuid);GoToDetails(bookingRS?.BookingGuid)}}
                 >View Reservation</Link>
               </div>
               {/* End .col */}
             </div>
           </div>
-          {/* order price info */}
-
-          {/* <div className="border-light rounded-8 px-50 py-40 mt-40">
-            <h4 className="text-20 fw-500 mb-30">Your Information</h4>
-            <div className="row y-gap-10">
-              <div className="col-12">
-                <div className="d-flex justify-between ">
-                  <div className="text-15 lh-16">First name</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1">System</div>
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="d-flex justify-between border-top-light pt-10">
-                  <div className="text-15 lh-16">Last name</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1">Admin</div>
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="d-flex justify-between border-top-light pt-10">
-                  <div className="text-15 lh-16">Email</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1">
-                    admin@bookingcore.test
-                  </div>
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="d-flex justify-between border-top-light pt-10">
-                  <div className="text-15 lh-16">Phone</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1">
-                    112 666 888
-                  </div>
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="d-flex justify-between border-top-light pt-10">
-                  <div className="text-15 lh-16">Address line 1</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1" />
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="d-flex justify-between border-top-light pt-10">
-                  <div className="text-15 lh-16">Address line 2</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1" />
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="d-flex justify-between border-top-light pt-10">
-                  <div className="text-15 lh-16">City</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1">
-                    New York
-                  </div>
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="d-flex justify-between border-top-light pt-10">
-                  <div className="text-15 lh-16">State/Province/Region</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1" />
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="d-flex justify-between border-top-light pt-10">
-                  <div className="text-15 lh-16">ZIP code/Postal code</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1" />
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="d-flex justify-between border-top-light pt-10">
-                  <div className="text-15 lh-16">Country</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1">
-                    United States
-                  </div>
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="d-flex justify-between border-top-light pt-10">
-                  <div className="text-15 lh-16">Special Requirements</div>
-                  <div className="text-15 lh-16 fw-500 text-blue-1" />
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* End order information */}
         </div>
       </div>
     </>

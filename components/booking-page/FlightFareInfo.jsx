@@ -5,9 +5,7 @@ import BookingDetailsFlight from "./sidebar/BookingDetailsFlight";
     const { cartItems } = useSelector((state) => state.cart);
     const filteredItems = (cartItems && cartItems.length > 0) ? cartItems[0].items.filter(item => item.cartData.business === "Flight") : {};
     return (
-        <div className="booking-sidebarw">
           <BookingDetailsFlight {...props} />
-        </div>
     );
   };
   

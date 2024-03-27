@@ -3,16 +3,16 @@ import { useSelector } from "react-redux";
 
 const BookingDetailsFlight = (props) => {
   const selectedFlight = props.response ? JSON.parse(props.response) :{};
-  //console.log(selectedFlight);
-  const selectedReturnFlight = props.response ? JSON.parse(props.returnFlightResponse) :{};
-  // console.log("selectedFlight :",JSON.stringify(selectedFlight))
-  // console.log(selectedReturnFlight)
+  ////console.log(selectedFlight);
+  const selectedReturnFlight = (props.returnFlightResponse && props.returnFlightResponse !== "string") ? JSON.parse(props.returnFlightResponse) :{};
+  // //console.log("selectedFlight :",JSON.stringify(selectedFlight))
+  // //console.log(selectedReturnFlight)
   return selectedFlight?.flightSegmentID ? (
     <>
     
     <div className="mb-20" id={`div${selectedFlight?.flightSegmentID}`}  key={`${selectedFlight?.flightSegmentID}`}>
     <div className=" float-end">
-    <button class="flex-censter position-absolute e-0 translate-middle bg-light-2 rounded-4 size-35 items-end"><i class="icon-trash-2 text-16 text-light-1"></i></button></div>
+    <button class="flex-censter position-absolute e-0 translate-middle bg-light-2 rounded-4 size-35 items-end" onClick={()=> props.removeCartItem(props.id)}><i class="icon-trash-2 text-16 text-light-1"></i></button></div>
               <div className="border-light rounded-4">
                 <div className="py-20 px-30">
                   <div className="row justify-between items-center">
@@ -30,7 +30,8 @@ const BookingDetailsFlight = (props) => {
                     </div>
                   </div>
                 </div>
-                {selectedFlight?.passengerFareInfoList?.map((fareItem, fareItemindex)=>(
+                {selectedFlight?.fareComponentList?.map((fareItem, fareItemindex)=>(
+                  <>
                 <div className="py-30 px-30 border-top-light">
                   <div className="row y-gap-10 justify-between">
                   <div class="row x-gap-20 items-end"><div class="col-auto"><div class="lh-15 fw-500">{new Date(selectedFlight?.departureDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div><div class="text-15 lh-15 text-light-1">{`${selectedFlight?.departureAirport.locationCode}`}</div></div><div class="col text-center">                          <div className="text-14 text-light-1">{selectedFlight?.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}</div><div class="flightLine"><div></div><div></div></div><div class="text-15 lh-15 text-light-1 mt-10">Nonstop</div></div><div class="col-auto"><div class="lh-15 fw-500">{new Date(selectedFlight?.arrivalDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div><div class="text-15 lh-15 text-light-1">{`${selectedFlight?.arrivalAirport.locationCode}`}</div></div></div>
@@ -45,15 +46,41 @@ const BookingDetailsFlight = (props) => {
                       <div className="text-14 mt-15 md:mt-5">
                       {`${fareItem.cabin} - ${fareItem.cabinClassCode}`}
                         <br />
-                      {fareItem.pricingInfo.totalFare.currencyCode + " " + fareItem.pricingInfo.totalFare.amount}
+                      {"USD " + fareItem.indicativeBaseFare}
                       </div>
                     </div>
                   </div>
+                    
+                    {fareItem.passengerFareInfoList?.map((pFareItem, pFareItemindex)=>(
+                  <div className="row y-gap-10 justify-between">
+                        <div className="col-auto text-left md:text-left">
+                          <div className="text-14 mt-15 md:mt-5"><i class="icon-luggage"></i>
+                            {` ${pFareItem.passengerQuantity} x ${pFareItem.passengerType} (Base : ${pFareItem.pricingInfo.baseFare.amount} + Tax : ${pFareItem.pricingInfo.taxes.amount})`}
+                          </div>
+                        </div>
+                        <div className="col-auto text-right md:text-left">
+                          <div className="text-14 mt-15 md:mt-5">
+                          {"USD " + (pFareItem.passengerQuantity*pFareItem.pricingInfo.totalFare.amount)}
+                          </div>
+                        </div>
+                        </div>
+                    ))}
                 </div>
+  <div className="px-20 py-20 bg-blue-2 rounded-4 mt-0">
+        <div className="row y-gap-5 justify-between">
+          <div className="col-auto">
+            <div className="text-18 lh-13 fw-500">Price</div>
+          </div>
+          <div className="col-auto">
+            <div className="text-18 lh-13 fw-500">USD {fareItem?.pricingOverview?.totalAmount?.value}</div>
+          </div>
+        </div>
+      </div>
+                </>
                 ))}
                 
             {selectedReturnFlight?.flightSegmentID ? (
-    <><hr className="mt-20 p-0" />
+    <><hr className="mt-0 p-0" />
                 <div className="py-20 px-30">
                   <div className="row justify-between items-center">
                     <div className="col-auto">
@@ -70,7 +97,8 @@ const BookingDetailsFlight = (props) => {
                     </div>
                   </div>
                 </div>
-                {selectedReturnFlight?.passengerFareInfoList?.map((fareItem, fareItemindex)=>(
+                {selectedReturnFlight?.fareComponentList?.map((fareItem, fareItemindex)=>(
+                  <>
                 <div className="py-30 px-30 border-top-light">
                   <div className="row y-gap-10 justify-between">
                   <div class="row x-gap-20 items-end"><div class="col-auto"><div class="lh-15 fw-500">{new Date(selectedReturnFlight?.departureDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div><div class="text-15 lh-15 text-light-1">{`${selectedReturnFlight?.departureAirport.locationCode}`}</div></div><div class="col text-center">                          <div className="text-14 text-light-1">{selectedReturnFlight?.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}</div><div class="flightLine"><div></div><div></div></div><div class="text-15 lh-15 text-light-1 mt-10">Nonstop</div></div><div class="col-auto"><div class="lh-15 fw-500">{new Date(selectedReturnFlight?.arrivalDateTime).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div><div class="text-15 lh-15 text-light-1">{`${selectedReturnFlight?.arrivalAirport.locationCode}`}</div></div></div>
@@ -85,11 +113,36 @@ const BookingDetailsFlight = (props) => {
                       <div className="text-14 mt-15 md:mt-5">
                       {`${fareItem.cabin} - ${fareItem.cabinClassCode}`}
                         <br />
-                      {fareItem.pricingInfo.totalFare.currencyCode + " " + fareItem.pricingInfo.totalFare.amount}
+                      {"USD " + fareItem.indicativeBaseFare}
                       </div>
                     </div>
                   </div>
+                    {fareItem.passengerFareInfoList?.map((pFareItem, pFareItemindex)=>(
+                  <div className="row y-gap-10 justify-between">
+                        <div className="col-auto text-left md:text-left">
+                          <div className="text-14 mt-15 md:mt-5"><i class="icon-luggage"></i>
+                            {` ${pFareItem.passengerQuantity} x ${pFareItem.passengerType} (Base : ${pFareItem.pricingInfo.baseFare.amount} + Tax : ${pFareItem.pricingInfo.taxes.amount})`}
+                          </div>
+                        </div>
+                        <div className="col-auto text-right md:text-left">
+                          <div className="text-14 mt-15 md:mt-5">
+                          {"USD " + (pFareItem.passengerQuantity*pFareItem.pricingInfo.totalFare.amount)}
+                          </div>
+                        </div>
+                        </div>
+                    ))}
                 </div>
+  <div className="px-20 py-20 bg-blue-2 rounded-4 mt-0">
+        <div className="row y-gap-5 justify-between">
+          <div className="col-auto">
+            <div className="text-18 lh-13 fw-500">Price</div>
+          </div>
+          <div className="col-auto">
+            <div className="text-18 lh-13 fw-500">USD {fareItem?.pricingOverview?.totalAmount?.value}</div>
+          </div>
+        </div>
+      </div>
+      </>
                 ))}
               <div className="border-light rounded-4 mt-20" style={{display:"none"}}>
                 <div className="py-20 px-30">
@@ -171,6 +224,7 @@ const BookingDetailsFlight = (props) => {
     </>
     // End px-30
   ):(<></>)}
+  
               </div>
             </div>
     </>

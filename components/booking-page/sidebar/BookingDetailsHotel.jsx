@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 const BookingDetailsHotel = () => {
   const { selectedFlight } = useSelector((state) => ({ ...state.hotel }));
- // console.log("selectedFlight :",JSON.stringify(selectedHotel))
+ // //console.log("selectedFlight :",JSON.stringify(selectedHotel))
   return (
     <>
     
@@ -25,7 +25,7 @@ const BookingDetailsHotel = () => {
                     </div>
                   </div>
                 </div>
-                {selectedFlight?.passengerFareInfoList.map((fareItem, fareItemindex)=>(
+                {selectedFlight?.fareComponentList.map((fareItem, fareItemindex)=>(
                 <div className="py-30 px-30 border-top-light">
                   <div className="row y-gap-10 justify-between">
                   <div class="row x-gap-20 items-end"><div class="col-auto"><div class="lh-15 fw-500">{new Date(selectedFlight?.departureDateTime.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div><div class="text-15 lh-15 text-light-1">{`${selectedFlight?.departureAirport.locationCode}`}</div></div><div class="col text-center">                          <div className="text-14 text-light-1">{selectedFlight?.journeyDuration.replace("PT","").replace("P","").replace("T","").replace("D"," Day(s) ").replace("H"," Hour(s) ").replace("M"," Minute(s)")}</div><div class="flightLine"><div></div><div></div></div><div class="text-15 lh-15 text-light-1 mt-10">Nonstop</div></div><div class="col-auto"><div class="lh-15 fw-500">{new Date(selectedFlight?.arrivalDateTime.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }).split(' ')}</div><div class="text-15 lh-15 text-light-1">{`${selectedFlight?.arrivalAirport.locationCode}`}</div></div></div>

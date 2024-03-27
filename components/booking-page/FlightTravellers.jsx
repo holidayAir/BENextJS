@@ -30,11 +30,18 @@ const intialStateContact = {
   phoneNumberMarkedForSendingRezInfo:true,
   emailMarkedForSendingRezInfo:true,
 }
-  const FlightTravellers = (props) => {
-   
+const FlightTravellers = React.forwardRef((props, ref) => {
+  // Expose the function via ref
+  React.useImperativeHandle(ref, (e) => ({
+    validateInput,
+    handleSubmit
+  }));
+  // const FlightTravellers = (props) => {
+    
+   debugger;
     const  flightAvailRQ  = props.request ? JSON.parse(props.request) :{};
-    const selectedFlight = props.response > 0 ? JSON.parse(props.response) :{};
-    const selectedReturnFlight = props.returnFlightResponse ? JSON.parse(props.returnFlightResponse) :{};
+    const selectedFlight = props.response ? JSON.parse(props.response) :{};
+    const selectedReturnFlight = (props.returnFlightResponse && props.returnFlightResponse !== "string") ? JSON.parse(props.returnFlightResponse) :{};
     const [adultData, setAdultData] = useState(Array(flightAvailRQ?.searchParam?.adult).fill(initialStatePassenger));
     const [childData, setChildData] = useState(Array(flightAvailRQ?.searchParam?.child).fill(initialStatePassenger));
     const [infantData, setInfantData] = useState(Array(flightAvailRQ?.searchParam?.infant).fill(initialStatePassenger));
@@ -74,7 +81,7 @@ const intialStateContact = {
     //       
     //       if (cartItems.length === 0) {
     //         //router.push("/");
-    //         console.log("");
+    //         //console.log("");
     //       }
     //     });
     //   }
@@ -115,6 +122,7 @@ const intialStateContact = {
       return Object.values(newValidation).every((isValid) => isValid);
     };
     const validateInput = () => {
+      debugger;
       const sixMonthsFromNow = new DateObject(flightAvailRQ.searchParam.startDate).add(6, 'month');
     
       const newValidation = adultData.map((passenger) => {
@@ -140,22 +148,22 @@ const intialStateContact = {
     };
     
     const handleSubmit = async (e) => {
-      if (validateInput() && validateContactInput()) {
+      debugger;
         try {
-          if(selectedReturnFlight?.passengerFareInfoList){            
+          if(selectedReturnFlight?.fareComponentList){            
           await Promise.all(adultData.map((passenger) =>            
                 dispatch(createCart({ createCartRQ : {
-                  requestXML: selectedFlight.passengerFareInfoList[0].rqCreateBooking,
-                  returnFlightRequestXML: selectedReturnFlight?.passengerFareInfoList[0]?.rqCreateBooking,
+                  requestXML: selectedFlight.fareComponentList[0].rqCreateBooking,
+                  returnFlightRequestXML: selectedReturnFlight?.fareComponentList[0]?.rqCreateBooking,
                   airTravelerDtoList: [...adultData, ...childData, ...infantData],
-                  contactInformationDto: contactData
+                  contactInformationDto: props.contactData
               }, router, undefined }))
             ));
           }
           else{
           await Promise.all(adultData.map((passenger) =>            
                             dispatch(createCart({ createCartRQ : {
-                              requestXML: selectedFlight.passengerFareInfoList[0].rqCreateBooking,
+                              requestXML: selectedFlight.fareComponentList[0].rqCreateBooking,
                               airTravelerDtoList: [...adultData, ...childData, ...infantData],
                               contactInformationDto: contactData
                           }, router, undefined }))
@@ -164,7 +172,6 @@ const intialStateContact = {
         } catch (error) {
           console.error('Login error:', error);
         }
-      }
     };
     
   const onInputChange = (e, passengerIndex, type) => {
@@ -221,12 +228,12 @@ const intialStateContact = {
   
         <div className={`col-12`}>
         <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05 border-bottom">
-            Passengerfli {`${index + 1}`}
+            Passenger - Adult {`${index + 1} - (${selectedFlight?.departureAirport?.locationCode} - ${selectedFlight?.arrivalAirport?.locationCode})`}
           </div>
           </div>
         <div className={`col-2`}>
           <div className={`form-input h-full ${validationRules.gender && !validation[index].gender ? 'error' : ''}`}>            
-            <select value={passenger.gender} className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 pt-25 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index, "ADLT")} >
+            <select value={passenger.gender} className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 pt-25 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}${props?.cartItemIndex}`} name={`gender`} onChange={(e) => onInputChange(e, index, "ADLT")} >
               <option >select</option>
               <option value="M">Male</option>
               <option value="F">Female</option>
@@ -239,7 +246,7 @@ const intialStateContact = {
   
         <div className={`col-5`}>
           <div className={`form-input ${validationRules.givenName && !validation[index].givenName ? 'error' : ''}`}>
-            <input type="text" value={passenger.givenName} required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index, "ADLT")} />
+            <input type="text" value={passenger.givenName} required id={`givenName-${index}${props?.cartItemIndex}`} name={`givenName`} onChange={(e) => onInputChange(e, index, "ADLT")} />
             <label className="lh-1 text-14 text-light-1">First Name *</label>
           </div>
         </div>
@@ -247,7 +254,7 @@ const intialStateContact = {
   
         <div className={`col-5`}>
           <div className={`form-input ${validationRules.surname && !validation[index].surname ? 'error' : ''}`}>
-            <input type="text" value={passenger.surname} required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index, "ADLT")} />
+            <input type="text" value={passenger.surname} required id={`surname-${index}${props?.cartItemIndex}`} name={`surname`} onChange={(e) => onInputChange(e, index, "ADLT")} />
             <label className="lh-1 text-14 text-light-1">Last Name *</label>
           </div>
         </div>
@@ -273,7 +280,7 @@ const intialStateContact = {
         <div className={`col-6`}>
           <div className={`form-input h-full ${validationRules.nationality && !validation[index].nationality ? 'error' : ''}`}>
             <select
-              id={`nationality-${index}`}
+              id={`nationality-${index}${props?.cartItemIndex}`}
               name={`nationality`}
               value={passenger.nationality}
               required
@@ -538,7 +545,7 @@ const intialStateContact = {
   
         {/* <div className={`col-4`}>
           <div className={`form-input ${validationRules.nationalIdNumber && !validation[index].nationalIdNumber ? 'error' : ''}`}>
-            <input type="text" value={passenger.nationalIdNumber} required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index, "ADLT")} />
+            <input type="text" value={passenger.nationalIdNumber} required id={`nationalIdNumber-${index}${props?.cartItemIndex}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index, "ADLT")} />
             <label className="lh-1 text-14 text-light-1">National Id Number</label>
           </div>
         </div> */}
@@ -546,7 +553,7 @@ const intialStateContact = {
   
         <div className={`col-4`}>
           <div className={`form-input ${validationRules.passportNumber && !validation[index].passportNumber ? 'error' : ''}`}>
-            <input type="text" value={passenger.passportNumber} required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index, "ADLT")} />
+            <input type="text" value={passenger.passportNumber} required id={`passportNumber-${index}${props?.cartItemIndex}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index, "ADLT")} />
             <label className="lh-1 text-14 text-light-1">Passport Number *</label>
           </div>
         </div>
@@ -592,12 +599,12 @@ const intialStateContact = {
   
         <div className={`col-12`}>
         <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05 border-bottom">
-            Child {`${index + 1}`}
+        Passenger - Child {`${index + 1} - (${selectedFlight?.departureAirport?.locationCode} - ${selectedFlight?.arrivalAirport?.locationCode})`}
           </div>
           </div>
         <div className={`col-2`}>
           <div className={`form-input h-full ${validationRules.gender && !validation[index].gender ? 'error' : ''}`}>            
-            <select className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index, "CHLD")} >
+            <select className="form-select rounded-4 border-light select-float justify-between pt-3 text-16 fw-500 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}${props?.cartItemIndex}`} name={`gender`} onChange={(e) => onInputChange(e, index, "CHLD")} >
               <option >select</option>
               <option value="M">Male</option>
               <option value="F">Female</option>
@@ -610,7 +617,7 @@ const intialStateContact = {
   
         <div className={`col-5`}>
           <div className={`form-input ${validationRules.givenName && !validation[index].givenName ? 'error' : ''}`}>
-            <input type="text" required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index, "CHLD")} />
+            <input type="text" required id={`givenName-${index}${props?.cartItemIndex}`} name={`givenName`} onChange={(e) => onInputChange(e, index, "CHLD")} />
             <label className="lh-1 text-14 text-light-1">First Name *</label>
           </div>
         </div>
@@ -618,7 +625,7 @@ const intialStateContact = {
   
         <div className={`col-5`}>
           <div className={`form-input ${validationRules.surname && !validation[index].surname ? 'error' : ''}`}>
-            <input type="text" required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index, "CHLD")} />
+            <input type="text" required id={`surname-${index}${props?.cartItemIndex}`} name={`surname`} onChange={(e) => onInputChange(e, index, "CHLD")} />
             <label className="lh-1 text-14 text-light-1">Last Name *</label>
           </div>
         </div>
@@ -643,7 +650,7 @@ const intialStateContact = {
         <div className={`col-6`}>
           <div className={`form-input h-full ${validationRules.nationality && !validation[index].nationality ? 'error' : ''}`}>
             <select
-              id={`nationality-${index}`}
+              id={`nationality-${index}${props?.cartItemIndex}`}
               name={`nationality`}
               value={passenger.nationality}
               required
@@ -908,7 +915,7 @@ const intialStateContact = {
   
         {/* <div className={`col-4`}>
           <div className={`form-input ${validationRules.nationalIdNumber && !validation[index].nationalIdNumber ? 'error' : ''}`}>
-            <input type="text" required id={`nationalIdNumber-${index}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index, "CHLD")} />
+            <input type="text" required id={`nationalIdNumber-${index}${props?.cartItemIndex}`} name={`nationalIdNumber`} onChange={(e) => onInputChange(e, index, "CHLD")} />
             <label className="lh-1 text-14 text-light-1">National Id Number</label>
           </div>
         </div> */}
@@ -916,7 +923,7 @@ const intialStateContact = {
   
         <div className={`col-4`}>
           <div className={`form-input ${validationRules.passportNumber && !validation[index].passportNumber ? 'error' : ''}`}>
-            <input type="text" required id={`passportNumber-${index}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index, "CHLD")} />
+            <input type="text" required id={`passportNumber-${index}${props?.cartItemIndex}`} name={`passportNumber`} onChange={(e) => onInputChange(e, index, "CHLD")} />
             <label className="lh-1 text-14 text-light-1">Passport Number *</label>
           </div>
         </div>
@@ -963,12 +970,12 @@ const intialStateContact = {
       
             <div className={`col-12`}>
             <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05 border-bottom">
-                Infant {`${index + 1}`}
+            Passenger - Infant {`${index + 1} - (${selectedFlight?.departureAirport?.locationCode} - ${selectedFlight?.arrivalAirport?.locationCode})`}
               </div>
               </div>
             <div className={`col-2`}>
               <div className={`form-input h-full ${validationRules.gender && !validation[index].gender ? 'error' : ''}`}>            
-                <select className="form-select rounded-4 select-float border-light justify-between pt-3 text-16 fw-500 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}`} name={`gender`} onChange={(e) => onInputChange(e, index, "INFT")} >
+                <select className="form-select rounded-4 select-float border-light justify-between pt-3 text-16 fw-500 px-15 h-full w-140 sm:w-full text-14" id={`gender-${index}${props?.cartItemIndex}`} name={`gender`} onChange={(e) => onInputChange(e, index, "INFT")} >
                   <option >select</option>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
@@ -981,7 +988,7 @@ const intialStateContact = {
       
             <div className={`col-5`}>
               <div className={`form-input ${validationRules.givenName && !validation[index].givenName ? 'error' : ''}`}>
-                <input type="text" required id={`givenName-${index}`} name={`givenName`} onChange={(e) => onInputChange(e, index, "INFT")} />
+                <input type="text" required id={`givenName-${index}${props?.cartItemIndex}`} name={`givenName`} onChange={(e) => onInputChange(e, index, "INFT")} />
                 <label className="lh-1 text-14 text-light-1">First Name *</label>
               </div>
             </div>
@@ -989,7 +996,7 @@ const intialStateContact = {
       
             <div className={`col-5`}>
               <div className={`form-input ${validationRules.surname && !validation[index].surname ? 'error' : ''}`}>
-                <input type="text" required id={`surname-${index}`} name={`surname`} onChange={(e) => onInputChange(e, index, "INFT")} />
+                <input type="text" required id={`surname-${index}${props?.cartItemIndex}`} name={`surname`} onChange={(e) => onInputChange(e, index, "INFT")} />
                 <label className="lh-1 text-14 text-light-1">Last Name *</label>
               </div>
             </div>
@@ -1014,7 +1021,7 @@ const intialStateContact = {
             <div className={`col-6`}>
           <div className={`form-input h-full ${validationRules.nationality && !validation[index].nationality ? 'error' : ''}`}>
             <select
-              id={`nationality-${index}`}
+              id={`nationality-${index}${props?.cartItemIndex}`}
               name={`nationality`}
               value={passenger.nationality}
               required
@@ -1281,7 +1288,8 @@ const intialStateContact = {
       {/* <hr className="mt-20 p-0" /> */}
     </>
     );
-  };
+  // };
+});
   
 
 export default FlightTravellers;

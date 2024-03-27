@@ -58,7 +58,7 @@ export const hotelCheckavailBookingRules = createAsyncThunk(
   "hotel/hotelcheckavailbookingrules",
   async ({ hotelCheckAvailBookingRulesRQ, router, toast }, { rejectWithValue }) => {
     try {
-      console.log(JSON.stringify(hotelCheckAvailBookingRulesRQ));
+      //console.log(JSON.stringify(hotelCheckAvailBookingRulesRQ));
       const response = await API.post(`api/hotel/hotelcheckavailbookingrules`,  hotelCheckAvailBookingRulesRQ );
       //navigate("/booking-page");
       //router.push('/cart-page')

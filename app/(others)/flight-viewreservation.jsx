@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const FlightViewReservation = ({params}) => {
 
-console.log("enter into Flight view reservation page");
+//console.log("enter into Flight view reservation page");
   return (
     <>
       

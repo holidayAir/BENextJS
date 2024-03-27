@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 // import InputRange from "react-input-range";
 import { useDispatch, useSelector } from "react-redux";
-import { addSessionCart } from "@/features/hero/cartSlice";
+import { addSessionCart, getSessionCart } from "@/features/hero/cartSlice";
 
 const AvailableRooms = ({ hotel }) => {
   const { hotelList,hotelAvailRQ, filterParam,loading,selectedRoomTypeCode } = useSelector((state) => ({ ...state.hotel }));
@@ -13,7 +13,7 @@ const AvailableRooms = ({ hotel }) => {
   const router = useRouter();
   const handleBooking = (ratePlanCode, itemPrice) => {
     // Your booking logic goes here
-    console.log(`Booking room with rate plan code: ${ratePlanCode}`);
+    //console.log(`Booking room with rate plan code: ${ratePlanCode}`);
     const modifiedHotel = {
       selectedHotel:hotel,
       selectedRoomTypeCode:ratePlanCode,
@@ -36,7 +36,23 @@ const AvailableRooms = ({ hotel }) => {
     endDate: "2024-03-15T09:57:50.004Z",
     room: (hotelCriteria?.room),
     nights: (Math.ceil(differenceInDays))
-}, router, undefined }));
+}, router, undefined })).then((action) => {
+  // Check if cart is empty, then redirect
+  if (action.payload[0].items.length === 0) {
+    router.push('/'); // Assuming you have access to router here
+  } else {
+    router.push('/cart-page'); // Or redirect to cart page
+  }
+});
+
+dispatch(getSessionCart({ undefined, router })).then((action) => {
+  // Check if cart is empty, then redirect
+  if (action.payload[0].items.length === 0) {
+    router.push('/'); // Assuming you have access to router here
+  } else {
+    router.push('/cart-page'); // Or redirect to cart page
+  }
+});
    //dispatch(updateSelectedHotel(modifiedHotel));
    const pax = Array(hotelCriteria.room).fill().map(() => ({ age: 25 }));
    const hotelCheckAvailBookingRulesRQ = {

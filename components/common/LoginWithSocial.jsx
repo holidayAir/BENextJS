@@ -38,7 +38,7 @@ const LoginWithSocial = () => {
   const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
       
-    console.log('Login Success', credentialResponse);
+    //console.log('Login Success', credentialResponse);
       
       // await dispatch(
       //   userLogin({
@@ -89,7 +89,7 @@ const LoginWithSocial = () => {
 <GoogleLogin
       onSuccess={handleGoogleLoginSuccess}
   onError={() => {
-    console.log('Login Failed');
+    //console.log('Login Failed');
   }}
 />
         {/* <GoogleOAuthProvider clientId="387946406507-3akrm9q830gnja0pdspabuemif5fnd1e.apps.googleusercontent.com">
@@ -98,7 +98,7 @@ const LoginWithSocial = () => {
             onSuccess={handleGoogleLoginSuccess}
             onError={() => {
               
-              console.log('Login Failed');
+              //console.log('Login Failed');
             }}
           />
         </GoogleOAuthProvider> */}

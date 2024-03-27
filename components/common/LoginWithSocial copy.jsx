@@ -62,7 +62,7 @@ const LoginWithSocial = () => {
             onSuccess={handleGoogleLoginSuccess}
             onError={() => {
               
-              console.log('Login Failed');
+              //console.log('Login Failed');
             }}
           />
         </GoogleOAuthProvider>

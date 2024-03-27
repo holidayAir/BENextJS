@@ -33,7 +33,7 @@ const PersonalInfo = () => {
     phonenumber: true,
   });
   const { loading, error, user } = useSelector((state) => ({ ...state.user }));
-  console.log(user);
+  //console.log(user);
   const { firstName,
     lastName,
     gender,
@@ -61,7 +61,7 @@ const PersonalInfo = () => {
   };
   useEffect(() => {
     
-    console.log(error);
+    //console.log(error);
     error && toast.error(error);
   }, [error]);
 
@@ -128,7 +128,7 @@ const PersonalInfo = () => {
       setValidation({...validation, [name]:false});
     }
   };
-  console.log(userData);
+  //console.log(userData);
   return (
     <>
         {/* <AvatarUploader /> */}

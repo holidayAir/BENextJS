@@ -48,7 +48,7 @@ const Index = () => {
       route: "/booking-confirm-page",
       stepNo: "3",
       stepBar: "",
-      content: currentTab === HOTEL_TAB_NAME ? <OrderSubmittedInfoHotel /> : <OrderSubmittedInfo />,
+      content: <OrderSubmittedInfoHotel />,//currentTab === HOTEL_TAB_NAME ? <OrderSubmittedInfoHotel /> : <OrderSubmittedInfo />,
     },
   ];
 

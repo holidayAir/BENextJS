@@ -17,7 +17,7 @@ import { DateObject } from "react-multi-date-picker";
 import DropdownFlightFilters from "@/components/hotel-list/common/DropdownFlightFilters";
 import { updateFlightAvailRQ } from "@/features/hero/searchCriteriaSlice";
 import Link from "next/link";
-import { addSessionCart } from "@/features/hero/cartSlice";
+import { addSessionCart, getSessionCart } from "@/features/hero/cartSlice";
 
 // export const metadata = {
 //   title: "Flight List v1 || BE - Argentina - Travel & Tour React NextJS Template",
@@ -78,29 +78,94 @@ const index = ({ params }) => {
   }, [dispatch]);
   
   const addToCart = (departureFlight, returnFlight)=>{
-    console.log(departureFlight);
-    console.log(returnFlight);
+    //console.log(departureFlight);
+    //console.log(returnFlight);
+    const passengerFareInfoList = departureFlight.fareComponentList.passengerFareInfoList;
+
+    // Initialize variables to store fare amounts
+    let totalFareAmountADLT = 0;
+    let totalFareAmountCHLD = 0;
+    let totalFareAmountINFT = 0;
+    
+    // Iterate through the array to find fare information for each passenger type
+    departureFlight.fareComponentList[0].passengerFareInfoList.forEach(passenger => {
+      // Check passenger type and update corresponding fare amount
+      switch (passenger.passengerType) {
+        case 'ADLT':
+          totalFareAmountADLT = passenger.pricingInfo.totalFare.amount;
+          break;
+        case 'CHLD':
+          totalFareAmountCHLD = passenger.pricingInfo.totalFare.amount;
+          break;
+        case 'INFT':
+          totalFareAmountINFT = passenger.pricingInfo.totalFare.amount;
+          break;
+        default:
+          // Handle other passenger types if needed
+          break;
+      }
+    });
+    let totalFareAmountADLT_R = 0;
+    let totalFareAmountCHLD_R = 0;
+    let totalFareAmountINFT_R = 0;
+    
+    // Iterate through the array to find fare information for each passenger type
+    returnFlight.fareComponentList[0].passengerFareInfoList.forEach(passenger => {
+      // Check passenger type and update corresponding fare amount
+      switch (passenger.passengerType) {
+        case 'ADLT':
+          totalFareAmountADLT_R = passenger.pricingInfo.totalFare.amount;
+          break;
+        case 'CHLD':
+          totalFareAmountCHLD_R = passenger.pricingInfo.totalFare.amount;
+          break;
+        case 'INFT':
+          totalFareAmountINFT_R = passenger.pricingInfo.totalFare.amount;
+          break;
+        default:
+          // Handle other passenger types if needed
+          break;
+      }
+    });
+//console.log("----------------");
+//console.log(JSON.stringify(departureFlight));
+//console.log(JSON.stringify(returnFlight));
 
   dispatch(addSessionCart({ rqAddSessionCart : {
     business: "Flight",
     request: JSON.stringify(flightAvailRQ),
     response: JSON.stringify(departureFlight),
-    adultPrice: 3000,
-    childPrice: 2000,
-    infantPrice: 1000,
+    adultPrice: totalFareAmountADLT,
+    childPrice: totalFareAmountCHLD,
+    infantPrice: totalFareAmountINFT,
     adult: flightAvailRQ.searchParam.adult,
     child: flightAvailRQ.searchParam.child,
     infant: flightAvailRQ.searchParam.infant,
     flightType: "RoundTrip",
     returnFlightResponse: JSON.stringify(returnFlight),
-    returnFlightAdultPrice: 1500,
-    returnFlightChildPrice: 1000,
-    returnFlightInfantPrice: 500,
+    returnFlightAdultPrice: totalFareAmountADLT_R,
+    returnFlightChildPrice: totalFareAmountCHLD_R,
+    returnFlightInfantPrice: totalFareAmountINFT_R,
     startDate: "2024-03-15T09:57:50.004Z",
     endDate: "2024-03-15T09:57:50.004Z",
     room: 0,
     nights: 0
-}, router, undefined }));
+}, router, undefined })).then((action) => {
+  // Check if cart is empty, then redirect
+  if (action.payload[0].items.length === 0) {
+    router.push('/'); // Assuming you have access to router here
+  } else {
+    router.push('/cart-page'); // Or redirect to cart page
+  }
+});
+dispatch(getSessionCart({ undefined, router })).then((action) => {
+  // Check if cart is empty, then redirect
+  if (action.payload[0].items.length === 0) {
+    router.push('/'); // Assuming you have access to router here
+  } else {
+    router.push('/cart-page'); // Or redirect to cart page
+  }
+});
   }
   return (
     <>
@@ -208,12 +273,12 @@ const index = ({ params }) => {
               {/* End .col */}
 
               <div className="col-md-auto">
-                <div className="d-flex items-center h-full">
+                <div className="d-flex items-center h-full praful">
                   <div className="pl-30 border-left-light h-full md:d-none" />
                   <div>
                     <div className="text-right md:text-left mb-10">
-                      <div className="text-18 lh-16 fw-500">{`${selectedFlight.passengerFareInfoList[0].pricingInfo.totalFare.currencyCode + " " + selectedFlight.passengerFareInfoList[0].pricingInfo.totalFare.amount}`}</div>
-                      {/* <div className="text-15 lh-16 text-light-1">{`${selectedFlight.passengerFareInfoList.length} deals`}</div> */}
+                      <div className="text-18 lh-16 fw-500">{`USD ${selectedFlight.fareComponentList[0].indicativeBaseFare}`}</div>
+                      {/* <div className="text-15 lh-16 text-light-1">{`${selectedFlight.fareComponentList.length} deals`}</div> */}
                     </div>
                   </div>
                 </div>
@@ -313,8 +378,8 @@ const index = ({ params }) => {
                   <div className="pl-30 border-left-light h-full md:d-none" />
                   <div>
                     <div className="text-right md:text-left mb-10">
-                      <div className="text-18 lh-16 fw-500">{`${selectedReturnFlight.passengerFareInfoList[0].pricingInfo.totalFare.currencyCode + " " + selectedReturnFlight.passengerFareInfoList[0].pricingInfo.totalFare.amount}`}</div>
-                      {/* <div className="text-15 lh-16 text-light-1">{`${selectedReturnFlight.passengerFareInfoList.length} deals`}</div> */}
+                      <div className="text-18 lh-16 fw-500">{`USD ${selectedReturnFlight.fareComponentList[0].indicativeBaseFare}`}</div>
+                      {/* <div className="text-15 lh-16 text-light-1">{`${selectedReturnFlight.fareComponentList.length} deals`}</div> */}
                     </div>
                   </div>
                 </div>

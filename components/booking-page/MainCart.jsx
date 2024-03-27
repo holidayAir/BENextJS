@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { toast } from "react-toastify";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { DateObject } from "react-multi-date-picker";
 import { createCart } from "@/features/hero/flightSlice"
-import { getSessionCart } from "@/features/hero/cartSlice";
+import { clearSessionCart, deleteSessionCartItem, getSessionCart } from "@/features/hero/cartSlice";
 import FlightFareInfo from "./FlightFareInfo";
 import FlightTravellers from "./FlightTravellers";
 import PricingSummary from "./sidebar/PricingSummary";
@@ -35,12 +35,13 @@ const intialStateContact = {
   emailMarkedForSendingRezInfo:true,
 }
   const MainCart = (props) => {
-   
+    const flightRef = useRef([]);
+    const hotelRef = useRef([]);
     const { cartItems, loading } = useSelector((state) => state.cart);
     const filteredItems = (cartItems && cartItems.length > 0) ? cartItems[0].items.filter(item => item.cartData.business === "Flight") : {};
     const  flightAvailRQ  = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.request) :{};
     const selectedFlight = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.response) :{};
-    //console.log(selectedFlight);
+    ////console.log(selectedFlight);
     const selectedReturnFlight = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.returnFlightResponse) :{};
     const [adultData, setAdultData] = useState(Array(flightAvailRQ?.searchParam?.adult).fill(initialStatePassenger));
     const [childData, setChildData] = useState(Array(flightAvailRQ?.searchParam?.child).fill(initialStatePassenger));
@@ -68,19 +69,33 @@ const intialStateContact = {
     const router = useRouter();
   // 
   const clearCart =()=>{
-    dispatch(clearCart());
+    dispatch(clearSessionCart({})).then((action) => {
+        router.push('/'); // Or redirect to cart page
+    });
+  }
+  const removeCartItem =(id)=>{
+    debugger;
+    dispatch(deleteSessionCartItem({id})).then((action) => {
+      // Check if cart is empty, then redirect
+      if (action.payload[0].items.length === 0) {
+        router.push('/'); // Assuming you have access to router here
+      } else {
+        router.push('/cart-page'); // Or redirect to cart page
+      }
+  });
   }
     // useEffect(() => {
     //   addToCart("adasdasd","asdsadsad");
     // }, []);
     useEffect(() => {
       if (cartItems.length === 0) {
-        dispatch(getSessionCart({ undefined, router })).then(() => {
-          
-          if (cartItems.length === 0) {
-            //router.push("/");
-            console.log("");
-          }
+        dispatch(getSessionCart({ undefined, router })).then((action) => {
+            // Check if cart is empty, then redirect
+            if (action.payload[0].items.length === 0) {
+              router.push('/'); // Assuming you have access to router here
+            } else {
+              router.push('/cart-page'); // Or redirect to cart page
+            }
         });
       }
     }, [dispatch]);
@@ -143,31 +158,75 @@ const intialStateContact = {
     };
     
     const handleSubmit = async (e) => {
-      if (validateInput() && validateContactInput()) {
-        try {
-          if(selectedReturnFlight?.passengerFareInfoList){            
-          await Promise.all(adultData.map((passenger) =>            
-                dispatch(createCart({ createCartRQ : {
-                  requestXML: selectedFlight.passengerFareInfoList[0].rqCreateBooking,
-                  returnFlightRequestXML: selectedReturnFlight?.passengerFareInfoList[0]?.rqCreateBooking,
-                  airTravelerDtoList: [...adultData, ...childData, ...infantData],
-                  contactInformationDto: contactData
-              }, router, undefined }))
-            ));
-          }
-          else{
-          await Promise.all(adultData.map((passenger) =>            
-                            dispatch(createCart({ createCartRQ : {
-                              requestXML: selectedFlight.passengerFareInfoList[0].rqCreateBooking,
-                              airTravelerDtoList: [...adultData, ...childData, ...infantData],
-                              contactInformationDto: contactData
-                          }, router, undefined }))
-                        ));
-          }
-        } catch (error) {
-          console.error('Login error:', error);
+      const validationResultsFlight = flightRef.current.map(ref => {
+          return ref.validateInput();
+      });
+      const validationResultsHotel = hotelRef.current.map(ref => {
+          return ref.validateInput();
+      });
+      const validationResultsContact = validateContactInput();
+      // Count the number of true and false values
+      const hotelFalse = validationResultsHotel.filter(result => result === false).length;
+      const flightFalse = validationResultsFlight.filter(result => result === false).length;
+    if(!flightFalse && !hotelFalse && validationResultsContact)
+    {
+      // For flights
+      const flightPromises = flightRef.current.map(ref => {
+        return ref.handleSubmit().catch(error => {
+          console.error('Error in flight handleSubmit:', error);
+          // Return a marker to indicate failure
+          return false;
+        });
+      });
+      
+      // For hotels
+      const hotelPromises = hotelRef.current.map(ref => {
+        return ref.handleSubmit().catch(error => {
+          console.error('Error in hotel handleSubmit:', error);
+          // Return a marker to indicate failure
+          return false;
+        });
+      });
+      
+      // Wait for all flight and hotel promises to resolve
+      Promise.all([...flightPromises, ...hotelPromises]).then(results => {
+        // Check if any of the results is false, indicating a failure
+        const allSuccessful = results.every(result => result !== false);
+        if (allSuccessful) {
+          console.log('All form submissions successful');
+          // Handle successful submissions here
+        } else {
+          console.error('Some form submissions failed');
+          // Handle failed submissions here
         }
-      }
+      });
+    // flightRef.current.handleSubmit(e);
+      // if (validateInput() && validateContactInput()) {
+      //   try {
+      //     if(selectedReturnFlight?.fareComponentList){            
+      //     await Promise.all(adultData.map((passenger) =>            
+      //           dispatch(createCart({ createCartRQ : {
+      //             requestXML: selectedFlight.fareComponentList[0].rqCreateBooking,
+      //             returnFlightRequestXML: selectedReturnFlight?.fareComponentList[0]?.rqCreateBooking,
+      //             airTravelerDtoList: [...adultData, ...childData, ...infantData],
+      //             contactInformationDto: contactData
+      //         }, router, undefined }))
+      //       ));
+      //     }
+      //     else{
+      //     await Promise.all(adultData.map((passenger) =>            
+      //                       dispatch(createCart({ createCartRQ : {
+      //                         requestXML: selectedFlight.fareComponentList[0].rqCreateBooking,
+      //                         airTravelerDtoList: [...adultData, ...childData, ...infantData],
+      //                         contactInformationDto: contactData
+      //                     }, router, undefined }))
+      //                   ));
+      //     }
+      //   } catch (error) {
+      //     console.error('Login error:', error);
+      //   }
+      // }
+    }
     };
       
   const onContactInputChange = (e) => {
@@ -181,7 +240,7 @@ const intialStateContact = {
       setValidationContact({...validationContact, [name]:false});
     }
   };
-  console.log(cartItems);
+  //console.log(cartItems);
     return (!loading && cartItems.length > 0 && cartItems[0].items.length > 0) ? (
       <>
       {!isUserLoggedIn ?? <div className="col-xl-12 col-lg-12 mt-30">
@@ -198,7 +257,7 @@ const intialStateContact = {
   {cartItems[0].items.map((cartItem, index) => (
     <>
           
-          {cartItem?.cartData?.business === "Hotel"  ? <HotelTravellers {...cartItem.cartData} /> :<FlightTravellers {...cartItem?.cartData} /> }  
+          {cartItem?.cartData?.business === "Hotel"  ? <HotelTravellers ref={(ref) => (hotelRef.current[index] = ref)} {...cartItem.cartData} cartItemIndex={index} contactData={contactData} /> :<FlightTravellers ref={(ref) => (flightRef.current[index] = ref)} {...cartItem.cartData} cartItemIndex={index} contactData={contactData} /> }  
           </>
           ))}
       
@@ -258,7 +317,7 @@ const intialStateContact = {
         <div className="booking-sidebarw">
   {cartItems[0].items.map((cartItem, index) => (
     <>
-          {cartItem?.cartData?.business === "Hotel" ? <PricingSummary {...cartItem?.cartData} /> :<FlightFareInfo {...cartItem?.cartData} />  } 
+          {cartItem?.cartData?.business === "Hotel" ? <PricingSummary removeCartItem={removeCartItem} {...cartItem?.cartData} cartItemIndex={index} /> :<FlightFareInfo removeCartItem={removeCartItem} {...cartItem?.cartData} cartItemIndex={index} />  } 
           </>
           ))}
           {cartItems[0].totalCost && cartItems[0].totalCost > 0 && <div className="px-20 py-20 bg-blue-2 rounded-4 mt-20">

@@ -32,7 +32,7 @@ export const flightAvailResult = createAsyncThunk(
   "flight/flightAvailResult",
   async ({ flightAvailRQ, navigate, toast }, { rejectWithValue }) => {
     try {
-      console.log(JSON.stringify(flightAvailRQ));
+      //console.log(JSON.stringify(flightAvailRQ));
       const response = await API.post(`api/flight/flightAvailResult`,  flightAvailRQ );
       return response.data;
     } catch (err) {
@@ -45,7 +45,7 @@ export const flightExtraCharges = createAsyncThunk(
   "flight/flightExtraCharges",
   async ({ flightExtraChargesRQ, router, toast, tripType }, { rejectWithValue }) => {
     try {
-      console.log(JSON.stringify(flightExtraChargesRQ));
+      //console.log(JSON.stringify(flightExtraChargesRQ));
       const response = await API.post(`api/flight/GetAirExtraCharges`,  flightExtraChargesRQ );
       //navigate("/booking-page");
      

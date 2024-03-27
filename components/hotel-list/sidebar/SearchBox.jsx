@@ -16,7 +16,7 @@ const SearchBox = () => {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    console.log('Search Term:', searchTerm);
+    //console.log('Search Term:', searchTerm);
     dispatch(
       updateHotelAvailRQ({
           ...hotelAvailRQ,

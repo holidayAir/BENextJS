@@ -14,7 +14,7 @@ import Skeleton from "@/components/common/skeletons/Skeleton";
 const viewreservation = ({params}) => {
   
   const { loading } = useSelector((state) => ({...state.booking}));
-  console.log("enter into index view reservation page");
+  //console.log("enter into index view reservation page");
   const dispatch = useDispatch();
   const router = useRouter();
   const bookingid = params.id;
@@ -22,8 +22,8 @@ const viewreservation = ({params}) => {
     dispatch(getBooking({ bookingid, router, undefined }));
   }, [dispatch]);
   const { getbookingRS } = useSelector((state) => state.booking);
-  console.log("enter into index view reservation page BookingRS:"+getbookingRS);
-  console.log("enter into index view reservation page params:"+params);
+  //console.log("enter into index view reservation page BookingRS:"+getbookingRS);
+  //console.log("enter into index view reservation page params:"+params);
    return (
     <>
       {/* End Page Title */}

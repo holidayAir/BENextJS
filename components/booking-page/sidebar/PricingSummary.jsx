@@ -8,7 +8,7 @@ const PricingSummary = (props) => {
   const selectedRoomTypeCode  = response?.selectedRoomTypeCode;
   debugger;
   const { checkavailbookingrulesRS } = useSelector((state) => state.hotel);
-  //console.log(selectedHotel);
+  ////console.log(selectedHotel);
   let hotelinfo = selectedHotel?.hotelOptions?.hotelOption.find(x=>x.ratePlanCode == selectedRoomTypeCode);
   let hotelDetails = selectedHotel;
   
@@ -17,9 +17,9 @@ const PricingSummary = (props) => {
   }
   return (
     <>
-    <div className="mt-30">
+    <div className="mb-20">
     <div className=" float-end">
-    <button class="flex-censter position-absolute e-0 translate-middle bg-light-2 rounded-4 size-35 items-end"><i class="icon-trash-2 text-16 text-light-1"></i></button></div>
+    <button class="flex-censter position-absolute e-0 translate-middle bg-light-2 rounded-4 size-35 items-end" onClick={()=> props.removeCartItem(props.id)}><i class="icon-trash-2 text-16 text-light-1"></i></button></div>
     <div className="px-30 py-30 border-light rounded-4">
       
       <div className="text-18 fw-500 mb-20"><i class="fa-solid fa-hotel"></i> {hotelDetails?.name}</div>

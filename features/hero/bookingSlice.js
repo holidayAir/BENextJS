@@ -24,7 +24,7 @@ export const myBookings = createAsyncThunk(
   async ({ filterParam, navigate, toast }, { rejectWithValue }) => {
    
     try {
-      console.log(JSON.stringify(filterParam));
+      //console.log(JSON.stringify(filterParam));
       const response = await API.post(`api/booking/mybookings`,  filterParam );
       return response.data;
     } catch (err) {

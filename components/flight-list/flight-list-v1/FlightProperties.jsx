@@ -3,7 +3,7 @@ import flightsData from "../../../data/flights";
 import Skeleton from "@/components/common/skeletons/Skeleton";
 // import { useRouter } from "next/router";
 import { flightExtraCharges, updateFlightCart, updateSelectedFlight } from "@/features/hero/flightSlice";
-import { addSessionCart } from "@/features/hero/cartSlice";
+import { addSessionCart, getSessionCart } from "@/features/hero/cartSlice";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -16,7 +16,7 @@ const FlightProperties = () => {
   const { flightAvailRQ } = useSelector((state) => state.searchCriteria);
   const { flightList,filterParam,loading,selectedFlight } = useSelector((state) => state.flight);
   // 
-  console.log(JSON.stringify(flightList));
+  //console.log(JSON.stringify(flightList));
   const updateCart = (rqCreateBooking, fareItemindex, index)=>{
     setFlightItemIndex(index)
     setFareItemindex(fareItemindex);
@@ -24,11 +24,11 @@ const FlightProperties = () => {
 //# Select the single flight object
 const selectedFlight = flightList[index];
 
-//# Modify the passengerFareInfoList for the selected flight
-const modifiedPassengerFareInfo = selectedFlight.passengerFareInfoList[fareItemindex];
+//# Modify the fareComponentList for the selected flight
+const modifiedPassengerFareInfo = selectedFlight.fareComponentList[fareItemindex];
 const modifiedFlight = {
     ...selectedFlight,
-    passengerFareInfoList: [modifiedPassengerFareInfo]
+    fareComponentList: [modifiedPassengerFareInfo]
 };
 
 dispatch(updateSelectedFlight(modifiedFlight));
@@ -38,26 +38,60 @@ dispatch(updateSelectedFlight(modifiedFlight));
       tripType: "ONE_WAY",
   }, router, undefined, tripType:flightAvailRQ.searchParam.tripType }));
   if(flightAvailRQ.searchParam.tripType === "ONE_WAY"){
+    // Initialize variables to store fare amounts
+    let totalFareAmountADLT = 0;
+    let totalFareAmountCHLD = 0;
+    let totalFareAmountINFT = 0;
+    
+    // Iterate through the array to find fare information for each passenger type
+    modifiedFlight.fareComponentList[0].passengerFareInfoList.forEach(passenger => {
+      // Check passenger type and update corresponding fare amount
+      switch (passenger.passengerType) {
+        case 'ADLT':
+          totalFareAmountADLT = passenger.pricingInfo.totalFare.amount;
+          break;
+        case 'CHLD':
+          totalFareAmountCHLD = passenger.pricingInfo.totalFare.amount;
+          break;
+        case 'INFT':
+          totalFareAmountINFT = passenger.pricingInfo.totalFare.amount;
+          break;
+        default:
+          // Handle other passenger types if needed
+          break;
+      }
+    });
   dispatch(addSessionCart({ rqAddSessionCart : {
     business: "Flight",
     request: JSON.stringify(flightAvailRQ),
     response: JSON.stringify(modifiedFlight),
-    adultPrice: 0,
-    childPrice: 0,
-    infantPrice: 0,
-    adult: 0,
-    child: 0,
-    infant: 0,
-    flightType: "string",
-    returnFlightResponse: "string",
-    returnFlightAdultPrice: 0,
-    returnFlightChildPrice: 0,
-    returnFlightInfantPrice: 0,
+    adultPrice: totalFareAmountADLT,
+    childPrice: totalFareAmountCHLD,
+    infantPrice: totalFareAmountINFT,
+    adult: flightAvailRQ.searchParam.adult,
+    child: flightAvailRQ.searchParam.child,
+    infant: flightAvailRQ.searchParam.infant,
+    flightType: "OneWay",
     startDate: "2024-03-15T09:57:50.004Z",
     endDate: "2024-03-15T09:57:50.004Z",
     room: 0,
     nights: 0
-}, router, undefined }));
+}, router, undefined })).then((action) => {
+  // Check if cart is empty, then redirect
+  if (action.payload[0].items.length === 0) {
+    router.push('/'); // Assuming you have access to router here
+  } else {
+    router.push('/cart-page'); // Or redirect to cart page
+  }
+});
+dispatch(getSessionCart({ undefined, router })).then((action) => {
+  // Check if cart is empty, then redirect
+  if (action.payload[0].items.length === 0) {
+    router.push('/'); // Assuming you have access to router here
+  } else {
+    router.push('/cart-page'); // Or redirect to cart page
+  }
+});
 }
   window.scrollTo({
     top: 0,
@@ -156,7 +190,7 @@ dispatch(updateSelectedFlight(modifiedFlight));
                   <div className="pl-30 border-left-light h-full md:d-none" />
                   <div>
                     <div className="text-right md:text-left mb-10">
-                      <div className="text-18 lh-16 fw-500">{`USD ${item.indicativePrice}`}</div>
+                      <div className="text-18 lh-16 fw-500">{`USD ${item.indicativeBaseFare}`}</div>
                       <div className="text-15 lh-16 text-light-1">{`${item.fareComponentList.length} flights`}</div>
                     </div>
                     <div className="accordion__button">
@@ -252,8 +286,8 @@ dispatch(updateSelectedFlight(modifiedFlight));
                         {`Fare Baggage: ${fareItem.fareBaggageMaxAllowedPieces} ${fareItem.fareBaggageAllowanceType}(${fareItem.fareBaggageWeight} ${fareItem.fareBaggageUnitOfMeasureCode})`}
                         <br />
                         {`${fareItem.fareGroupName} - ${fareItem.fareReferenceName} (${fareItem.fareReferenceCode})`}
-                        {/* <br />
-                        {`Seat Availability : ${0}`} */}
+                         <br />
+                        {`Seat Availability : ${item.bookingClassList[fareItemindex].resBookDesigQuantity}`} 
                       </div>
                       <button
                         className="button -dark-1 px-30 h-40 bg-blue-1 text-white float-end"
@@ -267,8 +301,8 @@ dispatch(updateSelectedFlight(modifiedFlight));
                       {`Fare Baggage: ${fareItem.fareBaggageMaxAllowedPieces} ${fareItem.fareBaggageAllowanceType}(${fareItem.fareBaggageWeight} ${fareItem.fareBaggageUnitOfMeasureCode})`}
                       <br />
                       {`${fareItem.fareGroupName} - ${fareItem.fareReferenceName} (${fareItem.fareReferenceCode})`}
-                      {/* <br />
-                      {`Seat Availability : ${0}`} */}
+                      <br />
+                      {`Seat Availability : ${item.bookingClassList[fareItemindex].resBookDesigQuantity}`}
                     </div>
                   </div>
                   <div className="col-auto text-right md:text-left">

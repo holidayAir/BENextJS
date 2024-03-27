@@ -20,7 +20,14 @@ const Index = () => {
   const { tabs, currentTab } = useSelector((state) => state.hero) || {};
   
   useEffect(() => {
-    dispatch(getSessionCart({ undefined, router, undefined }));
+    dispatch(getSessionCart({ undefined, router, undefined })).then((action) => {
+      // Check if cart is empty, then redirect
+      if (action.payload[0].items.length === 0) {
+        router.push('/'); // Assuming you have access to router here
+      } else {
+        router.push('/cart-page'); // Or redirect to cart page
+      }
+    });
   }, [dispatch]);
   const steps = [
     {

@@ -53,57 +53,24 @@ export const addSessionCart = createAsyncThunk(
    
     try {
       
-      console.log(JSON.stringify(rqAddSessionCart));
+      //console.log(JSON.stringify(rqAddSessionCart));
       const response = await API.post(`api/SessionCart/add`,  rqAddSessionCart );
-      router.push('/cart-page')
+      //router.push('/cart-page')
       // Dispatch getSessionCart action after addSessionCart is fulfilled
-      await dispatch(getSessionCart()); // Dispatch getSessionCart action
+      //await dispatch(getSessionCart()); // Dispatch getSessionCart action
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
   }
 );
-export const addSessionCartSC = createAsyncThunk(
-  "cart/addSessionCart",
-  async ({ rqAddSessionCart, router }, { rejectWithValue }) => {
-   
-    try {
-      
-      console.log(JSON.stringify(rqAddSessionCart));
-      const response = await API.post(`api/SessionCartControllerSC/add`,  rqAddSessionCart );
-      router.push('/cart-page')
-      // Dispatch getSessionCart action after addSessionCart is fulfilled
-      await dispatch(getSessionCart()); // Dispatch getSessionCart action
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-export const addSessionCartTR = createAsyncThunk(
-  "cart/addSessionCart",
-  async ({ rqAddSessionCart, router }, { rejectWithValue }) => {
-   
-    try {
-      
-      console.log(JSON.stringify(rqAddSessionCart));
-      const response = await API.post(`api/SessionCartControllerTR/add`,  rqAddSessionCart );
-      router.push('/cart-page')
-      // Dispatch getSessionCart action after addSessionCart is fulfilled
-      await dispatch(getSessionCart()); // Dispatch getSessionCart action
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-
 export const deleteSessionCartItem = createAsyncThunk(
   "cart/deleteSessionCartItem",
-  async ({ id, navigate }, { rejectWithValue }) => {
+  async ({ id }, { rejectWithValue }) => {
+    debugger;
     try {
       const response = await API.delete(`api/SessionCart/remove?productId=${id}`);
+      //await dispatch(getSessionCart());
       // toast.success("Module Updated Successfully");
       // navigate("/dashboard");
       return response.data;
@@ -115,7 +82,7 @@ export const deleteSessionCartItem = createAsyncThunk(
 
 export const clearSessionCart = createAsyncThunk(
   "cart/clearSessionCart",
-  async ({ id, navigate }, { rejectWithValue }) => {
+  async ({ }, { rejectWithValue }) => {
     try {
       const response = await API.delete(`api/SessionCart/clear`);
       // toast.success("Module Updated Successfully");
@@ -126,8 +93,6 @@ export const clearSessionCart = createAsyncThunk(
     }
   }
 );
-
-
 
 const cartSlice = createSlice({
   name: "cart",
@@ -149,47 +114,14 @@ const cartSlice = createSlice({
     // },
   },
   extraReducers: (builder) => {
-    builder.addCase(getSessionCart.pending, (state) => {
-      
+    builder.addCase(getSessionCart.pending, (state) => {      
       state.loading = true;
     });
-    builder.addCase(getSessionCart.fulfilled, (state, action) => {
-      
+    builder.addCase(getSessionCart.fulfilled, (state, action) => {      
       state.loading = false;
-      action.payload[0].items.length > 0 ?
-      state.cartItems = action.payload : 
-      action.meta.arg.router.push("/");
-    });
-    builder.addCase(getSessionCart.rejected, (state, action) => {
-      
-      state.cartItems = [];
-      state.loading = false;
-      state.error = action.payload;
-    });
-    
-    builder.addCase(getSessionCartSC.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(getSessionCartSC.fulfilled, (state, action) => {
-      state.loading = false;
-     
       state.cartItems = action.payload;
     });
-    builder.addCase(getSessionCartSC.rejected, (state, action) => {
-      state.cartItems = [];
-      state.loading = false;
-      state.error = action.payload;
-    });
-    
-    builder.addCase(getSessionCartTR.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(getSessionCartTR.fulfilled, (state, action) => {
-      state.loading = false;
-     
-      state.cartItems = action.payload;
-    });
-    builder.addCase(getSessionCartTR.rejected, (state, action) => {
+    builder.addCase(getSessionCart.rejected, (state, action) => {      
       state.cartItems = [];
       state.loading = false;
       state.error = action.payload;
@@ -222,11 +154,11 @@ const cartSlice = createSlice({
     });
     builder.addCase(clearSessionCart.fulfilled, (state, action) => {
       state.loading = false;
-      state.cartItems = action.payload;
+      state.cartItems = [];
     });
     builder.addCase(clearSessionCart.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = [];
     });
   },
 });

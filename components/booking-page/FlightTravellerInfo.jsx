@@ -39,7 +39,7 @@ const intialStateContact = {
     const filteredItems = (cartItems && cartItems.length > 0) ? cartItems[0].items.filter(item => item.cartData.business === "Flight") : {};
     const  flightAvailRQ  = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.request) :{};
     const selectedFlight = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.response) :{};
-    //console.log(selectedFlight);
+    ////console.log(selectedFlight);
     const selectedReturnFlight = filteredItems.length > 0 ? JSON.parse(filteredItems[0].cartData.returnFlightResponse) :{};
     const [adultData, setAdultData] = useState(Array(flightAvailRQ?.searchParam?.adult).fill(initialStatePassenger));
     const [childData, setChildData] = useState(Array(flightAvailRQ?.searchParam?.child).fill(initialStatePassenger));
@@ -74,11 +74,12 @@ const intialStateContact = {
     // }, []);
     useEffect(() => {
       if (cartItems.length === 0) {
-        dispatch(getSessionCart({ undefined, router })).then(() => {
-          
-          if (cartItems.length === 0) {
-            //router.push("/");
-            console.log("");
+        dispatch(getSessionCart({ undefined, router })).then((action) => {
+          // Check if cart is empty, then redirect
+          if (action.payload[0].items.length === 0) {
+            router.push('/'); // Assuming you have access to router here
+          } else {
+            router.push('/cart-page'); // Or redirect to cart page
           }
         });
       }
@@ -144,11 +145,11 @@ const intialStateContact = {
     const handleSubmit = async (e) => {
       if (validateInput() && validateContactInput()) {
         try {
-          if(selectedReturnFlight?.passengerFareInfoList){            
+          if(selectedReturnFlight?.fareComponentList){            
           await Promise.all(adultData.map((passenger) =>            
                 dispatch(createCart({ createCartRQ : {
-                  requestXML: selectedFlight.passengerFareInfoList[0].rqCreateBooking,
-                  returnFlightRequestXML: selectedReturnFlight?.passengerFareInfoList[0]?.rqCreateBooking,
+                  requestXML: selectedFlight.fareComponentList[0].rqCreateBooking,
+                  returnFlightRequestXML: selectedReturnFlight?.fareComponentList[0]?.rqCreateBooking,
                   airTravelerDtoList: [...adultData, ...childData, ...infantData],
                   contactInformationDto: contactData
               }, router, undefined }))
@@ -157,7 +158,7 @@ const intialStateContact = {
           else{
           await Promise.all(adultData.map((passenger) =>            
                             dispatch(createCart({ createCartRQ : {
-                              requestXML: selectedFlight.passengerFareInfoList[0].rqCreateBooking,
+                              requestXML: selectedFlight.fareComponentList[0].rqCreateBooking,
                               airTravelerDtoList: [...adultData, ...childData, ...infantData],
                               contactInformationDto: contactData
                           }, router, undefined }))

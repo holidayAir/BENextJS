@@ -38,7 +38,7 @@ const ResetPassword = () => {
 }, []);
   useEffect(() => {
     
-    console.log(error);
+    //console.log(error);
     error && toast.error(error);
   }, [error]);
 

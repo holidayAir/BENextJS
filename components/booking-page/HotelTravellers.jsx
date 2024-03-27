@@ -1,13 +1,8 @@
-import Link from "next/link";
-import { toast } from "react-toastify";
-import BookingDetails from "./sidebar/BookingDetails";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import BirthDate from "../common/BirthDate";
 import DateSearch from "../common/BirthDate";
 import { DateObject } from "react-multi-date-picker";
-import PricingSummary from "./sidebar/PricingSummary";
 import { createCart, hotelCheckavailBookingRules } from "@/features/hero/hotelSlice";
 
 const initialStatePassenger = {
@@ -22,47 +17,31 @@ const initialStatePassenger = {
   passportNumber:"",
   passportExpiryDate: ""
 };
-
-const intialStateContact = {  
-  givenName:"",
-  surname:"",
-  phoneNumberAreaCode: "845",
-  phoneNumberCountryCode:"+91",
-  phoneNumberSubscriberNumber:"",
-  email:"",
-  socialSecurityNumber: "",
-  phoneNumberMarkedForSendingRezInfo:true,
-  emailMarkedForSendingRezInfo:true,
-}
-  const HotelTravellers = (props) => {
+const HotelTravellers = React.forwardRef((props, ref) => {
+  React.useImperativeHandle(ref, (e) => ({
+    validateInput,
+    handleSubmit
+  }));
     const { loading,checkavailbookingrulesRS } = useSelector((state) => state.hotel);
+    console.log(checkavailbookingrulesRS);
     const request = JSON.parse(props?.request);
     const response = JSON.parse(props?.response);
     
     const [passengerData, setPassengerData] = useState(Array(request?.room).fill(initialStatePassenger));
-    const [contactData, setContactData] = useState(intialStateContact);
     const [validation, setValidation] = useState(Array(request?.room).fill({
       gender : true,
-      firstname : true,
-      lastname : true,
-      birthdate: true,
+      givenName : true,
+      surname : true,
+      birthDate: true,
       nationality: true, // Added confirmPassword field
       nationalIdNumber : true,
       passportNumber: true, 
     }));
-    const [validationContact, setValidationContact] = useState({
-      ContactFirstname: true,
-      ContactLastname: true,
-      ContactCountry: true,
-      ContactPhone: true,
-      ContactEmail: true,
-    });
-    const [dates, setDates] = useState();
-    const { error,isUserLoggedIn } = useSelector((state) => state.user);
-    const { firstname, lastname, email, gender, birthdate, phonenumber, socialsecuritynumber } = passengerData;
     const dispatch = useDispatch();
     const router = useRouter();
-    useEffect(() => {      
+    const CheckavailBookingRules = () => 
+    {
+      
      const pax = Array(request?.room).fill().map(() => ({ age: 25 }));
      const hotelCheckAvailBookingRulesRQ = {
         searchParam: {
@@ -75,11 +54,10 @@ const intialStateContact = {
       };
       
       dispatch(hotelCheckavailBookingRules({ hotelCheckAvailBookingRulesRQ, router, undefined }));
-  
+    }
+    useEffect(() => {      
+      CheckavailBookingRules();
     }, [dispatch]);
-    useEffect(() => {
-      error && toast.error(error);
-    }, [error]);
   
     const validationRules = {
       gender : true,
@@ -95,34 +73,8 @@ const intialStateContact = {
       email: true,
     };
   
-    const validateEmail = (email) => {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-     };
-    const validateContactInput = () => {
-      const newValidation = {
-        givenName: !validationRules.givenName || !!contactData.givenName,
-        surname: !validationRules.surname || !!contactData.surname,
-        email: !validationRules.email || validateEmail(contactData.email),
-        phoneNumberSubscriberNumber: !validationRules.phoneNumberSubscriberNumber || !!contactData.phoneNumberSubscriberNumber,
-        phoneNumberCountryCode: !validationRules.phoneNumberCountryCode || !!contactData.phoneNumberCountryCode,
-      };
-  
-      setValidationContact(newValidation);
-  
-      return Object.values(newValidation).every((isValid) => isValid);
-    };
-  
-    // const handleSubmit = async (e) => {
-    //   if (validateInput()) {
-    //     try {
-    //         await dispatch(registerUser({ passengerData,router,toast }));        
-    //       } catch (error) {
-    //         console.error('Login error:', error);
-    //       }
-    //     }
-    // };
     const validateInput = () => {
+      debugger;
       const newValidation = passengerData.map((passenger) => ({
         gender: !validationRules.gender || !!passenger.gender,
         firstname: !validationRules.firstname || !!passenger.firstname,
@@ -141,8 +93,8 @@ const intialStateContact = {
     };
     const pax = Array(request?.room).fill().map(() => ({ age: 25 }));
     const handleSubmit = async (e) => {
-      if (validateInput() && validateContactInput()) {
         try {
+          await CheckavailBookingRules();
           dispatch(createCart({ createCartRQ : {
                       searchParam: {
                         startDate: new Date(decodeURIComponent(request?.startDate)).toISOString() ||  new Date(new DateObject()).toISOString(),
@@ -156,7 +108,7 @@ const intialStateContact = {
                       PriceRangeMaximum:checkavailbookingrulesRS?.priceRangeMaximum,
                       Currency:checkavailbookingrulesRS?.priceRangeCurrency,
                       HotelTravelerDtoList: [...passengerData],
-                      contactInformationDto: contactData
+                      contactInformationDto: props.contactData
                   }, router, undefined }));
           // await Promise.all(passengerData.map((passenger) =>
           //   dispatch(registerUser({ passengerData: passenger, router, toast })
@@ -164,7 +116,6 @@ const intialStateContact = {
         } catch (error) {
           console.error('Login error:', error);
         }
-      }
     };
     
   const onInputChange = (e, passengerIndex) => {
@@ -184,18 +135,6 @@ const intialStateContact = {
     setValidation(updatedValidation);
   };
   
-  const onContactInputChange = (e) => {
-      
-    let { name, value } = e.target;
-    setContactData({ ...contactData, [name]: value });
-    if(value) {
-      setValidationContact({...validationContact, [name]:true});
-    }
-    else{
-      setValidationContact({...validationContact, [name]:false});
-    }
-  };
-
     const [showCancellationPolicy, setShowCancellationPolicy] = useState(false);
     
     const toggleCancellationPolicy = () => {
@@ -254,7 +193,7 @@ const intialStateContact = {
 
       <div className={`col-12`}>
       <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05 border-bottom">
-          Passenger {`${index + 1}`}
+          Guest {`${index + 1}`} - {response?.selectedHotel?.name}
         </div>
         </div>
       <div className={`col-2`}>
@@ -617,7 +556,7 @@ const intialStateContact = {
       ))}
     </>
     );
-  };
+  });
   
 
 export default HotelTravellers;
