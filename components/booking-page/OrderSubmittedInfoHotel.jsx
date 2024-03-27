@@ -14,7 +14,7 @@ const OrderSubmittedInfoHotel = () => {
   //console.log(bookingRS);
   return (
     <>
-    {cartItems[0].items.map((cartItem, index) => (
+    {cartItems.length > 0 && cartItems[0].items && cartItems[0].items.map((cartItem, index) => (
       <>
             {cartItem?.cartData?.business === "Hotel" ? 
       <div className="col-xl-12 col-lg-12">
@@ -30,23 +30,15 @@ const OrderSubmittedInfoHotel = () => {
               Booking details has been sent to your mail
             </div>
           </div>
-          {/* End header */}
 
           <div className="border-top-light px-50 py-35 mt-40">
             <div className="row">
-              {/* <div className="col-lg-3 col-md-6">
-                <div className="text-15 lh-12">Hotel</div>
-                <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
-                  {bookingRS?.BookingRS?.Reservations?.Reservation?.Items?.HotelItem?.HotelInfo.Name}
-                </div>
-              </div> */}
               <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Boking Ref Number</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
                   {bookingRS?.BookingRS?.Reservations?.Reservation["@Locator"]}
                 </div>
               </div>
-              {/* End .col */}
               <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Booking Date</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
@@ -58,21 +50,18 @@ const OrderSubmittedInfoHotel = () => {
                                         }).format(new Date(bookingRS?.BookingRS["@TimeStamp"])) : ""}
                 </div>
               </div>
-              {/* End .col */}
               <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Total</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
                   {bookingRS?.BookingRS?.Reservations?.Reservation?.Items?.HotelItem?.Prices?.Price["@Currency"]} {bookingRS?.BookingRS?.Reservations?.Reservation?.Items?.HotelItem?.Prices?.Price?.TotalFixAmounts["@Nett"]}
                 </div>
               </div>
-              {/* End .col */}
               <div className="col-lg-3 col-md-6">
                 <Link class="button -md h-60 bg-blue-1 text-white"
                   href={`/viewreservation/hotel/${bookingRS?.BookingGuid}`}
                   //onClick={()=> {//console.log("Button clicked"+bookingRS?.BookingGuid);GoToDetails(bookingRS?.BookingGuid)}}
                 >View Reservation</Link>
               </div>
-              {/* End .col */}
             </div>
           </div>
         </div>
@@ -90,7 +79,6 @@ const OrderSubmittedInfoHotel = () => {
               Booking details has been sent to your mail
             </div>
           </div>
-          {/* End header */}
 
           <div className="border-type-1 rounded-8 px-50 py-35 mt-40">
             <div className="row">
@@ -100,7 +88,6 @@ const OrderSubmittedInfoHotel = () => {
                   {resCart?.airBookingList?.airReservation?.bookingReferenceIDList?.ID}
                 </div>
               </div>
-              {/* End .col */}
               <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Booking Date</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
@@ -112,21 +99,18 @@ const OrderSubmittedInfoHotel = () => {
                                         }).format(new Date(resCart?.airBookingList?.airReservation?.dateCreated)) : ""}
                 </div>
               </div>
-              {/* End .col */}
               <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Total</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
                   {resCart?.airBookingList?.ticketInfo?.totalAmount?.currency?.code} {resCart?.airBookingList?.ticketInfo?.totalAmount?.value}
                 </div>
               </div>
-              {/* End .col */}
               <div className="col-lg-3 col-md-6">
                 <Link class="button -md h-60 bg-blue-1 text-white"
                   href={`/viewreservation/flight/${resCart?.BookingGuid}`}
                   //onClick={()=> {//console.log("Button clicked"+bookingRS?.BookingGuid);GoToDetails(bookingRS?.BookingGuid)}}
                 >View Reservation</Link>
               </div>
-              {/* End .col */}
             </div>
           </div>
         </div>

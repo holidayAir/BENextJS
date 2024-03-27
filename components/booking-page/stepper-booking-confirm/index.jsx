@@ -11,6 +11,7 @@ import FlightTravellerInfo from "../FlightTravellerInfo";
 import HotelTravellerInfo from "../HotelTravellerInfo";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
+import MainCart from "../MainCart";
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(2);
@@ -28,7 +29,7 @@ const Index = () => {
           </div>
         </>
       ),
-      content: currentTab === HOTEL_TAB_NAME ? <HotelTravellerInfo /> : <FlightTravellerInfo />,
+      content: <MainCart />//<FlightTravellerInfo />,//currentTab === HOTEL_TAB_NAME ? <HotelTravellerInfo /> : <FlightTravellerInfo />,
     },
     {
       title: "Payment Details",

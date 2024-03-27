@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 const PricingSummary = (props) => {
-  const request = JSON.parse(props?.request);
-  const response = JSON.parse(props?.response);
+  const request = props.request ? JSON.parse(props?.request) : {};
+  const response = props.response ? JSON.parse(props?.response) : {};
   const selectedHotel = response?.selectedHotel
   const selectedRoomTypeCode  = response?.selectedRoomTypeCode;
   debugger;
