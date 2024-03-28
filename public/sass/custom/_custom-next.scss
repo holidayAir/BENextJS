@@ -583,3 +583,62 @@ i.spinner-border.spinner-border-sm {
 .masthead.-type-3 {
     background-image: url(/img/masthead/3/bg.png);
 }
+
+ @media(max-width: 1199px) {
+    .subnav.open {
+        opacity: 1 !important;
+        pointer-events: auto;
+        color: var(--color-blue-1);
+    }
+    .subnav::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: 20px;
+        width: 10px;
+        height: 10px;
+        background-color: #fff;
+        transform: rotate(45deg)
+    }
+
+    .header .header-menu .menu__nav a {
+        padding: 0 10px
+    }
+
+    .subnav {
+        position: absolute;
+        top: 65px;
+        background-color: #fff;
+        border-radius: 4px;
+        color: var(--color-dark-1)!important;
+        min-width: 240px;
+        padding: 20px;
+        box-shadow: 0 10px 60px 0 rgba(5,16,54,.051);
+        opacity: 0;
+        pointer-events: none;
+        transition: all .2s cubic-bezier(.165,.84,.44,1)
+    }
+    a {
+        cursor: pointer;
+        --bs-link-color-rgb: var(--bs-link-hover-color-rgb);
+         color: var(--color-blue-1);
+    }
+    a:hover {
+        --bs-link-color-rgb: var(--bs-link-hover-color-rgb);
+    }
+    a .icon {
+        font-size: 7px;
+    }
+    a.loggedInLink {        
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+    }
+ }
+ .icon-login:before {
+    content: "\f090"; /* Unicode character for your login icon */
+  }
+  
+  .icon-registration:before {
+    content: "\f044"; /* Unicode character for your registration icon */
+  }

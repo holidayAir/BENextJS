@@ -16,6 +16,11 @@ import MobileMenu from "../MobileMenu";
 
 const Header1 = () => {
   const [navbar, setNavbar] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const changeBackground = () => {
     if (window.scrollY >= 10) {
@@ -188,13 +193,39 @@ className=" icon-user text-22 px-10 text-blue-3"
                 {/* End btn-group */}
 
                 {/* Start mobile menu icon */}
-                <div className="d-none xl:d-flex x-gap-20 items-center pl-30 text-dark-1">
-                  <div>
+                <div className="d-none xl:d-flex x-gap-20 items-center pl-10 text-dark-1">
+                  
+        {isUserLoggedIn == true ? (
+          <>
+          <a href="#" className="loggedInLink" onClick={toggleMenu}>
+            <i width={30} height={30} className="icon-user text-18 px-5 text-blue-3"></i>
+            <span className="ms-1 mr-5" style={{ minWidth: "120px" }}>{user?.firstName + " " + user?.lastName}</span>
+            <i className="icon icon-chevron-sm-down"></i>
+          </a>
+          <ul className={`subnav shadow-1 shadow-lg ${isMenuOpen ? 'open' : ''}`} tabIndex="-1" id="mobile-sidebar_menu1" style={{ minWidth: "200px" }}>
+            <li key={0} className={"current menu-item-has-children"}>
+              <Link href={"/user-profile"}>My Profile</Link>
+            </li>
+            <li key={1} className={"current menu-item-has-children"}>
+              <Link href={"/my-bookings"}>My Bookings</Link>
+            </li>
+            {/* <li key={2} className={"current menu-item-has-children"}>
+              <Link href={"#"}>My Co-Travellers</Link>
+            </li> */}
+            <li key={3} className={"current menu-item-has-children"}>
+              <Link href={"#"} onClick={handleLogout}>Sign Out</Link>
+            </li>
+          </ul></>
+        ) : ( isUserLoggedIn === false ? (<div>
                     <Link
                       href="/login"
                       className="d-flex items-center icon-user text-inherit text-22"
                     />
-                  </div>
+                    <Link
+                      href="/login"
+                      className="d-flex items-center icon-user text-inherit text-22"
+                    />
+                  </div>) : <></>)}
                   <div>
                     <button
                       className="d-flex items-center icon-menu text-inherit text-20"
